@@ -17,7 +17,7 @@ def parse_file_data(path_file_input: str, path_file_output: str):
     if not exists(path_file_input):
         raise FileNotFoundError("Input file doesn't exist")
     # config
-    config = vd.Config(model='VLP-16', rpm=600)
+    config = vd.Config(model='VLP-16', rpm=300)
     pcap_file = path_file_input
     cloud_arrays: List[LidarPoint] = []
 
