@@ -23,8 +23,9 @@ def parse_file_data(path_file_input: str, path_file_output: str):
 
     # read file
     for stamp, points in vd.read_pcap(pcap_file, config):
-        lidarpoint: LidarPoint = LidarPoint(points)
-        cloud_arrays.append(lidarpoint)
+        for point in points:
+            lidarpoint: LidarPoint = LidarPoint(point)
+            cloud_arrays.append(lidarpoint)
 
     # write output
     f = open(path_file_output, "w")
