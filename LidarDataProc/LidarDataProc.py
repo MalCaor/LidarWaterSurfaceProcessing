@@ -1,5 +1,6 @@
 # IMPORT EXTERN
 import argparse
+from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
 
@@ -7,13 +8,14 @@ import velodyne_decoder as vd
 import LidarPoint
 
 
-
 # Function
-def parse_file_data(path_file: str):
-    print("PARSING FILE : {}".format(path_file))
+def parse_file_data(path_file_input: str, path_file_output: str):
+    print("PARSING FILE : {}".format(path_file_input))
+    if not exists(path_file_input):
+        raise FileNotFoundError("Input file doesn't exist")
     # config
     config = vd.Config(model='VLP-16', rpm=600)
-    pcap_file = path_file
+    pcap_file = path_file_input
     cloud_arrays: List[str] = []
 
     # read file
@@ -21,8 +23,9 @@ def parse_file_data(path_file: str):
         cloud_arrays.append(points)
 
     # write output
-    f = open("./test", "w")
-    f.write(''.join(str(cloud_arrays)))
+    f = open(path_file_output, "w")
+    for point in cloud_arrays:
+        f.write(str(point))
     f.close()
 
 # argument parsing
@@ -34,11 +37,11 @@ parser = argparse.ArgumentParser(
 # Process LIDAR .pcap Data File
 parser.add_argument(
     "--lidar",
-    nargs=1,
+    nargs=2,
     help="process a Lidar Data File"
 )
 
 args = parser.parse_args()
 
 if args.lidar:
-    parse_file_data(args.lidar[0])
+    parse_file_data(args.lidar[0], args.lidar[1])
