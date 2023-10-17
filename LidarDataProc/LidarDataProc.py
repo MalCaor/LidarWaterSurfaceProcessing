@@ -5,7 +5,7 @@ from typing import List
 import velodyne_decoder as vd
 
 # IMPORT LOCAL
-import LidarPoint
+from LidarPoint import LidarPoint
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
@@ -19,11 +19,12 @@ def parse_file_data(path_file_input: str, path_file_output: str):
     # config
     config = vd.Config(model='VLP-16', rpm=600)
     pcap_file = path_file_input
-    cloud_arrays: List[str] = []
+    cloud_arrays: List[LidarPoint] = []
 
     # read file
     for stamp, points in vd.read_pcap(pcap_file, config):
-        cloud_arrays.append(points)
+        lidarpoint: LidarPoint = LidarPoint(points)
+        cloud_arrays.append(lidarpoint)
 
     # write output
     f = open(path_file_output, "w")
