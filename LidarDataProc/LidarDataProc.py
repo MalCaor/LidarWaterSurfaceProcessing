@@ -7,10 +7,13 @@ import velodyne_decoder as vd
 # IMPORT LOCAL
 import LidarPoint
 
+# Random info
+"""point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
 
 # Function
 def parse_file_data(path_file_input: str, path_file_output: str):
     print("PARSING FILE : {}".format(path_file_input))
+    # test if input
     if not exists(path_file_input):
         raise FileNotFoundError("Input file doesn't exist")
     # config
@@ -25,7 +28,9 @@ def parse_file_data(path_file_input: str, path_file_output: str):
     # write output
     f = open(path_file_output, "w")
     for point in cloud_arrays:
+        f.write(str("\n ---------\n"))
         f.write(str(point))
+        f.write(str("\n ---------\n"))
     f.close()
 
 # argument parsing
