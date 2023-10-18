@@ -1,5 +1,6 @@
 # IMPORT EXTERN
 import argparse
+import datetime
 from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
@@ -31,6 +32,7 @@ def parse_file_data(path_file_input: str,) -> List[LidarPoint]:
     i: float = 0.0
     for stamp, points in vd.read_pcap(pcap_file, config):
         # % compl
+        print(datetime.datetime.fromtimestamp(stamp))
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
@@ -76,7 +78,7 @@ parser = argparse.ArgumentParser(
 # Process LIDAR .pcap Data File
 parser.add_argument(
     "--lidar",
-    nargs=2,
+    nargs=1,
     help="process a Lidar Data File"
 )
 
