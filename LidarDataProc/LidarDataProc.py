@@ -40,6 +40,8 @@ def parse_file_data(path_file_input: str,) -> List[LidarPoint]:
             lidarpoint: LidarPoint = LidarPoint(point)
             cloud_arrays.append(lidarpoint)
     
+    print(" "*20, end='\r')
+    print("Parse file {} Finished".format(path_file_input))
     return cloud_arrays
     
 
@@ -56,6 +58,7 @@ def write_array_point(cloud_arrays: List[LidarPoint], path_file_output: str):
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i += 1
         # write
         f.write(str(point)+"\n")
     f.close()
@@ -78,4 +81,4 @@ args = parser.parse_args()
 
 if args.lidar:
     array = parse_file_data(args.lidar[0])
-    write_array_point(array, args.lidar[0])
+    write_array_point(array, args.lidar[1])
