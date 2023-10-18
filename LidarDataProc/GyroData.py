@@ -7,7 +7,6 @@ class GyroData:
     '''
 
     def __init__(self, line) -> None:
-        self.entire_row = line
         self.timestamp= line["timestamp"]
         self.north_vel	= line["north_vel"]
         self.east_vel	= line["east_vel"]
@@ -67,4 +66,4 @@ class GyroData:
         self.wave_angle= line["wave_angle"]
 
     def __str__(self) -> str:
-        return str(self.entire_row)
+        return str(self.__dict__)
