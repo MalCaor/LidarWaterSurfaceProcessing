@@ -6,12 +6,13 @@ import velodyne_decoder as vd
 
 # IMPORT LOCAL
 from LidarPoint import LidarPoint
+from GyroData import GyroData
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
 
 # Function
-def parse_file_data(path_file_input: str, number_to_analyse: int=0) -> List[LidarPoint]:
+def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> List[LidarPoint]:
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input
@@ -70,6 +71,18 @@ def write_array_point(cloud_arrays: List[LidarPoint], path_file_output: str):
     f.close()
 
 
+def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
+    print("PARSING FILE : {}".format(path_file_input))
+
+    # test if input
+    if not exists(path_file_input):
+        raise FileNotFoundError("Input file doesn't exist")
+
+    array_retour: List[GyroData] = []
+
+    return array_retour
+
+
 # argument parsing
 parser = argparse.ArgumentParser(
     prog="LIDAR Data Processing",
@@ -82,9 +95,18 @@ parser.add_argument(
     nargs=3,
     help="process a Lidar Data File"
 )
+# Process GYRO .csv Data File
+parser.add_argument(
+    "--gyro",
+    nargs=1,
+    help="process a Gyro CSV Data File"
+)
 
 args = parser.parse_args()
 
 if args.lidar:
-    array = parse_file_data(args.lidar[0], args.lidar[1])
+    array: List[LidarPoint] = parse_lidar_file_data(args.lidar[0], args.lidar[1])
     write_array_point(array, args.lidar[2])
+
+if args.gyro:
+    array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
