@@ -1,3 +1,6 @@
+from turtle import st
+
+
 class GyroData:
     '''
     Gyro Data
@@ -61,3 +64,8 @@ class GyroData:
         self.sway_vel	= line[54]
         self.heave_vel	= line[55]
         self.wave_angle= line[56]
+
+    def __str__(self) -> str:
+        st_retour: str = self.timestamp
+
+        return st_retour

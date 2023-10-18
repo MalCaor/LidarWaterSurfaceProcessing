@@ -1,5 +1,6 @@
 # IMPORT EXTERN
 import argparse
+import csv
 from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
@@ -78,10 +79,43 @@ def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
     if not exists(path_file_input):
         raise FileNotFoundError("Input file doesn't exist")
 
+    # array retour
     array_retour: List[GyroData] = []
+
+    # read file
+    with open(path_file_input, mode ='r')as f:
+        csvFile = csv.DictReader(f)
+ 
+        # displaying the contents of the CSV file
+        i: int = 0
+        for row in csvFile:
+            if i != 0:
+                g_data: GyroData = GyroData(list(row))
+                array_retour.append(g_data)
+            i += 1
 
     return array_retour
 
+def write_array_point(array_data: List[GyroData], path_file_output: str):
+    # write output
+    print("Writing output in {}".format(path_file_output))
+    f = open(path_file_output, "w")
+    # mesure length
+    length: float = len(array_data)
+    i: float = 0.0
+    # fo through array
+    for point in array_data:
+        # % compl
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i += 1
+        # write
+        f.write(str(point)+"\n")
+
+    print(" "*20, end='\r')
+    print("Writing file {} Finished".format(path_file_output))
+    f.close()
 
 # argument parsing
 parser = argparse.ArgumentParser(
@@ -98,7 +132,7 @@ parser.add_argument(
 # Process GYRO .csv Data File
 parser.add_argument(
     "--gyro",
-    nargs=1,
+    nargs=2,
     help="process a Gyro CSV Data File"
 )
 
@@ -110,3 +144,4 @@ if args.lidar:
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
+    write_array_point(array, args.gyro[1])
