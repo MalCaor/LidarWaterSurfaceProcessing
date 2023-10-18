@@ -84,4 +84,4 @@ args = parser.parse_args()
 
 if args.lidar:
     array = parse_file_data(args.lidar[0])
-    write_array_point(array, args.lidar[1])
+    # write_array_point(array, args.lidar[1])
