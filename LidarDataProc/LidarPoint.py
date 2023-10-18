@@ -8,12 +8,12 @@ class LidarPoint:
     """
 
     def __init__(self, points) -> None:
-        self.x = points[0]
-        self.y = points[1]
-        self.z = points[2]
-        self.intensity = points[3]
-        self.ring = points[4]
-        self.time = points[5]
+        self.x: float = points[0]
+        self.y: float = points[1]
+        self.z: float = points[2]
+        self.intensity: float = points[3]
+        self.ring: float = points[4]
+        self.time: float = points[5]
 
 
     def __str__(self) -> str:
