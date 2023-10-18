@@ -12,7 +12,7 @@ from LidarPoint import LidarPoint
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
 
 # Function
-def parse_file_data(path_file_input: str,) -> List[LidarPoint]:
+def parse_file_data(path_file_input: str) -> List[LidarPoint]:
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input
