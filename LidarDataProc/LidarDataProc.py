@@ -52,6 +52,11 @@ def write_array_point(cloud_arrays: List[LidarPoint], path_file_output: str):
     i: float = 0.0
     # fo through array
     for point in cloud_arrays:
+        # % compl
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        # write
         f.write(str(point)+"\n")
     f.close()
 
