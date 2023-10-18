@@ -96,7 +96,7 @@ def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
 
     return array_retour
 
-def write_array_point(array_data: List[GyroData], path_file_output: str):
+def write_gyro_data(array_data: List[GyroData], path_file_output: str):
     # write output
     print("Writing output in {}".format(path_file_output))
     f = open(path_file_output, "w")
@@ -144,4 +144,4 @@ if args.lidar:
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
-    write_array_point(array, args.gyro[1])
+    write_gyro_data(array, args.gyro[1])
