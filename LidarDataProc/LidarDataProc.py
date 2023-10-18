@@ -1,6 +1,5 @@
 # IMPORT EXTERN
 import argparse
-import datetime
 from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
@@ -12,7 +11,7 @@ from LidarPoint import LidarPoint
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
 
 # Function
-def parse_file_data(path_file_input: str) -> List[LidarPoint]:
+def parse_file_data(path_file_input: str, number_to_analyse: int=0) -> List[LidarPoint]:
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input
@@ -31,15 +30,17 @@ def parse_file_data(path_file_input: str) -> List[LidarPoint]:
     # read file
     i: float = 0.0
     for stamp, points in vd.read_pcap(pcap_file, config):
+        if number_to_analyse!=0 and i>float(number_to_analyse):
+            break
         # % compl
-        print(datetime.datetime.fromtimestamp(stamp))
+        # print()
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         i += 1
         # get points
         for point in points:
-            lidarpoint: LidarPoint = LidarPoint(point)
+            lidarpoint: LidarPoint = LidarPoint(stamp, point)
             cloud_arrays.append(lidarpoint)
     
     print(" "*20, end='\r')
@@ -78,12 +79,12 @@ parser = argparse.ArgumentParser(
 # Process LIDAR .pcap Data File
 parser.add_argument(
     "--lidar",
-    nargs=1,
+    nargs=3,
     help="process a Lidar Data File"
 )
 
 args = parser.parse_args()
 
 if args.lidar:
-    array = parse_file_data(args.lidar[0])
-    # write_array_point(array, args.lidar[1])
+    array = parse_file_data(args.lidar[0], args.lidar[1])
+    write_array_point(array, args.lidar[2])

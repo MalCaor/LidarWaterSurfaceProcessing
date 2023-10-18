@@ -1,16 +1,18 @@
+import datetime
+
 class LidarPoint:
     """
     Point LIDAR
 
     """
 
-    def __init__(self, points) -> None:
+    def __init__(self, stamp, points) -> None:
         self.x: float = points[0]
         self.y: float = points[1]
         self.z: float = points[2]
         self.intensity: float = points[3]
         self.ring: float = points[4]
-        self.time: float = points[5]
+        self.time: datetime = datetime.datetime.fromtimestamp(stamp + points[5])
 
 
     def __str__(self) -> str:
