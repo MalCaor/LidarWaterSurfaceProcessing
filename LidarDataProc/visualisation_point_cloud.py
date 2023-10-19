@@ -1,8 +1,12 @@
 from turtle import width
-from typing import List
+from typing import List, Tuple
 import open3d as o3d
 import numpy as np
 from LidarPoint import LidarPoint
+import pandas as pd
+
+from matplotlib import pyplot as plt
+import seaborn
 
 def display_point_cloud(array_cloud: List[LidarPoint]):
     print("Visualise Array of {} points".format(str(len(array_cloud))))
@@ -34,3 +38,14 @@ def display_point_cloud(array_cloud: List[LidarPoint]):
         vis.update_renderer()
     
     vis.destroy_window()
+
+def display2DcloudPoint(array_cloud: List[LidarPoint]):
+    points = []
+    for point in array_cloud:
+        points.append({
+            "longitude" : point.x,
+            "latitude" : point.y
+        })
+    data = pd.DataFrame(points)
+    seaborn.jointplot(x="longitude", y="latitude", data=data, s=0.5)
+    plt.show()

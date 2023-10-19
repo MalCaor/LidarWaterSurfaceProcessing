@@ -35,3 +35,8 @@ class LidarPoint:
         return np.vstack([self.x, self.y, self.z],
             dtype=float
         )
+
+    def point2d(self): 
+        return np.vstack([self.x, self.y],
+            dtype=float
+        )
