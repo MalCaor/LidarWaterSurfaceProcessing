@@ -9,7 +9,7 @@ import velodyne_decoder as vd
 from LidarPoint import LidarPoint
 from GyroData import GyroData
 from write_data import write_array_point, write_gyro_data 
-import visualisation_point_cloud
+from visualisation_point_cloud import display_point_cloud
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
@@ -84,7 +84,7 @@ parser = argparse.ArgumentParser(
 # Process LIDAR .pcap Data File
 parser.add_argument(
     "--lidar",
-    nargs=3,
+    nargs=2,
     help="process a Lidar Data File"
 )
 # Process GYRO .csv Data File
@@ -98,7 +98,7 @@ args = parser.parse_args()
 
 if args.lidar:
     array: List[LidarPoint] = parse_lidar_file_data(args.lidar[0], args.lidar[1])
-    write_array_point(array, args.lidar[2])
+    display_point_cloud(array)
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])

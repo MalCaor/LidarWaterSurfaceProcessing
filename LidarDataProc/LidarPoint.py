@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 class LidarPoint:
     """
@@ -28,3 +29,6 @@ class LidarPoint:
         retours += ", "
         retours += str(self.time)
         return retours
+
+    def point3d(self) -> List[float]: 
+        return [self.x, self.y, self.z]
