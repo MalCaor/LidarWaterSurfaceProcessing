@@ -1,5 +1,6 @@
 import datetime
 from typing import List
+import numpy as np
 
 class LidarPoint:
     """
@@ -30,5 +31,7 @@ class LidarPoint:
         retours += str(self.time)
         return retours
 
-    def point3d(self) -> List[float]: 
-        return [self.x, self.y, self.z]
+    def point3d(self): 
+        return np.array([self.x, self.y, self.z],
+            dtype=float
+        )
