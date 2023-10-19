@@ -23,7 +23,9 @@ def display_point_cloud(array_cloud: List[LidarPoint]):
     for point in array_cloud:
         geometry.points.append(point.point3d())
         vis.update_geometry(geometry)
-        vis.poll_events()
+    keep_running = True
+    while keep_running:
+        keep_running = vis.poll_events()
         vis.update_renderer()
-
-    print("Finised")
+    
+    vis.destroy_window()
