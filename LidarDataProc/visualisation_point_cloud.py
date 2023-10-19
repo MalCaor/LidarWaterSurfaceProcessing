@@ -17,9 +17,6 @@ def display_point_cloud(array_cloud: List[LidarPoint]):
     )
 
     geometry = o3d.geometry.PointCloud()
-    # *optionally* add initial points
-    points = np.random.rand(10, 3)
-    geometry.points = o3d.utility.Vector3dVector(points)
 
     vis.add_geometry(geometry)
     
