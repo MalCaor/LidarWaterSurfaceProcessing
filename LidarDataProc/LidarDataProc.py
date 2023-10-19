@@ -9,6 +9,7 @@ import velodyne_decoder as vd
 from LidarPoint import LidarPoint
 from GyroData import GyroData
 from write_data import write_array_point, write_gyro_data 
+import visualisation_point_cloud
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
