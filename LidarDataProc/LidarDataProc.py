@@ -34,8 +34,8 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
     # read file
     i: float = 0.0
     for stamp, points in vd.read_pcap(pcap_file, config):
-        if number_to_analyse!=0 and i>float(number_to_analyse):
-            break
+        #if number_to_analyse!=0 and i>float(number_to_analyse):
+        #    break
         # % compl
         # print()
         print(" "*20, end='\r')
