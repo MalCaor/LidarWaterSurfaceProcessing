@@ -19,10 +19,15 @@ def display_point_cloud(array_cloud: List[LidarPoint]):
     geometry = o3d.geometry.PointCloud()
 
     vis.add_geometry(geometry)
+
+    data_point = []
     
     for point in array_cloud:
-        geometry.points.append(point.point3d())
-        vis.update_geometry(geometry)
+        data_point.append(point.point3d())
+
+    geometry.points = o3d.utility.Vector3dVector(data_point)
+    vis.add_geometry(geometry)
+
     keep_running = True
     while keep_running:
         keep_running = vis.poll_events()

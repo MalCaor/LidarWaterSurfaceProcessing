@@ -32,6 +32,6 @@ class LidarPoint:
         return retours
 
     def point3d(self): 
-        return np.array([self.x, self.y, self.z],
+        return np.vstack([self.x, self.y, self.z],
             dtype=float
         )
