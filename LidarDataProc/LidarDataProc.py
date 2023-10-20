@@ -1,6 +1,7 @@
 # IMPORT EXTERN
 import argparse
 import csv
+import datetime
 from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
@@ -37,7 +38,7 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
         if number_to_analyse!=0 and i>float(number_to_analyse):
             break
         # % compl
-        # print()
+        print(datetime.datetime.fromtimestamp(stamp))
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
