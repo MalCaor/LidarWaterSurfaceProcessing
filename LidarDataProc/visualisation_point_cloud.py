@@ -49,3 +49,16 @@ def display2DcloudPoint(array_cloud: List[LidarPoint]):
     data = pd.DataFrame(points)
     seaborn.jointplot(x="longitude", y="latitude", data=data, s=0.5)
     plt.show()
+
+def heatmap2dcloudPoint(array_cloud: List[LidarPoint]):
+    x = []
+    y = []
+    z = []
+    for point in array_cloud:
+        x.append(point.x)
+        y.append(point.y)
+        z.append(point.z)
+    plt.hexbin(x, y, C=z)
+    plt.xlabel('x coordinates')
+    plt.ylabel('y coordinates')
+    plt.show()
