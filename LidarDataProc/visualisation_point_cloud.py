@@ -71,7 +71,7 @@ def contour2dcloudPoint(array_cloud: List[LidarPoint]):
         x.append(point.x)
         y.append(point.y)
         z.append(point.z)
-    plt.tricontourf(x, y, z)
+    plt.tricontourf(x, y, z, cmap="winter")
     plt.xlabel('x coordinates')
     plt.ylabel('y coordinates')
     plt.show()
