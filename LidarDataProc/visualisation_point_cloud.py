@@ -6,6 +6,7 @@ from LidarPoint import LidarPoint
 import pandas as pd
 
 from matplotlib import pyplot as plt
+import matplotlib.animation as animation
 import seaborn
 
 def display_point_cloud(array_cloud: List[LidarPoint]):
@@ -71,7 +72,7 @@ def contour2dcloudPoint(array_cloud: List[LidarPoint]):
         x.append(point.x)
         y.append(point.y)
         z.append(point.z)
-    plt.tricontourf(x, y, z, cmap="winter")
+    plt.tricontourf(x, y, z, cmap="ocean")
     plt.xlabel('x coordinates')
     plt.ylabel('y coordinates')
     plt.show()
