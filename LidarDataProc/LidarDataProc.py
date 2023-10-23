@@ -10,13 +10,13 @@ import velodyne_decoder as vd
 from LidarPoint import LidarPoint
 from GyroData import GyroData
 from write_data import write_array_point, write_gyro_data 
-from visualisation_point_cloud import display_point_cloud, hex2dcloudPoint, display2DcloudPoint, contour2dcloudPoint
+from visualisation_point_cloud import display_anim_point_array, display_point_cloud, hex2dcloudPoint, display2DcloudPoint, contour2dcloudPoint
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
 
 # Function
-def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> List[LidarPoint]:
+def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> List[List[LidarPoint]]:
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input
@@ -26,7 +26,7 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
     # config
     config = vd.Config(model='VLP-16', rpm=300)
     pcap_file = path_file_input
-    cloud_arrays: List[LidarPoint] = []
+    cloud_arrays_return: List[List[LidarPoint]] = []
 
     # get data length
     dataLidar = vd.read_pcap(pcap_file, config)
@@ -35,6 +35,7 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
     # read file
     i: float = 0.0
     for stamp, points in vd.read_pcap(pcap_file, config):
+        cloud_arrays = []
         if number_to_analyse!=0 and i>float(number_to_analyse):
             break
         # % compl
@@ -47,10 +48,11 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
         for point in points:
             lidarpoint: LidarPoint = LidarPoint(stamp, point)
             cloud_arrays.append(lidarpoint)
+        cloud_arrays_return.append(cloud_arrays)
     
     print(" "*20, end='\r')
     print("Parse file {} Finished".format(path_file_input))
-    return cloud_arrays
+    return cloud_arrays_return
     
 def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
     print("PARSING FILE : {}".format(path_file_input))
@@ -99,7 +101,7 @@ args = parser.parse_args()
 
 if args.lidar:
     array: List[LidarPoint] = parse_lidar_file_data(args.lidar[0], args.lidar[1])
-    display_point_cloud(array)
+    display_anim_point_array(array)
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
