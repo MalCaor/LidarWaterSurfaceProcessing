@@ -65,7 +65,6 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
     saved_array = list(all_array)
 
     cur_array = all_array.pop()
-    print(str(len(cur_array)))
     geometry.points = o3d.utility.Vector3dVector(cur_array)
     vis.add_geometry(geometry)
 
@@ -73,7 +72,6 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
     while keep_running:
         if all_array:
             cur_array = all_array.pop()
-            print(str(len(cur_array)))
             geometry.points = o3d.utility.Vector3dVector(cur_array)
             vis.update_geometry(geometry)
         keep_running = vis.poll_events()
