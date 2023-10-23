@@ -36,7 +36,7 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
     i: float = 0.0
     for stamp, points in vd.read_pcap(pcap_file, config):
         cloud_arrays = []
-        if number_to_analyse!=0 and i>float(number_to_analyse):
+        if float(number_to_analyse)>0 and i>float(number_to_analyse):
             break
         # % compl
         print(datetime.datetime.fromtimestamp(stamp))
