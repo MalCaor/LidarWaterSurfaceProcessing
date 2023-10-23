@@ -10,6 +10,8 @@ from matplotlib import pyplot as plt
 import matplotlib.animation as animation
 import seaborn
 
+import keyboard
+
 def display_point_cloud(array_cloud: List[LidarPoint]):
     print("Visualise Array of {} points".format(str(len(array_cloud))))
     
@@ -60,6 +62,8 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
             data_point.append(point.point3d())
         all_array.append(data_point)
 
+    saved_array = list(all_array)
+
     cur_array = all_array.pop()
     print(str(len(cur_array)))
     geometry.points = o3d.utility.Vector3dVector(cur_array)
@@ -74,6 +78,8 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
             vis.update_geometry(geometry)
         keep_running = vis.poll_events()
         vis.update_renderer()
+        if keyboard.is_pressed('r'):
+            all_array = list(saved_array)
     
     vis.destroy_window()
 
