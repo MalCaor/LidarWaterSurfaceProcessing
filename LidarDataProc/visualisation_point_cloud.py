@@ -1,3 +1,4 @@
+from time import sleep
 from turtle import width
 from typing import List, Tuple
 import open3d as o3d
@@ -52,8 +53,6 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
 
     geometry = o3d.geometry.PointCloud()
 
-    vis.add_geometry(geometry)
-
     all_array = []
     for array in array_cloud:
         data_point = []
@@ -61,11 +60,16 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
             data_point.append(point.point3d())
         all_array.append(data_point)
 
+    vis.add_geometry(geometry)
+    vis.update_renderer()
+
     keep_running = True
     while keep_running:
         if all_array:
             cur_array = all_array.pop()
+            print(str(len(cur_array)))
             geometry.points = o3d.utility.Vector3dVector(cur_array)
+            vis.update_geometry(geometry)
         keep_running = vis.poll_events()
         vis.update_renderer()
     
