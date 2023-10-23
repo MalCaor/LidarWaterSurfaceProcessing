@@ -10,7 +10,7 @@ import velodyne_decoder as vd
 from LidarPoint import LidarPoint
 from GyroData import GyroData
 from write_data import write_array_point, write_gyro_data 
-from visualisation_point_cloud import display_point_cloud, heatmap2dcloudPoint, display2DcloudPoint
+from visualisation_point_cloud import display_point_cloud, hex2dcloudPoint, display2DcloudPoint, contour2dcloudPoint
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
@@ -99,7 +99,7 @@ args = parser.parse_args()
 
 if args.lidar:
     array: List[LidarPoint] = parse_lidar_file_data(args.lidar[0], args.lidar[1])
-    heatmap2dcloudPoint(array)
+    contour2dcloudPoint(array)
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
