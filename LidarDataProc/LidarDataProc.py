@@ -99,7 +99,7 @@ args = parser.parse_args()
 
 if args.lidar:
     array: List[LidarPoint] = parse_lidar_file_data(args.lidar[0], args.lidar[1])
-    contour2dcloudPoint(array)
+    display_point_cloud(array)
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
