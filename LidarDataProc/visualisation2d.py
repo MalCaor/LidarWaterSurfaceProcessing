@@ -45,7 +45,7 @@ def contour2dcloudPoint(array_cloud: List[LidarPoint]):
     plt.ylabel('y coordinates')
     plt.show()
 
-def hex2dAnimates(array_cloud: List[LidarPointArray]):
+def hex2dAnimates(array_cloud: List[LidarPointArray], save=False):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -71,16 +71,12 @@ def hex2dAnimates(array_cloud: List[LidarPointArray]):
     interval = dt_interval.total_seconds() * 1000
     ani = anim.ArtistAnimation(fig, ims, interval=interval, blit=False,repeat_delay=0)
     
-    # save animation
-    ffmpeg_dir = "C:/Users/xavier.lemen/Downloads/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
-    plt.rcParams['animation.ffmpeg_path'] = ffmpeg_dir
-    f = r"H://Videos/test.mp4"
-    FFwriter = anim.FFMpegWriter()
-    ani.save(f, writer=FFwriter)
+    if save:
+        save_anim(ani)
     
     plt.show()
 
-def contour2dAnimates(array_cloud: List[LidarPointArray]):
+def contour2dAnimates(array_cloud: List[LidarPointArray], save=False):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -106,11 +102,16 @@ def contour2dAnimates(array_cloud: List[LidarPointArray]):
     interval = dt_interval.total_seconds() * 1000
     ani = anim.ArtistAnimation(fig, ims, interval=interval, blit=False,repeat_delay=0)
     
+    if save:
+        save_anim(ani)
+    
+    plt.show()
+
+def save_anim(ani: anim.ArtistAnimation):
     # save animation
+    print("save Animation")
     ffmpeg_dir = "C:/Users/xavier.lemen/Downloads/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
     plt.rcParams['animation.ffmpeg_path'] = ffmpeg_dir
     f = r"H://Videos/test.mp4"
     FFwriter = anim.FFMpegWriter()
     ani.save(f, writer=FFwriter)
-    
-    plt.show()
