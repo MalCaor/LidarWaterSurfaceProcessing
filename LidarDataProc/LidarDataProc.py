@@ -1,6 +1,5 @@
 # IMPORT EXTERN
 import argparse
-from genericpath import exists
 from typing import List
 
 # IMPORT CLASS
@@ -35,7 +34,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.lidar:
-    array: List[LidarPoint] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
+    array: List[LidarPointArray] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
     display_anim_point_array(array)
 
 if args.gyro:
