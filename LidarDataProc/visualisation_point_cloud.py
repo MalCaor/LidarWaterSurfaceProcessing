@@ -70,7 +70,6 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
             vis.update_geometry(geometry)
             i += 1
         keep_running = vis.poll_events()
-        vis.update_renderer()
         if keyboard.is_pressed('r'):
             i = 0
     
@@ -113,7 +112,6 @@ def display_anim_point(array_cloud: List[List[LidarPoint]]):
             vis.update_geometry(geometry)
             i += 1
         keep_running = vis.poll_events()
-        vis.update_renderer()
         if keyboard.is_pressed('r'):
             i = 0
     
