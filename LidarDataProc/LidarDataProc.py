@@ -35,7 +35,7 @@ args = parser.parse_args()
 
 if args.lidar:
     array: List[LidarPointArray] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
-    contour2dAnimates(array)
+    hex2dAnimates(array)
 
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
