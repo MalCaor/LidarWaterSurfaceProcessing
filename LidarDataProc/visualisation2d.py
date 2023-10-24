@@ -2,7 +2,7 @@ from typing import List
 from LidarPoint import LidarPoint
 from LidarPointArray import LidarPointArray
 import pandas as pd
-
+import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 import seaborn
@@ -45,11 +45,14 @@ def contour2dcloudPoint(array_cloud: List[LidarPoint]):
     plt.show()
 
 def contour2dAnimates(array_cloud: List[LidarPointArray]):
-    print("join plot")
-    plt.tricontourf(
-        [p[0] for p in array_cloud[0].points_array],
-        [p[1] for p in array_cloud[0].points_array],
-        [p[2] for p in array_cloud[0].points_array]
-    )
-    print("display plot")
+    fig = plt.figure()
+    ims = []
+    for array in array_cloud:
+        an = plt.tricontourf(
+            [p[0] for p in array.points_array],
+            [p[1] for p in array.points_array],
+            [p[2] for p in array.points_array]
+        )
+        ims.append([an])
+    ani = anim.ArtistAnimation(fig, ims, interval=70, blit=False,repeat_delay=0)
     plt.show()
