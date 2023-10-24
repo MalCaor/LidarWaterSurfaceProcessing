@@ -8,9 +8,10 @@ import velodyne_decoder as vd
 
 # IMPORT LOCAL
 from LidarPoint import LidarPoint
+from LidarPointArray import LidarPointArray
 from GyroData import GyroData
 from write_data import write_array_point, write_gyro_data 
-from visualisation_point_cloud import display_anim_point_array, display_point_cloud, hex2dcloudPoint, display2DcloudPoint, contour2dcloudPoint
+from visualisation_point_cloud import display_anim_point_array
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
@@ -49,6 +50,35 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
             lidarpoint: LidarPoint = LidarPoint(stamp, point)
             cloud_arrays.append(lidarpoint)
         cloud_arrays_return.append(cloud_arrays)
+    
+    print(" "*20, end='\r')
+    print("Parse file {} Finished".format(path_file_input))
+    return cloud_arrays_return
+
+def parse_lidar_file_into_array(path_file_input: str, number_to_analyse: int=0) -> List[LidarPointArray]:
+    print("PARSING FILE : {}".format(path_file_input))
+
+    # test if input
+    if not exists(path_file_input):
+        raise FileNotFoundError("Input file doesn't exist")
+    
+    # config
+    config = vd.Config(model='VLP-16', rpm=300)
+    pcap_file = path_file_input
+    cloud_arrays_return: List[LidarPointArray] = []
+
+    # get data length
+    dataLidar = vd.read_pcap(pcap_file, config)
+    length: float = sum(1 for _ in dataLidar)
+
+    # read file
+    i: float = 0.0
+    for stamp, points in vd.read_pcap(pcap_file, config):
+        if float(number_to_analyse)>0 and i>float(number_to_analyse):
+            break
+        i += 1
+        lidar_point_array: LidarPointArray = LidarPointArray(stamp, points)
+        cloud_arrays_return.append(lidar_point_array)
     
     print(" "*20, end='\r')
     print("Parse file {} Finished".format(path_file_input))
@@ -100,7 +130,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.lidar:
-    array: List[LidarPoint] = parse_lidar_file_data(args.lidar[0], args.lidar[1])
+    array: List[LidarPoint] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
     display_anim_point_array(array)
 
 if args.gyro:
