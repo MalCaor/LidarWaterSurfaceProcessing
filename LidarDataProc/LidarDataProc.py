@@ -3,11 +3,12 @@ import argparse
 from genericpath import exists
 from typing import List
 
-# IMPORT LOCAL
+# IMPORT CLASS
 from LidarPoint import LidarPoint
 from LidarPointArray import LidarPointArray
 from GyroData import GyroData
-from write_data import write_array_point, write_gyro_data 
+# IMPORT UTIL METH
+from write_data import *
 from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
