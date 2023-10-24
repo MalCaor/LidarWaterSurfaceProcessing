@@ -52,9 +52,6 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
             data_point.append(point.point3d())
         all_array.append(data_point)
 
-    # load a copy of array to restart
-    saved_array = list(all_array)
-
     # create window
     vis = o3d.visualization.Visualizer()
     vis.create_window(
@@ -67,21 +64,23 @@ def display_anim_point_array(array_cloud: List[List[LidarPoint]]):
 
     # load first frame
     geometry = o3d.geometry.PointCloud()
-    cur_array = all_array.pop()
+    i: int = 0
+    cur_array = all_array[i]
     geometry.points = o3d.utility.Vector3dVector(cur_array)
     vis.add_geometry(geometry)
 
     # run sim
     keep_running = True
     while keep_running:
-        if all_array:
-            cur_array = all_array.pop()
+        if i<len(all_array):
+            cur_array = all_array[i]
             geometry.points = o3d.utility.Vector3dVector(cur_array)
             vis.update_geometry(geometry)
+            i += 1
         keep_running = vis.poll_events()
         vis.update_renderer()
         if keyboard.is_pressed('r'):
-            all_array = list(saved_array)
+            i = 0
     
     # escape key
     vis.destroy_window()
