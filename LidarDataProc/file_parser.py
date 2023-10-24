@@ -34,7 +34,6 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
         if float(number_to_analyse)>0 and i>float(number_to_analyse):
             break
         # % compl
-        print(datetime.datetime.fromtimestamp(stamp))
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
@@ -68,9 +67,15 @@ def parse_lidar_file_into_array(path_file_input: str, number_to_analyse: int=0) 
     # read file
     i: float = 0.0
     for stamp, points in vd.read_pcap(pcap_file, config):
+        # breaking test
         if float(number_to_analyse)>0 and i>float(number_to_analyse):
             break
         i += 1
+        # % compl
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        # append
         lidar_point_array: LidarPointArray = LidarPointArray(stamp, points)
         cloud_arrays_return.append(lidar_point_array)
     
@@ -91,7 +96,6 @@ def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
     # read file
     with open(path_file_input) as f:
         csvFile = csv.DictReader(f, strict=True)
- 
         # displaying the contents of the CSV file
         i: int = 0
         for row in csvFile:
