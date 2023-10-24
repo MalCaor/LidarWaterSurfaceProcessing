@@ -11,7 +11,8 @@ from LidarPoint import LidarPoint
 from LidarPointArray import LidarPointArray
 from GyroData import GyroData
 from write_data import write_array_point, write_gyro_data 
-from visualisation_point_cloud import display_anim_point_array
+from visualisation2d import *
+from visualisation3d import *
 
 # Random info
 """point data 'names': ['x', 'y', 'z', 'intensity', 'ring', 'time']"""
