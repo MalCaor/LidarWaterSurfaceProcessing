@@ -31,10 +31,6 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
         if i<len(array_cloud):
             geometry.points = o3d.utility.Vector3dVector(array_cloud[i].points_array)
             vis.update_geometry(geometry)
-            if i>1 and i+1<len(array_cloud):
-                dt_interval = array_cloud[i+1].timestamp - array_cloud[i].timestamp
-                interval = dt_interval.total_seconds()
-                sleep(interval)
             i += 1
         keep_running = vis.poll_events()
         if keyboard.is_pressed('r'):
