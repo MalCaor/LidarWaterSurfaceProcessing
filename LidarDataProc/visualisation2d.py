@@ -9,6 +9,11 @@ from matplotlib import animation as anim
 import seaborn
 
 def display2DcloudPoint(array_cloud: List[LidarPoint]):
+    """Display a Lidar snapshot with seaborn joinplot
+
+    Args:
+        array_cloud (List[LidarPoint]): Lidar Snapshot to display
+    """
     points = []
     for point in array_cloud:
         points.append({
@@ -20,6 +25,11 @@ def display2DcloudPoint(array_cloud: List[LidarPoint]):
     plt.show()
 
 def hex2dcloudPoint(array_cloud: List[LidarPoint]):
+    """Display a Lidar snapshot with pyplot hexbin
+
+    Args:
+        array_cloud (List[LidarPoint]): Lidar Snapshot to display
+    """
     x = []
     y = []
     z = []
@@ -33,6 +43,11 @@ def hex2dcloudPoint(array_cloud: List[LidarPoint]):
     plt.show()
 
 def contour2dcloudPoint(array_cloud: List[LidarPoint]):
+    """Display a Lidar snapshot with pyplot tricontourf
+
+    Args:
+        array_cloud (List[LidarPoint]): Lidar Snapshot to display
+    """
     x = []
     y = []
     z = []
@@ -45,7 +60,13 @@ def contour2dcloudPoint(array_cloud: List[LidarPoint]):
     plt.ylabel('y coordinates')
     plt.show()
 
-def hex2dAnimates(array_cloud: List[LidarPointArray], save=False):
+def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):
+    """Display 2D animation with pyplot hexbin
+
+    Args:
+        array_cloud (List[LidarPoint]): Lidar Snapshot List
+        save (bool): save the video or not
+    """
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -72,11 +93,17 @@ def hex2dAnimates(array_cloud: List[LidarPointArray], save=False):
     ani = anim.ArtistAnimation(fig, ims, interval=interval, blit=False,repeat_delay=0)
     
     if save:
-        save_anim(ani)
+        _save_anim(ani)
     
     plt.show()
 
 def contour2dAnimates(array_cloud: List[LidarPointArray], save=False):
+    """Display 2D animation with pyplot tricontourf
+
+    Args:
+        array_cloud (List[LidarPoint]): Lidar Snapshot List
+        save (bool): save the video or not
+    """
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -103,11 +130,11 @@ def contour2dAnimates(array_cloud: List[LidarPointArray], save=False):
     ani = anim.ArtistAnimation(fig, ims, interval=interval, blit=False,repeat_delay=0)
     
     if save:
-        save_anim(ani)
+        _save_anim(ani)
     
     plt.show()
 
-def save_anim(ani: anim.ArtistAnimation):
+def _save_anim(ani: anim.ArtistAnimation):
     # save animation
     print("save Animation")
     ffmpeg_dir = "C:/Users/xavier.lemen/Downloads/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
