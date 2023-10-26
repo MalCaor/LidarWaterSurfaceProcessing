@@ -52,7 +52,7 @@ if args.gyro:
 
 if args.corr:
     array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr[0], args.corr[1])
-    array_gyr: List[GyroData] = parse_gyro_file_data(args.corr[3])
+    array_gyr: List[GyroData] = parse_gyro_file_data(args.corr[2])
     fin_array = stabilise_lidar_array(array_lid, array_gyr)
     display_anim_point_array(fin_array)
 
