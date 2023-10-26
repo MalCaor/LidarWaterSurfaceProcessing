@@ -1,5 +1,6 @@
 # IMPORT EXTERN
 import argparse
+from ast import arg
 from typing import List
 
 # IMPORT CLASS
@@ -32,6 +33,13 @@ parser.add_argument(
     help="process a Gyro CSV Data File"
 )
 
+# Process GYRO .csv Data File
+parser.add_argument(
+    "--corr",
+    nargs=3,
+    help="process a Gyro CSV Data File"
+)
+
 args = parser.parse_args()
 
 if args.lidar:
@@ -41,6 +49,13 @@ if args.lidar:
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
     write_gyro_data(array, args.gyro[1])
+
+if args.corr:
+    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
+    array_gyr: List[GyroData] = parse_gyro_file_data(args.gyro[3])
+    fin_array = stabilise_lidar_array(array_lid, array_gyr)
+    display_anim_point_array(fin_array)
+
 
 def print_plage_time_array(array: List[LidarPointArray]):
     print(str(array[0].timestamp))
