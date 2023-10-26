@@ -40,3 +40,9 @@ if args.lidar:
 if args.gyro:
     array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
     write_gyro_data(array, args.gyro[1])
+
+def print_plage_time_array(array: List[LidarPointArray]):
+    print(str(array[0].timestamp))
+    print(str(array[len(array)-1].timestamp))
+    print("diff : ")
+    print(str(array[len(array)-1].timestamp-array[0].timestamp))
