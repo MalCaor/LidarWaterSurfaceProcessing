@@ -25,6 +25,10 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
         top=500
     )
 
+    # visu param
+    opt = vis.get_render_option()
+    opt.point_show_normal = True
+
     # load first frame
     geometry = o3d.geometry.PointCloud()
     i: int = 0
