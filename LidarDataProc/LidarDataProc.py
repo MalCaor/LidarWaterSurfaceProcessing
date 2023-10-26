@@ -11,6 +11,7 @@ from write_data import *
 from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
+from data_stabilisation import *
 
 # argument parsing
 parser = argparse.ArgumentParser(
