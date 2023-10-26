@@ -10,9 +10,9 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
     new_array: List[LidarPointArray] = []
     
     # changed accel axes
-    tot_accel_x = 1
-    tot_accel_y = 1
-    tot_accel_z = 1
+    tot_accel_x: float = 1.0
+    tot_accel_y: float = 1.0
+    tot_accel_z: float = 1.0
 
     i: int = 0
 
@@ -24,16 +24,16 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
         if array_lidar[i].timestamp < gyr.timestamp:
             # data to correct
             lid = array_lidar[i]
-            for y in len(lid.points_array):
+            for y in range(len(lid.points_array)):
                 lid.points_array[y][0] = lid.points_array[y][0] * tot_accel_x
                 lid.points_array[y][1] = lid.points_array[y][1] * tot_accel_y
                 lid.points_array[y][2] = lid.points_array[y][2] * tot_accel_z
             new_array.append(lid)
             i += 1
         # correct tot gyr
-        tot_accel_x += gyr.accel_x
-        tot_accel_y += gyr.accel_y
-        tot_accel_z += gyr.accel_z
+        tot_accel_x += float(gyr.accel_x)
+        tot_accel_y += float(gyr.accel_y)
+        tot_accel_z += float(gyr.accel_z)
 
     # if some lidar data left... use last ditch correction
     while(i<len(array_lidar)):
