@@ -18,7 +18,7 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
 
     # go through all gyro data
     for gyr in array_gyro:
-        if i >= array_lidar:
+        if i >= len(array_lidar):
             # no more data to correct
             break
         if array_lidar[i].timestamp < gyr.timestamp:
