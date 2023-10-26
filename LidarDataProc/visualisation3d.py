@@ -29,6 +29,7 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
     geometry = o3d.geometry.PointCloud()
     i: int = 0
     geometry.points = o3d.utility.Vector3dVector(array_cloud[i].points_array)
+    geometry.estimate_normals()
     vis.add_geometry(geometry)
 
     # run sim
@@ -36,6 +37,7 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
     while keep_running:
         if i<len(array_cloud):
             geometry.points = o3d.utility.Vector3dVector(array_cloud[i].points_array)
+            geometry.estimate_normals()
             vis.update_geometry(geometry)
             i += 1
         keep_running = vis.poll_events()
