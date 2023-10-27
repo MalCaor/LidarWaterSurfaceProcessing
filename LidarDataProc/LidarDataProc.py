@@ -14,6 +14,15 @@ from visualisation2d import *
 from visualisation3d import *
 from data_stabilisation import *
 
+# util func
+def print_plage_time_array(array: List[LidarPointArray]):
+    print(str(array[0].timestamp))
+    print(str(array[len(array)-1].timestamp))
+    print("diff : ")
+    print(str(array[len(array)-1].timestamp-array[0].timestamp))
+
+
+
 # argument parsing
 parser = argparse.ArgumentParser(
     prog="LIDAR Data Processing",
@@ -32,11 +41,16 @@ parser.add_argument(
     nargs=2,
     help="process a Gyro CSV Data File"
 )
-
 # Process GYRO .csv Data File
 parser.add_argument(
     "--corr",
     nargs=3,
+    help="process a Gyro CSV Data File"
+)
+# Process GYRO .csv Data File
+parser.add_argument(
+    "--date",
+    nargs=1,
     help="process a Gyro CSV Data File"
 )
 
@@ -56,9 +70,7 @@ if args.corr:
     fin_array = stabilise_lidar_array(array_lid, array_gyr)
     hex2dAnimates(fin_array)
 
+if args.date:
+    array: List[LidarPointArray] = parse_lidar_file_into_array(args.date[0], 0)
+    print_plage_time_array(array)
 
-def print_plage_time_array(array: List[LidarPointArray]):
-    print(str(array[0].timestamp))
-    print(str(array[len(array)-1].timestamp))
-    print("diff : ")
-    print(str(array[len(array)-1].timestamp-array[0].timestamp))
