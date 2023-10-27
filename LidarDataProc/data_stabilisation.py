@@ -50,9 +50,9 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
         # data to correct
         lid = array_lidar[i]
         for y in range(len(lid.points_array)):
-            lid.points_array[y][0] = lid.points_array[y][0] * -1 * tot_accel_x
-            lid.points_array[y][1] = lid.points_array[y][1] * -1 * tot_accel_y
-            lid.points_array[y][2] = lid.points_array[y][2] * -1 * tot_accel_z
+            lid.points_array[y][0] = lid.points_array[y][0] * tot_accel_x
+            lid.points_array[y][1] = lid.points_array[y][1] * tot_accel_y
+            lid.points_array[y][2] = lid.points_array[y][2] * tot_accel_z
         new_array.append(lid)
         i += 1
 
