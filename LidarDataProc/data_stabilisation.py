@@ -47,7 +47,6 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
 
     # if some lidar data left... use last ditch correction
     while(i<len(array_lidar)):
-        print("Lidar point without updated Gyro accel")
         # data to correct
         lid = array_lidar[i]
         for y in range(len(lid.points_array)):
