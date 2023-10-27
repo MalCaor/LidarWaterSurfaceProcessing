@@ -31,7 +31,7 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
             # no more data to correct
             print("Breaked before end of Gyro Data")
             break
-        while(i < len(array_lidar) and array_lidar[i].timestamp < gyr.timestamp):
+        while(i<len(array_lidar) and array_lidar[i].timestamp < gyr.timestamp):
             # data to correct
             lid = array_lidar[i]
             for y in range(len(lid.points_array)):
