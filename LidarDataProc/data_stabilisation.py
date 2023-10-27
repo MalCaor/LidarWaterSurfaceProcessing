@@ -37,11 +37,12 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
     new_array: List[LidarPointArray] = []
     
     # changed accel axes
-    tot_yaw: float = 1.0
+    tot_yaw: float = 0.0
 
     i: int = 0
     length = len(array_gyro)
     l_gyr: int = 0
+    init_yaw_gyro = math.radians(float(array_gyro[0].yaw))
 
     # go through all gyro data
     for gyr in array_gyro:
@@ -61,7 +62,7 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
             new_array.append(lid)
             i += 1
         # correct tot gyr
-        tot_yaw = -1 * math.radians(float(gyr.yaw))
+        tot_yaw = init_yaw_gyro-math.radians(float(gyr.yaw))
 
     # if some lidar data left... use last ditch correction
     while(i<len(array_lidar)):
