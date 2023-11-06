@@ -79,6 +79,7 @@ if args.corr:
 
 if args.corr2:
     array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr2[0], args.corr2[1])
+    display_anim_point_array(array_lid)
     
 
 if args.date:
