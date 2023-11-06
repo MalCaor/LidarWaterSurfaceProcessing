@@ -79,14 +79,18 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh]):
     # load first frame
     i: int = 0
     mesh = array_mesh[i]
+    mesh.compute_vertex_normals()
     vis.add_geometry(mesh)
 
     # run sim
     keep_running = True
     while keep_running:
         if i<len(array_mesh):
+            print("display {}".format(str(i)))
+            vis.remove_geometry(mesh)
             mesh = array_mesh[i]
-            vis.update_geometry(mesh)
+            mesh.compute_vertex_normals()
+            vis.add_geometry(mesh)
             i += 1
         keep_running = vis.poll_events()
         if keyboard.is_pressed('r'):
