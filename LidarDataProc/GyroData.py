@@ -1,4 +1,4 @@
-from turtle import st
+import datetime
 
 
 class GyroData:
@@ -7,7 +7,7 @@ class GyroData:
     '''
 
     def __init__(self, line) -> None:
-        self.timestamp= line["timestamp"]
+        self.timestamp: datetime.datetime= datetime.datetime.strptime(line["timestamp"], '%Y-%m-%d %H:%M:%S.%f')
         self.north_vel	= line["north_vel"]
         self.east_vel	= line["east_vel"]
         self.down_vel	= line["down_vel"]
