@@ -86,11 +86,12 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh]):
     keep_running = True
     while keep_running:
         if i<len(array_mesh):
-            print("display {}".format(str(i)))
-            vis.remove_geometry(mesh)
-            mesh = array_mesh[i]
+            mesh.vertices = array_mesh[i].vertices
+            mesh.vertex_normals = array_mesh[i].vertex_normals
+            mesh.triangles = array_mesh[i].triangles
+            mesh.triangle_normals = array_mesh[i].triangle_normals
             mesh.compute_vertex_normals()
-            vis.add_geometry(mesh)
+            vis.update_geometry(mesh)
             i += 1
         keep_running = vis.poll_events()
         if keyboard.is_pressed('r'):

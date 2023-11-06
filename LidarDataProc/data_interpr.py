@@ -21,6 +21,7 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         pc.estimate_normals()
+        pc.orient_normals_towards_camera_location()
 
         # gene mesh
         tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(pc)
