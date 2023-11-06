@@ -13,6 +13,7 @@ from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
 from data_stabilisation import *
+from data_interpr import *
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -47,6 +48,12 @@ parser.add_argument(
     nargs=3,
     help="process a Gyro CSV Data File"
 )
+# Process LIDAR .pcap Data File
+parser.add_argument(
+    "--corr2",
+    nargs=2,
+    help="process a Lidar Data File"
+)
 # Process GYRO .csv Data File
 parser.add_argument(
     "--date",
@@ -69,6 +76,10 @@ if args.corr:
     array_gyr: List[GyroData] = parse_gyro_file_data(args.corr[2])
     fin_array = stabilise_lidar_array(array_lid, array_gyr)
     display_anim_point_array(fin_array)
+
+if args.corr2:
+    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr2[0], args.corr2[1])
+    
 
 if args.date:
     array: List[LidarPointArray] = parse_lidar_file_into_array(args.date[0], 0)
