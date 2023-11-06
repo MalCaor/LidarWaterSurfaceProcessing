@@ -8,7 +8,8 @@ from LidarPointArray import LidarPointArray
 def shape_interpr(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
-    list_retour: List[o3d.geometry.TriangleMesh] = []
+    list_mesh_retour: List[o3d.geometry.TriangleMesh] = []
+    list_pc_retour: List[o3d.geometry.PointCloud] = []
     i = 0.0
     for arr in array_lidar:
         # percent
@@ -22,6 +23,7 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         pc.estimate_normals()
         pc.orient_normals_towards_camera_location()
+        list_pc_retour.append(pc)
 
         # gene mesh
         tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(pc)
@@ -29,5 +31,5 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
             pc, 0.1, tetra_mesh, pt_map)
 
         # append
-        list_retour.append(mesh)
-    return list_retour
+        list_mesh_retour.append(mesh)
+    return (list_mesh_retour, list_pc_retour)
