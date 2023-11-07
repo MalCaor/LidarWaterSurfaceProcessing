@@ -88,9 +88,10 @@ def display_anim_mesh(array_geo, array_cloud):
 
     # run sim
     keep_running = True
+    movie = False
     old_i = -1
     while keep_running:
-        if i!=old_i:
+        if (not movie) and (i!=old_i):
             # update mesh
             for m in mesh_arr:
                 vis.remove_geometry(m, reset_bounding_box=False)
@@ -101,9 +102,22 @@ def display_anim_mesh(array_geo, array_cloud):
             pc.points = array_cloud[i].points
             vis.update_geometry(pc)
             old_i = i
+        elif (movie) and i<len(array_geo):
+            # update mesh
+            for m in mesh_arr:
+                vis.remove_geometry(m, reset_bounding_box=False)
+            mesh_arr = array_geo[i]
+            for m in mesh_arr:
+                vis.add_geometry(m, reset_bounding_box=False)
+            # update point cloud
+            pc.points = array_cloud[i].points
+            vis.update_geometry(pc)
+            i+=1
         keep_running = vis.poll_events()
         if keyboard.is_pressed('r'):
             i = 0
+        if keyboard.is_pressed('m'):
+            movie = not movie
         if keyboard.is_pressed('+'):
             if i<len(array_geo)-1:
                 i+=1
