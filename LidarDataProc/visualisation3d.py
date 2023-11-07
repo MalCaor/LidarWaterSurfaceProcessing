@@ -81,7 +81,6 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
     # mesh
     mesh_arr = array_mesh[i]
     for m in mesh_arr:
-        m.compute_vertex_normals()
         vis.add_geometry(m)
     # point cloud
     pc = array_cloud[i]
@@ -97,7 +96,6 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
                 vis.remove_geometry(m, reset_bounding_box=False)
             mesh_arr = array_mesh[i]
             for m in mesh_arr:
-                m.compute_vertex_normals()
                 vis.add_geometry(m, reset_bounding_box=False)
             # update point cloud
             pc.points = array_cloud[i].points

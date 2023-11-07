@@ -84,4 +84,5 @@ def mesh_from_pc(pc_raw: List[List]):
     tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(point_coud)
     mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
         point_coud, 0.5, tetra_mesh, pt_map)
+    mesh.compute_vertex_normals()
     return mesh
