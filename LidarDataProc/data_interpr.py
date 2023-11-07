@@ -30,7 +30,10 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
         pc.orient_normals_towards_camera_location()
         list_pc_retour.append(pc)
         # GeneMesh from Cloud
-        list_mesh_retour.append(generate_mesh_from_inst_pc(arr.points_array))
+        pc.uniform_down_sample(every_k_points=10)
+        pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
+        pc.remove_radius_outlier(nb_points=16, radius=0.05)
+        list_mesh_retour.append(generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
     return (list_mesh_retour, list_pc_retour)
 
 def generate_mesh_from_inst_pc(pc: List[List]):
