@@ -89,23 +89,29 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
 
     # run sim
     keep_running = True
+    old_i = -1
     while keep_running:
-        if i<len(array_mesh):
+        if i!=old_i:
             # update mesh
             for m in mesh_arr:
                 vis.remove_geometry(m, reset_bounding_box=False)
             mesh_arr = array_mesh[i]
-            print("displaing {} mesh".format(len(mesh_arr)))
             for m in mesh_arr:
                 m.compute_vertex_normals()
                 vis.add_geometry(m, reset_bounding_box=False)
             # update point cloud
             pc.points = array_cloud[i].points
             vis.update_geometry(pc)
-            i += 1
+            old_i = i
         keep_running = vis.poll_events()
         if keyboard.is_pressed('r'):
             i = 0
+        if keyboard.is_pressed('+'):
+            if i<len(array_mesh)-1:
+                i+=1
+        if keyboard.is_pressed('-'):
+            if i>0:
+                i-=1
     
     # escape key
     vis.destroy_window()

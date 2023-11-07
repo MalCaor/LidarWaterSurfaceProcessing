@@ -37,7 +37,6 @@ def generate_mesh_from_inst_pc(pc: List[List]):
     list_retour: List[o3d.geometry.TriangleMesh] = []
     # divide points by proximity
     divided_pc = divide_pc_to_axis(pc)
-    threashold_nbr_point = 50
     for p in divided_pc:
         try:
             list_retour.append(mesh_from_pc(p))
@@ -63,7 +62,6 @@ def divide_pc_to_axis(pc: List[List]):
             if dist<dist_to_divide:
                 sub_pc.append(other_point)
         if sub_pc:
-            print("sub_pc of {} points".format(len(sub_pc)))
             for p in sub_pc:
                 copy_pc.remove(p)
             sub_pcs.append(sub_pc)
@@ -76,6 +74,9 @@ def mesh_from_pc(pc_raw: List[List]):
     point_coud.points = o3d.utility.Vector3dVector(pc_raw)
     point_coud.estimate_normals()
     point_coud.orient_normals_towards_camera_location()
+    point_coud.uniform_down_sample(every_k_points=10)
+    point_coud.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
+    point_coud.remove_radius_outlier(nb_points=16, radius=0.05)
     # create mesh
     tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(point_coud)
     mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
