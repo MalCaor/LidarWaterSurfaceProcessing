@@ -6,9 +6,10 @@ import numpy as np
 # IMPORT CLASS
 from LidarPointArray import LidarPointArray
 
-"""tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(pc)
-    mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
-        pc, 0.1, tetra_mesh, pt_map)"""
+# param
+fist_every_k_points = 100
+second_every_k_points = 10
+dist_to_divide = 10
 
 def shape_interpr(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)
@@ -30,7 +31,7 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
         pc.orient_normals_towards_camera_location()
         list_pc_retour.append(pc)
         # GeneMesh from Cloud
-        pc.uniform_down_sample(every_k_points=10)
+        pc.uniform_down_sample(every_k_points=fist_every_k_points)
         pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
         pc.remove_radius_outlier(nb_points=16, radius=0.05)
         list_mesh_retour.append(generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
@@ -51,7 +52,6 @@ def generate_mesh_from_inst_pc(pc: List[List]):
 def divide_pc_to_axis(pc: List[List]):
     copy_pc = list(pc)
     sub_pcs = []
-    dist_to_divide = 10
     while(len(copy_pc)!=0):
         sub_pc = []
         point = copy_pc[0]
@@ -77,7 +77,7 @@ def mesh_from_pc(pc_raw: List[List]):
     point_coud.points = o3d.utility.Vector3dVector(pc_raw)
     point_coud.estimate_normals()
     point_coud.orient_normals_towards_camera_location()
-    point_coud.uniform_down_sample(every_k_points=10)
+    point_coud.uniform_down_sample(every_k_points=second_every_k_points)
     point_coud.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
     point_coud.remove_radius_outlier(nb_points=16, radius=0.05)
     # create mesh
