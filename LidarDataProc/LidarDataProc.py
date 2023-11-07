@@ -90,7 +90,7 @@ if args.corr2:
     
 if args.line:
     array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.line[0], args.line[1])
-    array_mesh, array_pc = line_draw(array_lid)
+    array_mesh, array_pc = line_interpr(array_lid)
     display_anim_mesh(array_mesh, array_pc)
 
 if args.date:
