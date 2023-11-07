@@ -7,9 +7,9 @@ import numpy as np
 from LidarPointArray import LidarPointArray
 
 # param mesh
-fist_every_k_points = 100
-second_every_k_points = 10
-dist_to_divide = 10
+fist_every_k_points = 1000
+second_every_k_points = 1000
+dist_to_divide = 20
 
 # param line
 dist_to_divide_line = 5
