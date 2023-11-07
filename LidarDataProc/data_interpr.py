@@ -37,15 +37,19 @@ def generate_mesh_from_inst_pc(pc: List[List]):
     list_retour: List[o3d.geometry.TriangleMesh] = []
     # divide points by proximity
     divided_pc = divide_pc_to_axis(pc)
+    threashold_nbr_point = 50
     for p in divided_pc:
-        list_retour.append(mesh_from_pc(p))
+        try:
+            list_retour.append(mesh_from_pc(p))
+        except((IndexError, RuntimeError)):
+            pass
     
     return list_retour
 
 def divide_pc_to_axis(pc: List[List]):
     copy_pc = list(pc)
     sub_pcs = []
-    dist_to_divide = 50
+    dist_to_divide = 10
     while(len(copy_pc)!=0):
         sub_pc = []
         point = copy_pc[0]
@@ -58,20 +62,22 @@ def divide_pc_to_axis(pc: List[List]):
             # test if close enough
             if dist<dist_to_divide:
                 sub_pc.append(other_point)
-        for p in sub_pc:
-            copy_pc.remove(p)
-        sub_pcs.append(sub_pc)
+        if sub_pc:
+            print("sub_pc of {} points".format(len(sub_pc)))
+            for p in sub_pc:
+                copy_pc.remove(p)
+            sub_pcs.append(sub_pc)
 
     return sub_pcs
 
 def mesh_from_pc(pc_raw: List[List]):
     # create point cloud
-    pc = o3d.geometry.PointCloud()
-    pc.points = o3d.utility.Vector3dVector(pc_raw)
-    pc.estimate_normals()
-    pc.orient_normals_towards_camera_location()
+    point_coud = o3d.geometry.PointCloud()
+    point_coud.points = o3d.utility.Vector3dVector(pc_raw)
+    point_coud.estimate_normals()
+    point_coud.orient_normals_towards_camera_location()
     # create mesh
-    tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(pc)
+    tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(point_coud)
     mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
-        pc, 0.1, tetra_mesh, pt_map)
+        point_coud, 0.5, tetra_mesh, pt_map)
     return mesh

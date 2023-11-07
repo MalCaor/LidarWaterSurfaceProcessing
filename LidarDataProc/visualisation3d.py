@@ -95,6 +95,7 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
             for m in mesh_arr:
                 vis.remove_geometry(m, reset_bounding_box=False)
             mesh_arr = array_mesh[i]
+            print("displaing {} mesh".format(len(mesh_arr)))
             for m in mesh_arr:
                 m.compute_vertex_normals()
                 vis.add_geometry(m, reset_bounding_box=False)
