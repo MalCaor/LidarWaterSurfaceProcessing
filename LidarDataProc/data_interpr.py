@@ -87,7 +87,7 @@ def mesh_from_pc(pc_raw: List[List]):
     mesh.compute_vertex_normals()
     return mesh
 
-def line_draw(array_lidar: List[LidarPointArray]):
+def line_interpr(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
     
