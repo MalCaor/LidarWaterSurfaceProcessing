@@ -113,24 +113,15 @@ def line_interpr(array_lidar: List[LidarPointArray]):
 
 def generate_line(pc: List[List]):
     list_lines: List[o3d.geometry.LineSet] = []
+    i = 0
     while(len(pc)!=0):
-        line_points = []
-        line_dir = []
-        i = 0
+        print(" "*10, end='\r')
+        print("{}".format(i), end='\r')
+        i+=1
+        # get line
         point = pc[0]
-        n_point = np.array(point)
-        for other_point in pc:
-            n_other_point = np.array(other_point)
-            # calculate dist
-            squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
-            dist = np.sqrt(squared_dist)
-            # test if close enough
-            if dist<dist_to_divide_line:
-                line_points.append(other_point)
-                line_dir.append([i, i+1])
-                i+=1
-        for p in line_points:
-            pc.remove(p)
+        line_points, line_dir = get_line_point(point, pc)
+        # remove lines points in pc
         line_set = o3d.geometry.LineSet(
             points=o3d.utility.Vector3dVector(line_points),
             lines=o3d.utility.Vector2iVector(line_dir),
@@ -138,3 +129,42 @@ def generate_line(pc: List[List]):
         list_lines.append(line_set)
     return list_lines
 
+def get_line_point(point, pc: List[List]):
+    # list retour
+    line_points = []
+    line_dir = []
+    # append point
+    line_points.append(point)
+    pc.remove(point)
+    # set up best
+    n_point = np.array(point)
+    finished=False
+    best_point = pc[0]
+    n_other_point = np.array(best_point)
+    squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
+    best_dist = np.sqrt(squared_dist)
+    i=0
+    # loop while line not finished
+    while(not finished):
+        loop_point = None
+        for loop_point in pc:
+            n_other_point = np.array(loop_point)
+            # calculate dist
+            squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
+            dist = np.sqrt(squared_dist)
+            # test if close enough and better than best
+            if dist<dist_to_divide_line and dist<best_dist:
+                best_point=loop_point
+        if loop_point is None:
+            # no more candidate, finishing
+            finished=True
+        else:
+            print(loop_point)
+            print(best_point)
+            line_points.append(best_point)
+            line_dir.append([i, i+1])
+            pc.remove(best_point)
+            i+=1
+
+    return (line_points, line_dir)
+    
