@@ -8,7 +8,7 @@ from LidarPointArray import LidarPointArray
 def shape_interpr(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
-    list_mesh_retour: List[o3d.geometry.TriangleMesh] = []
+    list_mesh_retour: List[List[o3d.geometry.TriangleMesh]] = []
     list_pc_retour: List[o3d.geometry.PointCloud] = []
     i = 0.0
     for arr in array_lidar:
@@ -24,12 +24,15 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
         pc.estimate_normals()
         pc.orient_normals_towards_camera_location()
         list_pc_retour.append(pc)
-
-        # gene mesh
-        tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(pc)
-        mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
-            pc, 0.1, tetra_mesh, pt_map)
-
-        # append
-        list_mesh_retour.append(mesh)
+        # GeneMesh from Cloud
+        list_mesh_retour.append(generate_mesh_from_inst_pc(pc))
     return (list_mesh_retour, list_pc_retour)
+
+def generate_mesh_from_inst_pc(pc: o3d.geometry.PointCloud):
+    list_retour: List[o3d.geometry.TriangleMesh] = []
+    # gene mesh
+    tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(pc)
+    mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
+        pc, 0.1, tetra_mesh, pt_map)
+    list_retour.append(mesh)
+    return list_retour

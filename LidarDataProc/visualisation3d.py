@@ -55,7 +55,7 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
     # escape key
     vis.destroy_window()
 
-def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: List[o3d.geometry.PointCloud]):
+def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: List[List[o3d.geometry.PointCloud]]):
     """Display points array in 3D animation\n
     The animation will run as fast as possible without notion of time between Lidar snapshot
 
@@ -79,9 +79,10 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
     # load first frame
     i: int = 0
     # mesh
-    mesh = array_mesh[i]
-    mesh.compute_vertex_normals()
-    vis.add_geometry(mesh)
+    mesh_arr = array_mesh[i]
+    for m in mesh_arr:
+        m.compute_vertex_normals()
+        vis.add_geometry(m)
     # point cloud
     pc = array_cloud[i]
     vis.add_geometry(pc)
@@ -91,12 +92,12 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
     while keep_running:
         if i<len(array_mesh):
             # update mesh
-            mesh.vertices = array_mesh[i].vertices
-            mesh.vertex_normals = array_mesh[i].vertex_normals
-            mesh.triangles = array_mesh[i].triangles
-            mesh.triangle_normals = array_mesh[i].triangle_normals
-            mesh.compute_vertex_normals()
-            vis.update_geometry(mesh)
+            for m in mesh_arr:
+                vis.remove_geometry(m, reset_bounding_box=False)
+            mesh_arr = array_mesh[i]
+            for m in mesh_arr:
+                m.compute_vertex_normals()
+                vis.add_geometry(m, reset_bounding_box=False)
             # update point cloud
             pc.points = array_cloud[i].points
             vis.update_geometry(pc)
