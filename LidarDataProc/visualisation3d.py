@@ -55,7 +55,7 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
     # escape key
     vis.destroy_window()
 
-def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: List[List[o3d.geometry.PointCloud]]):
+def display_anim_mesh(array_geo, array_cloud):
     """Display points array in 3D animation\n
     The animation will run as fast as possible without notion of time between Lidar snapshot
 
@@ -79,7 +79,7 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
     # load first frame
     i: int = 0
     # mesh
-    mesh_arr = array_mesh[i]
+    mesh_arr = array_geo[i]
     for m in mesh_arr:
         vis.add_geometry(m)
     # point cloud
@@ -94,7 +94,7 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
             # update mesh
             for m in mesh_arr:
                 vis.remove_geometry(m, reset_bounding_box=False)
-            mesh_arr = array_mesh[i]
+            mesh_arr = array_geo[i]
             for m in mesh_arr:
                 vis.add_geometry(m, reset_bounding_box=False)
             # update point cloud
@@ -105,7 +105,7 @@ def display_anim_mesh(array_mesh: List[o3d.geometry.TriangleMesh], array_cloud: 
         if keyboard.is_pressed('r'):
             i = 0
         if keyboard.is_pressed('+'):
-            if i<len(array_mesh)-1:
+            if i<len(array_geo)-1:
                 i+=1
         if keyboard.is_pressed('-'):
             if i>0:

@@ -86,3 +86,22 @@ def mesh_from_pc(pc_raw: List[List]):
         point_coud, 0.5, tetra_mesh, pt_map)
     mesh.compute_vertex_normals()
     return mesh
+
+def line_draw(array_lidar: List[LidarPointArray]):
+    length: float = len(array_lidar)
+    print("Interpreting array of length {}".format(str(length)))
+    
+    list_line_retour: List[List[o3d.geometry.LineSet]] = []
+    list_pc_retour: List[o3d.geometry.PointCloud] = []
+
+    
+    for arr in array_lidar:
+        list_line_retour.append([])
+        # create point cloud
+        pc = o3d.geometry.PointCloud()
+        pc.points = o3d.utility.Vector3dVector(arr.points_array)
+        pc.estimate_normals()
+        pc.orient_normals_towards_camera_location()
+        list_pc_retour.append(pc)
+
+    return (list_line_retour, list_pc_retour)
