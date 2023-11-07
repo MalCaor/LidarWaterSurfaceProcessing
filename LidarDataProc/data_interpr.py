@@ -10,6 +10,7 @@ from LidarPointArray import LidarPointArray
 fist_every_k_points = 1000
 second_every_k_points = 1000
 dist_to_divide = 20
+alpha = 0.5
 
 # param line
 dist_to_divide_line = 5
@@ -87,7 +88,7 @@ def mesh_from_pc(pc_raw: List[List]):
     # create mesh
     tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(point_coud)
     mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
-        point_coud, 0.5, tetra_mesh, pt_map)
+        point_coud, alpha=alpha, tetra_mesh=tetra_mesh, pt_map=pt_map)
     mesh.compute_vertex_normals()
     return mesh
 
