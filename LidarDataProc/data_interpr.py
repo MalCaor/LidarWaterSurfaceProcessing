@@ -6,10 +6,14 @@ import numpy as np
 # IMPORT CLASS
 from LidarPointArray import LidarPointArray
 
-# param
+# param mesh
 fist_every_k_points = 100
 second_every_k_points = 10
 dist_to_divide = 10
+
+# param line
+dist_to_divide_line = 5
+
 
 def shape_interpr(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)
@@ -96,12 +100,41 @@ def line_interpr(array_lidar: List[LidarPointArray]):
 
     
     for arr in array_lidar:
-        list_line_retour.append([])
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         pc.estimate_normals()
         pc.orient_normals_towards_camera_location()
         list_pc_retour.append(pc)
+        # create lines
+        list_line_retour.append(generate_line(np.array(pc.points).tolist()))
 
     return (list_line_retour, list_pc_retour)
+
+def generate_line(pc: List[List]):
+    list_lines: List[o3d.geometry.LineSet] = []
+    while(len(pc)!=0):
+        line_points = []
+        line_dir = []
+        i = 0
+        point = pc[0]
+        n_point = np.array(point)
+        for other_point in pc:
+            n_other_point = np.array(other_point)
+            # calculate dist
+            squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
+            dist = np.sqrt(squared_dist)
+            # test if close enough
+            if dist<dist_to_divide_line:
+                line_points.append(other_point)
+                line_dir.append([i, i+1])
+                i+=1
+        for p in line_points:
+            pc.remove(p)
+        line_set = o3d.geometry.LineSet(
+            points=o3d.utility.Vector3dVector(line_points),
+            lines=o3d.utility.Vector2iVector(line_dir),
+        )
+        list_lines.append(line_set)
+    return list_lines
+
