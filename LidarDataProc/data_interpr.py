@@ -1,6 +1,7 @@
 # IMPORT EXTERN
 from typing import List
 import open3d as o3d
+import numpy as np
 
 # IMPORT CLASS
 from LidarPointArray import LidarPointArray
@@ -42,7 +43,26 @@ def generate_mesh_from_inst_pc(pc: List[List]):
     return list_retour
 
 def divide_pc_to_axis(pc: List[List]):
-    return [pc]
+    copy_pc = list(pc)
+    sub_pcs = []
+    dist_to_divide = 50
+    while(len(copy_pc)!=0):
+        sub_pc = []
+        point = copy_pc[0]
+        n_point = np.array(point)
+        for other_point in copy_pc:
+            n_other_point = np.array(other_point)
+            # calculate dist
+            squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
+            dist = np.sqrt(squared_dist)
+            # test if close enough
+            if dist<dist_to_divide:
+                sub_pc.append(other_point)
+        for p in sub_pc:
+            copy_pc.remove(p)
+        sub_pcs.append(sub_pc)
+
+    return sub_pcs
 
 def mesh_from_pc(pc_raw: List[List]):
     # create point cloud
