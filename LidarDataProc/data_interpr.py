@@ -23,24 +23,21 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
     list_pc_retour: List[o3d.geometry.PointCloud] = []
     i = 0.0
     for arr in array_lidar:
-        # percent
-        print(" "*20, end='\r')
-        percent: float = i / length * 100.0
-        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
-        i += 1
-        
-        # create point cloud
-        pc = o3d.geometry.PointCloud()
-        pc.points = o3d.utility.Vector3dVector(arr.points_array)
-        pc.estimate_normals()
-        pc.orient_normals_towards_camera_location()
-        list_pc_retour.append(pc)
-        # GeneMesh from Cloud
-        pc.uniform_down_sample(every_k_points=fist_every_k_points)
-        pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
-        pc.remove_radius_outlier(nb_points=16, radius=0.05)
-        list_mesh_retour.append(generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
+        shape_arr(arr, list_pc_retour, list_mesh_retour)
     return (list_mesh_retour, list_pc_retour)
+
+def shape_arr(arr, list_pc_retour, list_mesh_retour):
+    # create point cloud
+    pc = o3d.geometry.PointCloud()
+    pc.points = o3d.utility.Vector3dVector(arr.points_array)
+    pc.estimate_normals()
+    pc.orient_normals_towards_camera_location()
+    list_pc_retour.append(pc)
+    # GeneMesh from Cloud
+    pc.uniform_down_sample(every_k_points=fist_every_k_points)
+    pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
+    pc.remove_radius_outlier(nb_points=16, radius=0.05)
+    list_mesh_retour.append(generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
 
 def generate_mesh_from_inst_pc(pc: List[List]):
     list_retour: List[o3d.geometry.TriangleMesh] = []
