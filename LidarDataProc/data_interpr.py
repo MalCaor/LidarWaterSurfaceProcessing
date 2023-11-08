@@ -7,9 +7,10 @@ import numpy as np
 from LidarPointArray import LidarPointArray
 
 # param mesh
-fist_every_k_points = 1000
-second_every_k_points = 1000
-dist_to_divide = 20
+fist_every_k_points = 2
+voxel_size = 0.05
+second_every_k_points = 2
+dist_to_divide = 200
 alpha = 0.5
 
 # param line
@@ -38,11 +39,11 @@ def shape_arr(arr, list_pc_retour, list_mesh_retour):
     pc.points = o3d.utility.Vector3dVector(arr.points_array)
     pc.estimate_normals()
     pc.orient_normals_towards_camera_location()
-    list_pc_retour.append(pc)
-    # GeneMesh from Cloud
-    pc.uniform_down_sample(every_k_points=fist_every_k_points)
+    pc = pc.voxel_down_sample(voxel_size=voxel_size)
     pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
     pc.remove_radius_outlier(nb_points=16, radius=0.05)
+    list_pc_retour.append(pc)
+    # GeneMesh from Cloud
     list_mesh_retour.append(generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
 
 def generate_mesh_from_inst_pc(pc: List[List]):
@@ -85,7 +86,6 @@ def mesh_from_pc(pc_raw: List[List]):
     point_coud.points = o3d.utility.Vector3dVector(pc_raw)
     point_coud.estimate_normals()
     point_coud.orient_normals_towards_camera_location()
-    point_coud.uniform_down_sample(every_k_points=second_every_k_points)
     point_coud.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
     point_coud.remove_radius_outlier(nb_points=16, radius=0.05)
     # create mesh
