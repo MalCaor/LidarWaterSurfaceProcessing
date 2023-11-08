@@ -72,7 +72,7 @@ def display_anim_mesh(array_geo, array_cloud):
         left=500,
         top=500
     )
-    
+
     # visu param
     opt = vis.get_render_option()
     opt.point_show_normal = False
@@ -119,6 +119,7 @@ def display_anim_mesh(array_geo, array_cloud):
         if keyboard.is_pressed('r'):
             i = 0
         if keyboard.is_pressed('m'):
+            i = 0
             movie = not movie
         if keyboard.is_pressed('+'):
             if i<len(array_geo)-1:
