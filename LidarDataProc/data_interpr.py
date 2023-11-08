@@ -22,7 +22,13 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
     list_mesh_retour: List[List[o3d.geometry.TriangleMesh]] = []
     list_pc_retour: List[o3d.geometry.PointCloud] = []
     i = 0.0
-    for arr in array_lidar:
+    for arr in array_lidar:        
+        # percent
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i += 1
+        # calcuate shape instant
         shape_arr(arr, list_pc_retour, list_mesh_retour)
     return (list_mesh_retour, list_pc_retour)
 
