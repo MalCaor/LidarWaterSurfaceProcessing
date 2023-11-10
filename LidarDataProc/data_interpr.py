@@ -18,6 +18,14 @@ dist_to_divide_line = 5
 
 
 def shape_interpr(array_lidar: List[LidarPointArray]):
+    """Return the shape tuple of list of mesh and point cloud from a list of lidar point array
+
+    Args:
+        array_lidar (List[LidarPointArray]): inputed list of lidar data
+
+    Returns:
+        Tuple[List[List[o3d.geometry]], List[o3d.geometry.PointCloud]]: tuple of list
+    """
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
     list_mesh_retour: List[List[o3d.geometry.TriangleMesh]] = []
@@ -30,10 +38,17 @@ def shape_interpr(array_lidar: List[LidarPointArray]):
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         i += 1
         # calcuate shape instant
-        shape_arr(arr, list_pc_retour, list_mesh_retour)
+        _shape_arr(arr, list_pc_retour, list_mesh_retour)
     return (list_mesh_retour, list_pc_retour)
 
-def shape_arr(arr, list_pc_retour, list_mesh_retour):
+def _shape_arr(arr, list_pc_retour, list_mesh_retour):
+    """append a mesh and point cloud list of a single lidar "frame"
+
+    Args:
+        arr (LidarPointArray): _description_
+        list_pc_retour (List[o3d.geometry.PointCloud]): _description_
+        list_mesh_retour ( List[List[o3d.geometry]): _description_
+    """
     # create point cloud
     pc = o3d.geometry.PointCloud()
     pc.points = o3d.utility.Vector3dVector(arr.points_array)
@@ -44,21 +59,37 @@ def shape_arr(arr, list_pc_retour, list_mesh_retour):
     pc.remove_radius_outlier(nb_points=16, radius=0.05)
     list_pc_retour.append(pc)
     # GeneMesh from Cloud
-    list_mesh_retour.append(generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
+    list_mesh_retour.append(_generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
 
-def generate_mesh_from_inst_pc(pc: List[List]):
+def _generate_mesh_from_inst_pc(pc: List[List]):
+    """return a list of mesh of a single lidar "frame"
+
+    Args:
+        pc (List[List]): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_retour: List[o3d.geometry.TriangleMesh] = []
     # divide points by proximity
-    divided_pc = divide_pc_to_axis(pc)
+    divided_pc = _divide_pc_to_axis(pc)
     for p in divided_pc:
         try:
-            list_retour.append(mesh_from_pc(p))
+            list_retour.append(_mesh_from_pc(p))
         except((IndexError, RuntimeError)):
             pass
     
     return list_retour
 
-def divide_pc_to_axis(pc: List[List]):
+def _divide_pc_to_axis(pc: List[List]):
+    """return a dub division of a point cloud by proximity
+
+    Args:
+        pc (List[List]): point cloud to divide
+
+    Returns:
+        List[List[List]]: list of sub point cloud
+    """
     copy_pc = list(pc)
     sub_pcs = []
     while(len(copy_pc)!=0):
@@ -80,7 +111,15 @@ def divide_pc_to_axis(pc: List[List]):
 
     return sub_pcs
 
-def mesh_from_pc(pc_raw: List[List]):
+def _mesh_from_pc(pc_raw: List[List]):
+    """generate a mesh from a point cloud
+
+    Args:
+        pc_raw (List[List]): input point cloud
+
+    Returns:
+        o3d.geometry.TriangleMesh: mesh returned
+    """
     # create point cloud
     point_coud = o3d.geometry.PointCloud()
     point_coud.points = o3d.utility.Vector3dVector(pc_raw)
@@ -113,11 +152,11 @@ def line_interpr(array_lidar: List[LidarPointArray]):
         pc.orient_normals_towards_camera_location()
         list_pc_retour.append(pc)
         # create lines
-        list_line_retour.append(generate_line(np.array(pc.points).tolist()))
+        list_line_retour.append(_generate_line(np.array(pc.points).tolist()))
 
     return (list_line_retour, list_pc_retour)
 
-def generate_line(pc: List[List]):
+def _generate_line(pc: List[List]):
     list_lines: List[o3d.geometry.LineSet] = []
     i = 0
     while(len(pc)!=0):
@@ -126,7 +165,7 @@ def generate_line(pc: List[List]):
         i+=1
         # get line
         point = pc[0]
-        line_points, line_dir = get_line_point(point, pc)
+        line_points, line_dir = _get_line_point(point, pc)
         # remove lines points in pc
         line_set = o3d.geometry.LineSet(
             points=o3d.utility.Vector3dVector(line_points),
@@ -135,7 +174,7 @@ def generate_line(pc: List[List]):
         list_lines.append(line_set)
     return list_lines
 
-def get_line_point(point, pc: List[List]):
+def _get_line_point(point, pc: List[List]):
     # list retour
     line_points = []
     line_dir = []
