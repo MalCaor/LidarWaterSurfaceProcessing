@@ -54,6 +54,12 @@ parser.add_argument(
     nargs=2,
     help="process a Lidar Data File"
 )
+# Process LIDAR .pcap Data File
+parser.add_argument(
+    "--line",
+    nargs=2,
+    help="process a Lidar Data File"
+)
 # Process GYRO .csv Data File
 parser.add_argument(
     "--date",
@@ -79,7 +85,13 @@ if args.corr:
 
 if args.corr2:
     array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr2[0], args.corr2[1])
+    array_mesh, array_pc = shape_interpr(array_lid)
+    display_anim_mesh(array_mesh, array_pc)
     
+if args.line:
+    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.line[0], args.line[1])
+    array_mesh, array_pc = line_interpr(array_lid)
+    display_anim_mesh(array_mesh, array_pc)
 
 if args.date:
     array: List[LidarPointArray] = parse_lidar_file_into_array(args.date[0], 0)
