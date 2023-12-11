@@ -1,6 +1,5 @@
 # IMPORT EXTERN
 import argparse
-from ast import arg
 from typing import List
 
 # IMPORT CLASS
