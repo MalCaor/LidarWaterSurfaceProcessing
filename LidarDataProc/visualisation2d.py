@@ -6,23 +6,6 @@ import pandas as pd
 import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
-import seaborn
-
-def display2DcloudPoint(array_cloud: List[LidarPoint]):
-    """Display a Lidar snapshot with seaborn joinplot
-
-    Args:
-        array_cloud (List[LidarPoint]): Lidar Snapshot to display
-    """
-    points = []
-    for point in array_cloud:
-        points.append({
-            "longitude" : point.x,
-            "latitude" : point.y
-        })
-    data = pd.DataFrame(points)
-    seaborn.jointplot(x="longitude", y="latitude", data=data, s=0.5)
-    plt.show()
 
 def hex2dcloudPoint(array_cloud: List[LidarPoint]):
     """Display a Lidar snapshot with pyplot hexbin

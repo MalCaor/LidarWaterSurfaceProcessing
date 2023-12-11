@@ -66,6 +66,12 @@ parser.add_argument(
     nargs=1,
     help="process a Gyro CSV Data File"
 )
+# Process through ML
+parser.add_argument(
+    "--ml",
+    nargs=2,
+    help="Machine Learning"
+)
 
 args = parser.parse_args()
 
@@ -97,3 +103,6 @@ if args.date:
     array: List[LidarPointArray] = parse_lidar_file_into_array(args.date[0], 0)
     print_plage_time_array(array)
 
+if args.ml:
+    array: List[LidarPointArray] = parse_lidar_file_into_array(args.ml[0], args.ml[1])
+    display_anim_point_array(array)
