@@ -6,7 +6,6 @@ from LidarPointArray import LidarPointArray
 from LidarPoint import LidarPoint
 from LidarPointArray import LidarPointArray
 
-import keyboard
 
 def display_anim_point_array(array_cloud: List[LidarPointArray]):
     """Display points array in 3D animation\n
@@ -50,8 +49,6 @@ def display_anim_point_array(array_cloud: List[LidarPointArray]):
             vis.update_geometry(geometry)
             i += 1
         keep_running = vis.poll_events()
-        if keyboard.is_pressed('r'):
-            i = 0
     
     # escape key
     vis.destroy_window()
@@ -116,17 +113,6 @@ def display_anim_mesh(array_geo, array_cloud):
             vis.update_geometry(pc)
             i+=1
         keep_running = vis.poll_events()
-        if keyboard.is_pressed('r'):
-            i = 0
-        if keyboard.is_pressed('m'):
-            i = 0
-            movie = not movie
-        if keyboard.is_pressed('+'):
-            if i<len(array_geo)-1:
-                i+=1
-        if keyboard.is_pressed('-'):
-            if i>0:
-                i-=1
     
     # escape key
     vis.destroy_window()
