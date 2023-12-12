@@ -25,6 +25,9 @@ def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll, stabil_param
     lid = array_lidar
 
     for y in range(len(lid.points_array)):
+        n_x = lid.points_array[y][0]
+        n_y = lid.points_array[y][1]
+        n_z = lid.points_array[y][2]
         # negate yaw
         if "y" in stabil_param.lower():
             n_x, n_y = _rotate_around_point((0,0), (lid.points_array[y][0], lid.points_array[y][1]), tot_yaw)

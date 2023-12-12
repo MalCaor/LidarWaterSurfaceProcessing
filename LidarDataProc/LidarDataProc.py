@@ -89,10 +89,12 @@ if args.filter:
     array_lidar = filter_lidar_data(array_lidar, args.filter[0])
 
 if args.display:
-    if args.display[0]=="cp":
+    if args.display[0]=="pc":
         display_anim_point_array(array_lidar)
-    if args.display[0]=="mesh":
+    elif args.display[0]=="mesh":
         meshs = []
         point_cloid = []
         meshs, point_cloid = shape_interpr(array_lidar)
         display_anim_mesh(meshs, point_cloid)
+    else:
+        print("You didn't display anything, use --display if it's not intended!")
