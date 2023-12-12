@@ -82,7 +82,7 @@ if args.corr:
     array_lidar = stabilise_lidar_array(array_lidar, array_gyro)
 
 if args.filter:
-    array_lidar = filter_lidar_data(array_lidar)
+    array_lidar = filter_lidar_data(array_lidar, args.filter[0])
 
 if args.display:
     if args.display[0]=="cp":
