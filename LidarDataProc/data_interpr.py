@@ -5,6 +5,7 @@ import numpy as np
 
 # IMPORT CLASS
 from LidarPointArray import LidarPointArray
+from utils import *
 
 # param mesh
 fist_every_k_points = 2
@@ -99,8 +100,7 @@ def _divide_pc_to_axis(pc: List[List]):
         for other_point in copy_pc:
             n_other_point = np.array(other_point)
             # calculate dist
-            squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
-            dist = np.sqrt(squared_dist)
+            dist = calculate_distance(n_point, n_other_point)
             # test if close enough
             if dist<dist_to_divide:
                 sub_pc.append(other_point)
@@ -186,8 +186,7 @@ def _get_line_point(point, pc: List[List]):
     finished=False
     best_point = pc[0]
     n_other_point = np.array(best_point)
-    squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
-    best_dist = np.sqrt(squared_dist)
+    best_dist = calculate_distance(n_point, n_other_point)
     i=0
     # loop while line not finished
     while(not finished):
@@ -195,8 +194,7 @@ def _get_line_point(point, pc: List[List]):
         for loop_point in pc:
             n_other_point = np.array(loop_point)
             # calculate dist
-            squared_dist = np.sum((n_point-n_other_point)**2, axis=0)
-            dist = np.sqrt(squared_dist)
+            dist = calculate_distance(n_point, n_other_point)
             # test if close enough and better than best
             if dist<dist_to_divide_line and dist<best_dist:
                 best_point=loop_point
