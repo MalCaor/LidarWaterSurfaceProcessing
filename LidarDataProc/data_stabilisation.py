@@ -20,21 +20,26 @@ def _rotate_around_point(origin, point, angle):
     qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
     return qx, qy
 
-def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll):
+def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll, stabil_param):
     # store new value
     lid = array_lidar
 
     for y in range(len(lid.points_array)):
         # negate yaw
-        n_x, n_y = _rotate_around_point((0,0), (lid.points_array[y][0], lid.points_array[y][1]), tot_yaw)
-        n_y, n_z = _rotate_around_point((n_y,0), (n_y, lid.points_array[y][2]), tot_pitch)
-        n_x, n_z = _rotate_around_point((0,n_z), (n_x, n_z), tot_roll)
+        if "y" in stabil_param.lower():
+            n_x, n_y = _rotate_around_point((0,0), (lid.points_array[y][0], lid.points_array[y][1]), tot_yaw)
+        # negate pitch
+        if "p" in stabil_param.lower():
+            n_y, n_z = _rotate_around_point((n_y,0), (n_y, lid.points_array[y][2]), tot_pitch)
+        # negate roll
+        if "r" in stabil_param.lower():
+            n_x, n_z = _rotate_around_point((0,n_z), (n_x, n_z), tot_roll)
         lid.points_array[y][0] = n_x
         lid.points_array[y][1] = n_y
         lid.points_array[y][2] = n_z
     return lid
 
-def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[GyroData]):
+def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[GyroData], stabil_param: str):
     print("Stabilising data of lenght : {}".format(len(array_lidar)))
     # array of corrected points
     new_array: List[LidarPointArray] = []
@@ -65,7 +70,7 @@ def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[G
             break
         while(i<len(array_lidar) and array_lidar[i].timestamp < gyr.timestamp):
             # data to correct
-            lid = _correct_array_point(array_lidar[i], tot_yaw, tot_pitch, tot_roll)
+            lid = _correct_array_point(array_lidar[i], tot_yaw, tot_pitch, tot_roll, stabil_param)
             new_array.append(lid)
             i += 1
         # correct tot gyr

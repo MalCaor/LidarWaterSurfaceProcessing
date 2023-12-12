@@ -49,7 +49,7 @@ parser.add_argument(
 parser.add_argument(
     "--corr",
     nargs=1,
-    help="[xyz] correct data with IMU (--gyro required)"
+    help="[ypr] correct data with IMU - yaw pitch row - (--gyro required)"
 )
 parser.add_argument(
     "--filter",
@@ -62,7 +62,7 @@ parser.add_argument(
 parser.add_argument(
     "--display",
     nargs=1,
-    help="display data : cp (cloud point), mesh (mesh generation)"
+    help="display data : pc (point cloud), mesh (mesh generation)"
 )
 
 # args
@@ -79,7 +79,11 @@ if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
 
 if args.corr:
-    array_lidar = stabilise_lidar_array(array_lidar, array_gyro)
+    if not args.gyro:
+        print("ERROR : IMU data not found") 
+        print("USE --gyro [path] IF YOU WANT TO CORRECT DATA!") 
+        exit(1) # error
+    array_lidar = stabilise_lidar_array(array_lidar, array_gyro, args.corr[0])
 
 if args.filter:
     array_lidar = filter_lidar_data(array_lidar, args.filter[0])
