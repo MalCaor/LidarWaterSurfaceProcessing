@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from tokenize import Double
-from typing import List
+import json
+from typing import Dict, List
 from utils import *
 import numpy as np
 
@@ -37,13 +37,14 @@ class filter_or(filter):
 
 ### FILTER CLASS ###
 class range_filter(filter):
-    min: Double
-    max: Double
-
     def validate(self, origine: np.ndarray, point: np.ndarray) -> bool:
         # calculate dist
         dist = calculate_distance(origine, point)
-        if dist < max and dist > min:
-            return True
+        if dist < self.max and dist > self.min:
+            return self.inclustion
         else:
-            return False 
+            return not self.inclustion 
+    def __init__(self, min, max, inclustion):
+        self.min = min
+        self.max = max
+        self.inclustion = inclustion
