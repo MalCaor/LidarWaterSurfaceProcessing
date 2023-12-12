@@ -11,8 +11,9 @@ from write_data import *
 from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
-from data_stabilisation import *
-from data_interpr import *
+from data_stabilisation import stabilise_lidar_array
+from data_interpr import shape_interpr
+from data_filter import filter_lidar_data
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -50,6 +51,11 @@ parser.add_argument(
     nargs=1,
     help="[xyz] correct data with IMU (--gyro required)"
 )
+parser.add_argument(
+    "--filter",
+    nargs=1,
+    help="filter setting path"
+)
 
 ### DATA DISPLAY TYPE
 # Process LIDAR .pcap Data File
@@ -65,7 +71,6 @@ args = parser.parse_args()
 # VARS
 array_lidar: List[LidarPointArray] = []
 array_gyro: List[GyroData] = []
-stabilized_array_lidar: List[LidarPointArray] = []
 
 if args.lidar:
     array_lidar = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
@@ -74,7 +79,10 @@ if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
 
 if args.corr:
-    stabilized_array_lidar = stabilise_lidar_array(array_lidar, array_gyro)
+    array_lidar = stabilise_lidar_array(array_lidar, array_gyro)
+
+if args.filter:
+    array_lidar = filter_lidar_data(array_lidar)
 
 if args.display:
     if args.display[0]=="cp":
@@ -82,8 +90,5 @@ if args.display:
     if args.display[0]=="mesh":
         meshs = []
         point_cloid = []
-        if stabilized_array_lidar!=[]:
-            meshs, point_cloid = shape_interpr(stabilized_array_lidar)
-        else:
-            meshs, point_cloid = shape_interpr(array_lidar)
+        meshs, point_cloid = shape_interpr(array_lidar)
         display_anim_mesh(meshs, point_cloid)
