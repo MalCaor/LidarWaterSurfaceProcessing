@@ -18,7 +18,17 @@ def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: st
             filter_obj = range_filter(**f_object)
     # Test filter for each point
     lpa: LidarPointArray
+    # % compl
+    i = 0.0
+    length = len(lidar_data)
+    print(" "*20, end='\r')
+    percent: float = i / length * 100.0
+    print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
     for lpa in lidar_data:
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i+=1
         points_to_remove = []
         for p in lpa.points_array:
             if not filter_obj.validate(np.array([0,0,0]), np.array(p)):
