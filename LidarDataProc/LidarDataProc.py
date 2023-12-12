@@ -29,79 +29,61 @@ parser = argparse.ArgumentParser(
     description="Process LIDAR wave surface data"
 )
 
+### FILE PATH ARGS ###
 # Process LIDAR .pcap Data File
 parser.add_argument(
     "--lidar",
     nargs=2,
-    help="process a Lidar Data File"
+    help="[Lidar File PATH] [number of snapshot to read]"
 )
 # Process GYRO .csv Data File
 parser.add_argument(
     "--gyro",
-    nargs=2,
-    help="process a Gyro CSV Data File"
+    nargs=1,
+    help="[IMU csv File PATH]"
 )
+
+### DATA PROCESSING ARGS ###
 # Process GYRO .csv Data File
 parser.add_argument(
     "--corr",
-    nargs=3,
-    help="process a Gyro CSV Data File"
-)
-# Process LIDAR .pcap Data File
-parser.add_argument(
-    "--corr2",
-    nargs=2,
-    help="process a Lidar Data File"
-)
-# Process LIDAR .pcap Data File
-parser.add_argument(
-    "--line",
-    nargs=2,
-    help="process a Lidar Data File"
-)
-# Process GYRO .csv Data File
-parser.add_argument(
-    "--date",
     nargs=1,
-    help="process a Gyro CSV Data File"
-)
-# Process through ML
-parser.add_argument(
-    "--ml",
-    nargs=2,
-    help="Machine Learning"
+    help="[xyz] correct data with IMU (--gyro required)"
 )
 
+### DATA DISPLAY TYPE
+# Process LIDAR .pcap Data File
+parser.add_argument(
+    "--display",
+    nargs=1,
+    help="display data : cp (cloud point), mesh (mesh generation)"
+)
+
+# args
 args = parser.parse_args()
 
+# VARS
+array_lidar: List[LidarPointArray] = []
+array_gyro: List[GyroData] = []
+stabilized_array_lidar: List[LidarPointArray] = []
+
 if args.lidar:
-    array: List[LidarPointArray] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
-    display_anim_point_array(array)
+    array_lidar = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
 
 if args.gyro:
-    array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
-    write_gyro_data(array, args.gyro[1])
+    array_gyro = parse_gyro_file_data(args.gyro[0])
 
 if args.corr:
-    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr[0], args.corr[1])
-    array_gyr: List[GyroData] = parse_gyro_file_data(args.corr[2])
-    fin_array = stabilise_lidar_array(array_lid, array_gyr)
-    display_anim_point_array(fin_array)
+    stabilized_array_lidar = stabilise_lidar_array(array_lidar, array_gyro)
 
-if args.corr2:
-    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr2[0], args.corr2[1])
-    array_mesh, array_pc = shape_interpr(array_lid)
-    display_anim_mesh(array_mesh, array_pc)
-    
-if args.line:
-    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.line[0], args.line[1])
-    array_mesh, array_pc = line_interpr(array_lid)
-    display_anim_mesh(array_mesh, array_pc)
-
-if args.date:
-    array: List[LidarPointArray] = parse_lidar_file_into_array(args.date[0], 0)
-    print_plage_time_array(array)
-
-if args.ml:
-    array: List[LidarPointArray] = parse_lidar_file_into_array(args.ml[0], args.ml[1])
-    display_anim_point_array(array)
+if args.display:
+    if args.display[0]=="cp":
+        display_anim_point_array(array_lidar)
+    if args.display[0]=="mesh":
+        meshs = []
+        point_cloid = []
+        if stabilized_array_lidar!=[]:
+            meshs, point_cloid = shape_interpr(stabilized_array_lidar)
+        else:
+            meshs, point_cloid = shape_interpr(array_lidar)
+        display_anim_mesh(meshs, point_cloid)
