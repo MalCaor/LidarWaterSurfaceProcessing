@@ -1,17 +1,19 @@
 # LIDAR WATER SURFACE PROCESSING :
 
-usage: LIDAR Data Processing [-h] [--lidar LIDAR LIDAR] [--gyro GYRO] [--corr CORR] [--filter FILTER] [--display DISPLAY]
+usage: LIDAR Data Processing [-h] [--lidar LIDAR LIDAR] [--gyro GYRO] [--corr CORR] [--prefilter PREFILTER] [--postfilter POSTFILTER] [--display DISPLAY]
 
 Process LIDAR wave surface data
 
 options:
--  -h, --help           show this help message and exit
--  --lidar LIDAR LIDAR  [Lidar File PATH] [number of snapshot to read]
--  --gyro GYRO          [IMU csv File PATH]
--  --corr CORR          [ypr] correct data with IMU - yaw pitch row - (--gyro       
-                       required)
--  --filter FILTER      filter setting path
--  --display DISPLAY    display data : pc (point cloud), mesh (mesh generation)
+-  -h, --help            show this help message and exit
+-  --lidar LIDAR LIDAR   [Lidar File PATH] [number of snapshot to read]
+-  --gyro GYRO           [IMU csv File PATH]
+-  --corr CORR           [ypr] correct data with IMU - yaw pitch row - (--gyro required)
+-  --prefilter PREFILTER
+                        filter setting path
+-  --postfilter POSTFILTER
+                        filter setting path
+-  --display DISPLAY     display data : pc (point cloud), mesh (mesh generation)
 ---
 ## Contour lidar
 
