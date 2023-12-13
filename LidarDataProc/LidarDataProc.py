@@ -105,4 +105,7 @@ if args.display:
         meshs, point_cloid = shape_interpr(array_lidar)
         display_anim_mesh(meshs, point_cloid)
     else:
-        print("You didn't display anything, use --display if it's not intended!")
+        print("ERROR: Wrong parameter for display")
+        exit(1)
+else:
+    print("You didn't display anything, use --display if it's not intended!")
