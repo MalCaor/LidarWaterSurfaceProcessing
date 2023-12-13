@@ -22,7 +22,10 @@ def _key_PLUS_PRESSED(vis):
     if i_frame_anim<len_array-1:
         i_frame_anim+=1
 def _key_DIVIDE_PRESSED(vis):
+    global i_frame_anim
     global movie
+    if i_frame_anim>=len_array:
+        i_frame_anim-=1
     movie = not movie
 def _key_MULTIPLY_PRESSED(vis):
     global i_frame_anim
