@@ -11,8 +11,9 @@ from write_data import *
 from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
-from data_stabilisation import *
-from data_interpr import *
+from data_stabilisation import stabilise_lidar_array
+from data_interpr import shape_interpr
+from data_filter import filter_lidar_data
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -29,79 +30,82 @@ parser = argparse.ArgumentParser(
     description="Process LIDAR wave surface data"
 )
 
+### FILE PATH ARGS ###
 # Process LIDAR .pcap Data File
 parser.add_argument(
     "--lidar",
     nargs=2,
-    help="process a Lidar Data File"
+    help="[Lidar File PATH] [number of snapshot to read]"
 )
 # Process GYRO .csv Data File
 parser.add_argument(
     "--gyro",
-    nargs=2,
-    help="process a Gyro CSV Data File"
+    nargs=1,
+    help="[IMU csv File PATH]"
 )
+
+### DATA PROCESSING ARGS ###
 # Process GYRO .csv Data File
 parser.add_argument(
     "--corr",
-    nargs=3,
-    help="process a Gyro CSV Data File"
-)
-# Process LIDAR .pcap Data File
-parser.add_argument(
-    "--corr2",
-    nargs=2,
-    help="process a Lidar Data File"
-)
-# Process LIDAR .pcap Data File
-parser.add_argument(
-    "--line",
-    nargs=2,
-    help="process a Lidar Data File"
-)
-# Process GYRO .csv Data File
-parser.add_argument(
-    "--date",
     nargs=1,
-    help="process a Gyro CSV Data File"
+    help="[ypr] correct data with IMU - yaw pitch row - (--gyro required)"
 )
-# Process through ML
 parser.add_argument(
-    "--ml",
-    nargs=2,
-    help="Machine Learning"
+    "--prefilter",
+    nargs=1,
+    help="filter setting path"
+)
+parser.add_argument(
+    "--postfilter",
+    nargs=1,
+    help="filter setting path"
 )
 
+### DATA DISPLAY TYPE
+# Process LIDAR .pcap Data File
+parser.add_argument(
+    "--display",
+    nargs=1,
+    help="display data : pc (point cloud), mesh (mesh generation)"
+)
+
+# args
 args = parser.parse_args()
 
+# VARS
+array_lidar: List[LidarPointArray] = []
+array_gyro: List[GyroData] = []
+
 if args.lidar:
-    array: List[LidarPointArray] = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
-    display_anim_point_array(array)
+    array_lidar = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
 
 if args.gyro:
-    array: List[GyroData] = parse_gyro_file_data(args.gyro[0])
-    write_gyro_data(array, args.gyro[1])
+    array_gyro = parse_gyro_file_data(args.gyro[0])
+
+if args.prefilter:
+    filter_lidar_data(array_lidar, args.prefilter[0])
 
 if args.corr:
-    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr[0], args.corr[1])
-    array_gyr: List[GyroData] = parse_gyro_file_data(args.corr[2])
-    fin_array = stabilise_lidar_array(array_lid, array_gyr)
-    display_anim_point_array(fin_array)
+    if not args.gyro:
+        print("ERROR : IMU data not found") 
+        print("USE --gyro [path] IF YOU WANT TO CORRECT DATA!") 
+        exit(1) # error
+    array_lidar = stabilise_lidar_array(array_lidar, array_gyro, args.corr[0])
 
-if args.corr2:
-    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.corr2[0], args.corr2[1])
-    array_mesh, array_pc = shape_interpr(array_lid)
-    display_anim_mesh(array_mesh, array_pc)
-    
-if args.line:
-    array_lid: List[LidarPointArray] = parse_lidar_file_into_array(args.line[0], args.line[1])
-    array_mesh, array_pc = line_interpr(array_lid)
-    display_anim_mesh(array_mesh, array_pc)
+if args.postfilter:
+    filter_lidar_data(array_lidar, args.postfilter[0])
 
-if args.date:
-    array: List[LidarPointArray] = parse_lidar_file_into_array(args.date[0], 0)
-    print_plage_time_array(array)
-
-if args.ml:
-    array: List[LidarPointArray] = parse_lidar_file_into_array(args.ml[0], args.ml[1])
-    display_anim_point_array(array)
+if args.display:
+    if args.display[0]=="pc":
+        display_anim_point_array(array_lidar)
+    elif args.display[0]=="mesh":
+        meshs = []
+        point_cloid = []
+        meshs, point_cloid = shape_interpr(array_lidar)
+        display_anim_mesh(meshs, point_cloid)
+    else:
+        print("ERROR: Wrong parameter for display")
+        exit(1)
+else:
+    print("You didn't display anything, use --display if it's not intended!")
