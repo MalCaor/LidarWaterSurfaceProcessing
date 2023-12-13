@@ -35,3 +35,4 @@ def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: st
                 points_to_remove.append(p)
         for p_to_remove in points_to_remove:
             lpa.points_array.remove(p_to_remove)
+    print("Filtering finished!")
