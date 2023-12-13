@@ -97,13 +97,9 @@ def _divide_pc_to_axis(pc: List[List]):
         sub_pc = []
         point = copy_pc[0]
         n_point = np.array(point)
-        for other_point in copy_pc:
-            n_other_point = np.array(other_point)
-            # calculate dist
-            dist = calculate_distance(n_point, n_other_point)
-            # test if close enough
-            if dist<dist_to_divide:
-                sub_pc.append(other_point)
+        # select only those close enough
+        sub_pc = [p for p in copy_pc if calculate_distance(n_point, np.array(p))<dist_to_divide]
+        # remove from copy points and append sub point cloud
         if sub_pc:
             for p in sub_pc:
                 copy_pc.remove(p)
