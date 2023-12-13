@@ -104,6 +104,10 @@ if args.display:
         point_cloid = []
         meshs, point_cloid = shape_interpr(array_lidar)
         display_anim_mesh(meshs, point_cloid)
+    elif args.display[0]=="hex2d":
+        hex2dAnimates(array_lidar)
+    elif args.display[0]=="contour2d":
+        contour2dAnimates(array_lidar)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)
