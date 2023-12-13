@@ -25,14 +25,11 @@ def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: st
     percent: float = i / length * 100.0
     print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
     for lpa in lidar_data:
+        # Affichage
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         i+=1
-        points_to_remove = []
-        for p in lpa.points_array:
-            if not filter_obj.validate(np.array([0,0,0]), np.array(p)):
-                points_to_remove.append(p)
-        for p_to_remove in points_to_remove:
-            lpa.points_array.remove(p_to_remove)
+        # selection
+        lpa.points_array = [p for p in lpa.points_array if filter_obj.validate(origine=np.array([0,0,0]), point=np.array(p))]
     print("Filtering finished!")
