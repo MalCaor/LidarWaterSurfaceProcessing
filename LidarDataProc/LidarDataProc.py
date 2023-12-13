@@ -52,7 +52,12 @@ parser.add_argument(
     help="[ypr] correct data with IMU - yaw pitch row - (--gyro required)"
 )
 parser.add_argument(
-    "--filter",
+    "--prefilter",
+    nargs=1,
+    help="filter setting path"
+)
+parser.add_argument(
+    "--postfilter",
     nargs=1,
     help="filter setting path"
 )
@@ -78,6 +83,9 @@ if args.lidar:
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
 
+if args.prefilter:
+    filter_lidar_data(array_lidar, args.prefilter[0])
+
 if args.corr:
     if not args.gyro:
         print("ERROR : IMU data not found") 
@@ -85,8 +93,8 @@ if args.corr:
         exit(1) # error
     array_lidar = stabilise_lidar_array(array_lidar, array_gyro, args.corr[0])
 
-if args.filter:
-    filter_lidar_data(array_lidar, args.filter[0])
+if args.postfilter:
+    filter_lidar_data(array_lidar, args.postfilter[0])
 
 if args.display:
     if args.display[0]=="pc":
