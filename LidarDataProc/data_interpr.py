@@ -8,10 +8,8 @@ from LidarPointArray import LidarPointArray
 from utils import *
 
 # param mesh
-fist_every_k_points = 2
-voxel_size = 0.05
-second_every_k_points = 2
-dist_to_divide = 200
+voxel_size = 0.1
+dist_to_divide = 100
 alpha = 0.5
 
 # param line
@@ -53,16 +51,16 @@ def _shape_arr(arr, list_pc_retour, list_mesh_retour):
     # create point cloud
     pc = o3d.geometry.PointCloud()
     pc.points = o3d.utility.Vector3dVector(arr.points_array)
-    pc.estimate_normals()
-    pc.orient_normals_towards_camera_location()
+    #pc.estimate_normals()
+    #pc.orient_normals_towards_camera_location()
     pc = pc.voxel_down_sample(voxel_size=voxel_size)
     pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
     pc.remove_radius_outlier(nb_points=16, radius=0.05)
     list_pc_retour.append(pc)
     # GeneMesh from Cloud
-    list_mesh_retour.append(_generate_mesh_from_inst_pc(np.array(pc.points).tolist()))
+    list_mesh_retour.append(_generate_mesh_from_inst_pc(pc))
 
-def _generate_mesh_from_inst_pc(pc: List[List]):
+def _generate_mesh_from_inst_pc(pc):
     """return a list of mesh of a single lidar "frame"
 
     Args:
@@ -71,18 +69,9 @@ def _generate_mesh_from_inst_pc(pc: List[List]):
     Returns:
         _type_: _description_
     """
-    list_retour: List[o3d.geometry.TriangleMesh] = []
-    # divide points by proximity
-    divided_pc = _divide_pc_to_axis(pc)
-    for p in divided_pc:
-        try:
-            list_retour.append(_mesh_from_pc(p))
-        except((IndexError, RuntimeError)):
-            pass
-    
-    return list_retour
+    return [_mesh_from_pc(pc)]
 
-def _divide_pc_to_axis(pc: List[List]):
+def _divide_pc_to_axis(pc):
     """return a dub division of a point cloud by proximity
 
     Args:
@@ -91,7 +80,7 @@ def _divide_pc_to_axis(pc: List[List]):
     Returns:
         List[List[List]]: list of sub point cloud
     """
-    copy_pc = list(pc)
+    copy_pc = np.array(pc.points).tolist()
     sub_pcs = []
     while(len(copy_pc)!=0):
         sub_pc = []
@@ -107,7 +96,7 @@ def _divide_pc_to_axis(pc: List[List]):
 
     return sub_pcs
 
-def _mesh_from_pc(pc_raw: List[List]):
+def _mesh_from_pc(point_coud):
     """generate a mesh from a point cloud
 
     Args:
@@ -116,14 +105,6 @@ def _mesh_from_pc(pc_raw: List[List]):
     Returns:
         o3d.geometry.TriangleMesh: mesh returned
     """
-    # create point cloud
-    point_coud = o3d.geometry.PointCloud()
-    point_coud.points = o3d.utility.Vector3dVector(pc_raw)
-    point_coud.estimate_normals()
-    point_coud.orient_normals_towards_camera_location()
-    point_coud.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
-    point_coud.remove_radius_outlier(nb_points=16, radius=0.05)
-    # create mesh
     tetra_mesh, pt_map =  o3d.geometry.TetraMesh.create_from_point_cloud(point_coud)
     mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_alpha_shape(
         point_coud, alpha=alpha, tetra_mesh=tetra_mesh, pt_map=pt_map)

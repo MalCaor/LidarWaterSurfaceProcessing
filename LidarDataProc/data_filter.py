@@ -31,5 +31,12 @@ def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: st
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         i+=1
         # selection
+        # set a as Narray
+        #a: np.array = np.array(lpa.points_array)
+        #a = np.array([ a[i,mask[i]] for i in xrange(a.shape[0]) ])
+        #a = np.delete(a, np.argwhere(filter_obj.validate(np.array([0,0,0]), point=a)))
+        #print(a)
+        #exit()
+        #lpa.points_array = a
         lpa.points_array = [p for p in lpa.points_array if filter_obj.validate(origine=np.array([0,0,0]), point=np.array(p))]
     print("Filtering finished!")
