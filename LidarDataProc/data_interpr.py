@@ -8,9 +8,7 @@ from LidarPointArray import LidarPointArray
 from utils import *
 
 # param mesh
-fist_every_k_points = 2
 voxel_size = 0.1
-second_every_k_points = 2
 dist_to_divide = 100
 alpha = 0.5
 
@@ -53,8 +51,8 @@ def _shape_arr(arr, list_pc_retour, list_mesh_retour):
     # create point cloud
     pc = o3d.geometry.PointCloud()
     pc.points = o3d.utility.Vector3dVector(arr.points_array)
-    pc.estimate_normals()
-    pc.orient_normals_towards_camera_location()
+    #pc.estimate_normals()
+    #pc.orient_normals_towards_camera_location()
     pc = pc.voxel_down_sample(voxel_size=voxel_size)
     pc.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
     pc.remove_radius_outlier(nb_points=16, radius=0.05)
