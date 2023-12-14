@@ -11,7 +11,7 @@ from LidarPointArray import LidarPointArray
 from GyroData import GyroData
 
 # Function
-def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> List[List[LidarPoint]]:
+def parse_lidar_file_data_velodyne(path_file_input: str, number_to_analyse: int=0) -> List[List[LidarPoint]]:
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input
@@ -48,7 +48,7 @@ def parse_lidar_file_data(path_file_input: str, number_to_analyse: int=0) -> Lis
     print("Parse file {} Finished".format(path_file_input))
     return cloud_arrays_return
 
-def parse_lidar_file_into_array(path_file_input: str, number_to_analyse: int=0) -> List[LidarPointArray]:
+def parse_lidar_vel_file_into_array(path_file_input: str, number_to_analyse: int=0) -> List[LidarPointArray]:
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input

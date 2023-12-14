@@ -33,8 +33,13 @@ parser = argparse.ArgumentParser(
 ### FILE PATH ARGS ###
 # Process LIDAR .pcap Data File
 parser.add_argument(
-    "--lidar",
+    "--lidar_vel",
     nargs=2,
+    help="[Lidar File PATH] [number of snapshot to read]"
+)
+parser.add_argument(
+    "--lidar-ous",
+    nargs=3,
     help="[Lidar File PATH] [number of snapshot to read]"
 )
 # Process GYRO .csv Data File
@@ -77,8 +82,8 @@ args = parser.parse_args()
 array_lidar: List[LidarPointArray] = []
 array_gyro: List[GyroData] = []
 
-if args.lidar:
-    array_lidar = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
+if args.lidar_vel:
+    array_lidar = parse_lidar_vel_file_into_array(args.lidar_vel[0], args.lidar_vel[1])
 
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
