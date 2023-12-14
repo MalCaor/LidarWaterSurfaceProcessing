@@ -101,7 +101,7 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
 
         # read file
         i: float = 0.0
-        for stamp, points in pcap.Pcap(lidar_file_path, info):
+        for packet in pcap.Pcap(lidar_file_path, info):
             # breaking test
             if float(number_to_analyse)>0 and i>float(number_to_analyse):
                 break
@@ -111,7 +111,11 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
             percent: float = i / length * 100.0
             print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
             # append
-            lidar_point_array: LidarPointArray = LidarPointArray(stamp, points)
+            stamp = packet.timestamp
+            xyzlut = client.XYZLut(info)
+            xyz = xyzlut(packet.field(client.ChanField.RANGE))
+            true_xyz = client.destagger(info, xyz)
+            lidar_point_array: LidarPointArray = LidarPointArray(stamp, true_xyz)
             cloud_arrays_return.append(lidar_point_array)
     
     print(" "*20, end='\r')
