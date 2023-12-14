@@ -4,6 +4,7 @@ import datetime
 from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
+from ouster import client, pcap
 
 # IMPORT LOCAL
 from LidarPoint import LidarPoint
@@ -82,7 +83,41 @@ def parse_lidar_vel_file_into_array(path_file_input: str, number_to_analyse: int
     print(" "*20, end='\r')
     print("Parse file {} Finished".format(path_file_input))
     return cloud_arrays_return
+
+def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, number_to_analyse: int=0) -> List[LidarPointArray]:
+    print("PARSING FILE : {}".format(lidar_file_path))
+
+    # test if input
+    if not exists(lidar_file_path) or not exists(json_file_path):
+        raise FileNotFoundError("Input file doesn't exist")
     
+    cloud_arrays_return: List[LidarPointArray] = []
+
+    with open(json_file_path, 'r') as meta_f:
+        # get meta data
+        info = client.SensorInfo(meta_f.read())
+        dataLidar = pcap.Pcap(lidar_file_path, info)
+        length: float = sum(1 for _ in dataLidar)
+
+        # read file
+        i: float = 0.0
+        for stamp, points in pcap.Pcap(lidar_file_path, info):
+            # breaking test
+            if float(number_to_analyse)>0 and i>float(number_to_analyse):
+                break
+            i += 1
+            # % compl
+            print(" "*20, end='\r')
+            percent: float = i / length * 100.0
+            print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+            # append
+            lidar_point_array: LidarPointArray = LidarPointArray(stamp, points)
+            cloud_arrays_return.append(lidar_point_array)
+    
+    print(" "*20, end='\r')
+    print("Parsing Finished")
+    return cloud_arrays_return
+
 def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
     print("PARSING FILE : {}".format(path_file_input))
 

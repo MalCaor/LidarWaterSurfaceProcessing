@@ -38,7 +38,7 @@ parser.add_argument(
     help="[Lidar File PATH] [number of snapshot to read]"
 )
 parser.add_argument(
-    "--lidar-ous",
+    "--lidar_ous",
     nargs=3,
     help="[Lidar File PATH] [number of snapshot to read]"
 )
@@ -84,6 +84,8 @@ array_gyro: List[GyroData] = []
 
 if args.lidar_vel:
     array_lidar = parse_lidar_vel_file_into_array(args.lidar_vel[0], args.lidar_vel[1])
+if args.lidar_ous:
+    array_lidar = parse_lidar_ous_file_into_array(args.lidar_ous[0], args.lidar_ous[1], args.lidar_ous[2])
 
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
