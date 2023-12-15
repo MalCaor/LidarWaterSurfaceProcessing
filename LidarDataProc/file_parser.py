@@ -5,6 +5,7 @@ from genericpath import exists
 from typing import List
 import velodyne_decoder as vd
 from ouster import client, pcap
+import numpy as np
 
 # IMPORT LOCAL
 from LidarPoint import LidarPoint
@@ -95,29 +96,25 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
 
     with open(json_file_path, 'r') as meta_f:
         # get meta data
-        info = client.SensorInfo(meta_f.read())
-        dataLidar = pcap.Pcap(lidar_file_path, info)
-        length: float = sum(1 for _ in dataLidar)
+        metadata = client.SensorInfo(meta_f.read())
+        xyzlut = client.XYZLut(metadata)
+        pcap_data = pcap.Pcap(lidar_file_path, metadata)
+        scans = iter(client.Scans(pcap_data))
 
-        # read file
-        i: float = 0.0
-        for packet in pcap.Pcap(lidar_file_path, info):
-            # breaking test
-            if float(number_to_analyse)>0 and i>float(number_to_analyse):
-                break
-            i += 1
-            # % compl
-            print(" "*20, end='\r')
-            percent: float = i / length * 100.0
-            print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
-            # append
-            stamp = packet.timestamp
-            xyzlut = client.XYZLut(info)
-            xyz = xyzlut(packet.field(client.ChanField.RANGE))
-            true_xyz = client.destagger(info, xyz)
-            lidar_point_array: LidarPointArray = LidarPointArray(stamp, true_xyz)
-            cloud_arrays_return.append(lidar_point_array)
-    
+        list_points = []
+        list_timestamps = []
+
+        for idx, scan in enumerate(scans):
+            list_timestamps.append(1702561137.729)
+            xyz = xyzlut(scan.field(client.ChanField.RANGE))
+            cloud_xyz = np.reshape(xyz, (-1, 3))
+            #xyz_destaggered = client.destagger(metadata, xyz)
+            list_points.append(cloud_xyz)
+
+        for i in range(len(list_points)):
+            l: LidarPointArray = LidarPointArray(list_timestamps[i], list_points[i])
+            cloud_arrays_return.append(l)
+
     print(" "*20, end='\r')
     print("Parsing Finished")
     return cloud_arrays_return
