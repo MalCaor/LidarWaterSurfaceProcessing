@@ -12,8 +12,9 @@ from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
 from data_stabilisation import stabilise_lidar_array
-from data_interpr import shape_interpr, line_interpr
+from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
+from line_generator import line_generation
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -123,7 +124,7 @@ if args.display:
     elif args.display[0]=="contour2d":
         contour2dAnimates(array_lidar)
     elif args.display[0]=="line":
-        lines, point_cloid = line_interpr(array_lidar)
+        lines, point_cloid = line_generation(array_lidar)
         display_anim_mesh(lines, point_cloid)
     else:
         print("ERROR: Wrong parameter for display")
