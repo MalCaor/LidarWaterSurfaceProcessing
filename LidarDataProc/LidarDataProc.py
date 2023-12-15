@@ -12,7 +12,7 @@ from file_parser import *
 from visualisation2d import *
 from visualisation3d import *
 from data_stabilisation import stabilise_lidar_array
-from data_interpr import shape_interpr
+from data_interpr import shape_interpr, line_interpr
 from data_filter import filter_lidar_data
 
 # util func
@@ -33,8 +33,13 @@ parser = argparse.ArgumentParser(
 ### FILE PATH ARGS ###
 # Process LIDAR .pcap Data File
 parser.add_argument(
-    "--lidar",
+    "--lidar_vel",
     nargs=2,
+    help="[Lidar File PATH] [number of snapshot to read]"
+)
+parser.add_argument(
+    "--lidar_ous",
+    nargs=3,
     help="[Lidar File PATH] [number of snapshot to read]"
 )
 # Process GYRO .csv Data File
@@ -77,8 +82,10 @@ args = parser.parse_args()
 array_lidar: List[LidarPointArray] = []
 array_gyro: List[GyroData] = []
 
-if args.lidar:
-    array_lidar = parse_lidar_file_into_array(args.lidar[0], args.lidar[1])
+if args.lidar_vel:
+    array_lidar = parse_lidar_vel_file_into_array(args.lidar_vel[0], args.lidar_vel[1])
+if args.lidar_ous:
+    array_lidar = parse_lidar_ous_file_into_array(args.lidar_ous[0], args.lidar_ous[1], args.lidar_ous[2])
 
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
@@ -108,6 +115,9 @@ if args.display:
         hex2dAnimates(array_lidar)
     elif args.display[0]=="contour2d":
         contour2dAnimates(array_lidar)
+    elif args.display[0]=="line":
+        lines, point_cloid = line_interpr(array_lidar)
+        display_anim_mesh(lines, point_cloid)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

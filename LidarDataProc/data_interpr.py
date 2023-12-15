@@ -9,7 +9,7 @@ from utils import *
 
 # param mesh
 voxel_size = 0.1
-dist_to_divide = 100
+dist_to_divide = 5
 alpha = 0.5
 
 # param line
@@ -129,62 +129,30 @@ def line_interpr(array_lidar: List[LidarPointArray]):
         pc.orient_normals_towards_camera_location()
         list_pc_retour.append(pc)
         # create lines
-        list_line_retour.append(_generate_line(np.array(pc.points).tolist()))
+        list_line_retour.append(_generate_line(pc))
 
     return (list_line_retour, list_pc_retour)
 
-def _generate_line(pc: List[List]):
+def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
+    subdiv = _divide_pc_to_axis(pc)
+    print("subdive by {} part".format(str(len(subdiv))))
     i = 0
-    while(len(pc)!=0):
+    for div in subdiv:
+        # display
         print(" "*10, end='\r')
         print("{}".format(i), end='\r')
         i+=1
         # get line
-        point = pc[0]
-        line_points, line_dir = _get_line_point(point, pc)
-        # remove lines points in pc
-        line_set = o3d.geometry.LineSet(
-            points=o3d.utility.Vector3dVector(line_points),
-            lines=o3d.utility.Vector2iVector(line_dir),
+        order = []
+        for indent in range(len(div)):
+            order.append([indent, indent+1])
+        order = order[:-1]
+        # append
+        l = o3d.geometry.LineSet(
+            points=o3d.utility.Vector3dVector(div),
+            lines=o3d.utility.Vector2iVector(order),
         )
-        list_lines.append(line_set)
+        list_lines.append(l)
     return list_lines
 
-def _get_line_point(point, pc: List[List]):
-    # list retour
-    line_points = []
-    line_dir = []
-    # append point
-    line_points.append(point)
-    pc.remove(point)
-    # set up best
-    n_point = np.array(point)
-    finished=False
-    best_point = pc[0]
-    n_other_point = np.array(best_point)
-    best_dist = calculate_distance(n_point, n_other_point)
-    i=0
-    # loop while line not finished
-    while(not finished):
-        loop_point = None
-        for loop_point in pc:
-            n_other_point = np.array(loop_point)
-            # calculate dist
-            dist = calculate_distance(n_point, n_other_point)
-            # test if close enough and better than best
-            if dist<dist_to_divide_line and dist<best_dist:
-                best_point=loop_point
-        if loop_point is None:
-            # no more candidate, finishing
-            finished=True
-        else:
-            print(loop_point)
-            print(best_point)
-            line_points.append(best_point)
-            line_dir.append([i, i+1])
-            pc.remove(best_point)
-            i+=1
-
-    return (line_points, line_dir)
-    
