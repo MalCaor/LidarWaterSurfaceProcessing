@@ -35,18 +35,21 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--lidar_vel",
     nargs=2,
-    help="[Lidar File PATH] [number of snapshot to read]"
+    help="read Velodyne lidar .pcap",
+    metavar=("LIDAR_FILE_PATH", "NUM_FRAME_TO_EXTRACT")
 )
 parser.add_argument(
     "--lidar_ous",
     nargs=3,
-    help="[Lidar File PATH] [number of snapshot to read]"
+    help="read Ouster lidar .pcap",
+    metavar=("LIDAR_FILE_PATH", "JSON_META_FILE_PATH", "NUM_FRAME_TO_EXTRACT")
 )
 # Process GYRO .csv Data File
 parser.add_argument(
     "--gyro",
     nargs=1,
-    help="[IMU csv File PATH]"
+    help="read IMU csv file",
+    metavar=("CSV_FILE_PATH",)
 )
 
 ### DATA PROCESSING ARGS ###
@@ -54,17 +57,20 @@ parser.add_argument(
 parser.add_argument(
     "--corr",
     nargs=1,
-    help="[ypr] correct data with IMU - yaw pitch row - (--gyro required)"
+    help="correct the point cloud with IMU data (Yaw, Pitch, Roll)",
+    metavar=("YPR_OPTION",)
 )
 parser.add_argument(
     "--prefilter",
     nargs=1,
-    help="filter setting path"
+    help="filter cloud point before correcting the data",
+    metavar=("JSON_FILE_PATH",)
 )
 parser.add_argument(
     "--postfilter",
     nargs=1,
-    help="filter setting path"
+    help="filter cloud point after correcting the data",
+    metavar=("JSON_FILE_PATH",)
 )
 
 ### DATA DISPLAY TYPE
@@ -72,7 +78,8 @@ parser.add_argument(
 parser.add_argument(
     "--display",
     nargs=1,
-    help="display data : pc (point cloud), mesh (mesh generation)"
+    help="display data : pc (point cloud), mesh (mesh generation)",
+    metavar=("DISPLAY_TYPE",)
 )
 
 # args
