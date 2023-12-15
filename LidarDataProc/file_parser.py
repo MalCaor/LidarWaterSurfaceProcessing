@@ -104,7 +104,11 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
         list_points = []
         list_timestamps = []
 
+        i: float = 0.0
         for idx, scan in enumerate(scans):
+            if int(number_to_analyse)>0 and i>int(number_to_analyse):
+                break
+            i += 1
             list_timestamps.append(1702561137.729)
             xyz = xyzlut(scan.field(client.ChanField.RANGE))
             cloud_xyz = np.reshape(xyz, (-1, 3))
