@@ -104,9 +104,14 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
 
         list_points = []
         list_timestamps = []
+        length: float = sum(1 for _ in enumerate(iter(client.Scans(pcap.Pcap(lidar_file_path, metadata)))))
 
         i: float = 0.0
         for idx, scan in enumerate(scans):
+            # % compl
+            print(" "*20, end='\r')
+            percent: float = i / length * 100.0
+            print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
             if int(number_to_analyse)>0 and i>int(number_to_analyse):
                 break
             i += 1
