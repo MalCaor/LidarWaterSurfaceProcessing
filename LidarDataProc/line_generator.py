@@ -1,4 +1,5 @@
-from typing import List
+from math import dist
+from typing import List, Tuple
 import open3d as o3d
 
 from utils import *
@@ -55,11 +56,34 @@ def line_generation(array_lidar: List[LidarPointArray]):
 
     return (list_line_retour, list_pc_retour)
 
+def simple_line_contour(pc):
+    # MARCHE PAS (enfi si mais c'est compliqué)
+    array: List = np.array(pc.points).tolist()
+    link_p: List[List] = []
+    list_l: List = []
+    while array:
+        if len(array)==1:
+            list_l.append(array[0])
+            array.remove(array[0])
+            continue
+        p1 = array[0]
+        p2 = array[1]
+        list_l.append(p1)
+        array.remove(p1)
+        if calculate_distance(np.array(p1), np.array(p2))>50:
+            link_p.append(list_l)
+            list_l = []
+    return link_p
+
+    
+
+
+
+
 def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
-    subdiv = _divide_pc_to_axis(pc)
-    print("subdive by {} part".format(str(len(subdiv))))
     i = 0
+    subdiv = simple_line_contour(pc)
     for div in subdiv:
         # display
         print(" "*10, end='\r')
