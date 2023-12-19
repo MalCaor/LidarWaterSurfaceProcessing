@@ -10,7 +10,7 @@ from utils import *
 # param mesh
 voxel_size = 0.1
 dist_to_divide = 5
-alpha = 0.5
+alpha = 1
 
 # param line
 dist_to_divide_line = 5
