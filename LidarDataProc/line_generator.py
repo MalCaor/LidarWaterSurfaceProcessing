@@ -1,6 +1,7 @@
 from math import dist
-from typing import List, Tuple
+from typing import List
 import open3d as o3d
+from sklearn.neighbors import KDTree
 
 from utils import *
 from LidarPointArray import LidarPointArray
@@ -75,15 +76,22 @@ def simple_line_contour(pc):
             list_l = []
     return link_p
 
-    
-
-
-
+def knn_div(pc):
+    point_cloud: np.array = np.array(pc.points)
+    list_retour: List = []
+    while point_cloud.size != 0:
+        print(point_cloud.size)
+        tree = KDTree(point_cloud) 
+        ind = tree.query_radius(point_cloud[:1], r=2)
+        cluster = list(list(point_cloud[i]) for i in ind[0])
+        list_retour.append(cluster)
+        point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
+    return list_retour
 
 def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
     i = 0
-    subdiv = simple_line_contour(pc)
+    subdiv = knn_div(pc)
     for div in subdiv:
         # display
         print(" "*10, end='\r')
