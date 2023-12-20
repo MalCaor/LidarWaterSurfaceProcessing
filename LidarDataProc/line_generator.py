@@ -79,10 +79,15 @@ def simple_line_contour(pc):
 def knn_div(pc):
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
+    length = point_cloud.size
+    i = 0
     while point_cloud.size != 0:
-        print(point_cloud.size)
+        i = length-point_cloud.size
+        print(" "*10, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
-        ind = tree.query_radius(point_cloud[:1], r=2)
+        ind = tree.query_radius(point_cloud[:1], r=1)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         list_retour.append(cluster)
         point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
@@ -90,12 +95,14 @@ def knn_div(pc):
 
 def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
-    i = 0
     subdiv = knn_div(pc)
+    i = 0
+    length = len(subdiv)
     for div in subdiv:
         # display
         print(" "*10, end='\r')
-        print("{}".format(i), end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         i+=1
         # get line
         order = []
