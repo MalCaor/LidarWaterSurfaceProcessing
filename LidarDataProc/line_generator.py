@@ -65,27 +65,27 @@ def simple_line_contour(pc):
     list_l: List = []
     length = len(array)
     while array:
+        if len(array)==1: # last didgit
+            if len(list_l) > 3:
+                list_l.append(array[0])
+            break
+        # p1
+        p1 = array[0]
         #sort
-        div_to_sort = len(list_l)+1 if len(list_l)+1>1 else 1
+        len_list = len(list_l)*2 # * to augment the size of the list to ignore
+        div_to_sort = max(len_list, 1)
         to_sort = int(len(array)/div_to_sort)
-        p=array[0]
-        # [0:to_sort]
-        array[0:to_sort] = sorted(array[0:to_sort], key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=False)
+        array[0:to_sort] = sorted(array[0:to_sort], key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
         # display
         i = length-len(array)
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         # add point
-        if len(array)==1:
-            list_l.append(array[0])
-            array.remove(array[0])
-            continue
-        p1 = array[0]
         p2 = array[1]
         list_l.append(p1)
         array.remove(p1)
-        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05
+        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05 / max(len(list_l), 1)
         if calculate_distance(np.array(p1), np.array(p2))>dist_to_divide:
             if len(list_l) > 3:
                 link_p.append(list_l)
