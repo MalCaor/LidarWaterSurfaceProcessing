@@ -1,4 +1,5 @@
 from math import dist
+from operator import invert
 from typing import List
 import open3d as o3d
 from sklearn.neighbors import KDTree
@@ -87,7 +88,7 @@ def knn_div(pc):
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
-        ind = tree.query_radius(point_cloud[:1], r=1)
+        ind = tree.query_radius(point_cloud[:1], r=0.5)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         if len(cluster)>2:
             list_retour.append(cluster)
@@ -108,6 +109,9 @@ def _generate_line(pc):
         # get line
         order = [[i,i+1] for i in range(len(div))]
         order = order[:-1]
+        # order points
+        p = div[0]
+        list.sort(div, key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=True)
         # append
         l = o3d.geometry.LineSet(
             points=o3d.utility.Vector3dVector(div),
