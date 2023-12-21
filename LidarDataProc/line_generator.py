@@ -59,11 +59,19 @@ def line_generation(array_lidar: List[LidarPointArray]):
     return (list_line_retour, list_pc_retour)
 
 def simple_line_contour(pc):
-    # MARCHE PAS (enfi si mais c'est compliqué)
+    pc = pc.voxel_down_sample(0.1)
     array: List = np.array(pc.points).tolist()
     link_p: List[List] = []
     list_l: List = []
+    length = len(array)
     while array:
+        p=array[0]
+        list.sort(array, key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=False)
+        i = length-len(array)
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+
         if len(array)==1:
             list_l.append(array[0])
             array.remove(array[0])
@@ -72,8 +80,10 @@ def simple_line_contour(pc):
         p2 = array[1]
         list_l.append(p1)
         array.remove(p1)
-        if calculate_distance(np.array(p1), np.array(p2))>50:
-            link_p.append(list_l)
+        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05
+        if calculate_distance(np.array(p1), np.array(p2))>dist_to_divide:
+            if len(list_l) > 3:
+                link_p.append(list_l)
             list_l = []
     return link_p
 
@@ -93,11 +103,12 @@ def knn_div(pc):
         if len(cluster)>2:
             list_retour.append(cluster)
         point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
+        
     return list_retour
 
 def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
-    subdiv = knn_div(pc)
+    subdiv = simple_line_contour(pc)
     i = 0
     length = len(subdiv)
     for div in subdiv:
@@ -111,7 +122,7 @@ def _generate_line(pc):
         order = order[:-1]
         # order points
         p = div[0]
-        list.sort(div, key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=True)
+        #list.sort(div, key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=True)
         # append
         l = o3d.geometry.LineSet(
             points=o3d.utility.Vector3dVector(div),
