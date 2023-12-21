@@ -83,13 +83,14 @@ def knn_div(pc):
     i = 0
     while point_cloud.size != 0:
         i = length-point_cloud.size
-        print(" "*10, end='\r')
+        print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
         ind = tree.query_radius(point_cloud[:1], r=1)
         cluster = list(list(point_cloud[i]) for i in ind[0])
-        list_retour.append(cluster)
+        if len(cluster)>2:
+            list_retour.append(cluster)
         point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
     return list_retour
 
@@ -105,9 +106,7 @@ def _generate_line(pc):
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         i+=1
         # get line
-        order = []
-        for indent in range(len(div)):
-            order.append([indent, indent+1])
+        order = [[i,i+1] for i in range(len(div))]
         order = order[:-1]
         # append
         l = o3d.geometry.LineSet(
