@@ -85,7 +85,7 @@ def simple_line_contour(pc):
         p2 = array[1]
         list_l.append(p1)
         array.remove(p1)
-        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05 / max(len(list_l), 1)
+        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05 / max(min(len(list_l), 5), 1)
         if calculate_distance(np.array(p1), np.array(p2))>dist_to_divide:
             if len(list_l) > 3:
                 link_p.append(list_l)
