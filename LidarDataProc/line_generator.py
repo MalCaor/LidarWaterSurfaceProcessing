@@ -65,13 +65,18 @@ def simple_line_contour(pc):
     list_l: List = []
     length = len(array)
     while array:
+        #sort
+        div_to_sort = len(list_l)+1 if len(list_l)+1>1 else 1
+        to_sort = int(len(array)/div_to_sort)
         p=array[0]
-        list.sort(array, key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=False)
+        # [0:to_sort]
+        array[0:to_sort] = sorted(array[0:to_sort], key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=False)
+        # display
         i = length-len(array)
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
-
+        # add point
         if len(array)==1:
             list_l.append(array[0])
             array.remove(array[0])
