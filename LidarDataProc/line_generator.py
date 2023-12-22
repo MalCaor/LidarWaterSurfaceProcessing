@@ -70,7 +70,7 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         pc.estimate_normals()
         pc.orient_normals_towards_camera_location()
-        line_retour.append(simple_line_contour(pc))
+        line_retour.append(knn_div(pc))
 
     return line_retour
 
@@ -89,7 +89,7 @@ def simple_line_contour(pc):
         # p1
         p1 = array[0]
         #sort
-        len_list = len(list_l)*4 # * to augment the size of the list to ignore
+        len_list = len(list_l)*5 # * to augment the size of the list to ignore
         div_to_sort = max(len_list, 1)
         to_sort = int(len(array)/div_to_sort)
         array[0:to_sort] = sorted(array[0:to_sort], key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
@@ -121,7 +121,7 @@ def knn_div(pc):
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
-        ind = tree.query_radius(point_cloud[:1], r=0.5)
+        ind = tree.query_radius(point_cloud[:1], r=1)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         if len(cluster)>2:
             list_retour.append(cluster)
