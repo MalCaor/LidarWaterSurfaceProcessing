@@ -70,7 +70,7 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         pc.estimate_normals()
         pc.orient_normals_towards_camera_location()
-        line_retour.append(knn_div(pc))
+        line_retour.append(combined(pc))
 
     return line_retour
 
@@ -90,6 +90,19 @@ def ransac_divid(pc):
         point_cloud = np.array(outlier_cloud.points)
     
     return line_retour
+
+def combined(pc):
+    lines_retour = []
+    clusters = knn_div(pc)
+
+    for cluster in clusters:
+        pc = o3d.geometry.PointCloud()
+        pc.points = o3d.utility.Vector3dVector(np.array(cluster))
+        lines = simple_line_contour(pc)
+        for l in lines:
+            lines_retour.append(l)
+    
+    return lines_retour
 
 def simple_line_contour(pc):
     pc = pc.voxel_down_sample(0.1)
