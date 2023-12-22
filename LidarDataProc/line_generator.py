@@ -58,6 +58,23 @@ def line_generation(array_lidar: List[LidarPointArray]):
 
     return (list_line_retour, list_pc_retour)
 
+def line_2d_generate(array_lidar: List[LidarPointArray]):
+    length: float = len(array_lidar)
+    print("Interpreting array of length {}".format(str(length)))
+
+    line_retour = []
+
+    for arr in array_lidar:
+        # create point cloud
+        pc = o3d.geometry.PointCloud()
+        pc.points = o3d.utility.Vector3dVector(arr.points_array)
+        pc.estimate_normals()
+        pc.orient_normals_towards_camera_location()
+        line_retour.append(simple_line_contour(pc))
+
+    return line_retour
+
+
 def simple_line_contour(pc):
     pc = pc.voxel_down_sample(0.1)
     array: List = np.array(pc.points).tolist()
