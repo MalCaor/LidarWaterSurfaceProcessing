@@ -93,6 +93,7 @@ def simple_line_contour(pc):
     return link_p
 
 def knn_div(pc):
+    pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
     length = point_cloud.size
@@ -113,7 +114,7 @@ def knn_div(pc):
 
 def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
-    subdiv = simple_line_contour(pc)
+    subdiv = knn_div(pc)
     i = 0
     length = len(subdiv)
     for div in subdiv:
