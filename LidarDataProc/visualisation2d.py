@@ -7,41 +7,6 @@ import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 
-def hex2dcloudPoint(array_cloud: List[LidarPoint]):
-    """Display a Lidar snapshot with pyplot hexbin
-
-    Args:
-        array_cloud (List[LidarPoint]): Lidar Snapshot to display
-    """
-    x = []
-    y = []
-    z = []
-    for point in array_cloud:
-        x.append(point.x)
-        y.append(point.y)
-        z.append(point.z)
-    plt.hexbin(x, y, C=z)
-    plt.xlabel('x coordinates')
-    plt.ylabel('y coordinates')
-    plt.show()
-
-def contour2dcloudPoint(array_cloud: List[LidarPoint]):
-    """Display a Lidar snapshot with pyplot tricontourf
-
-    Args:
-        array_cloud (List[LidarPoint]): Lidar Snapshot to display
-    """
-    x = []
-    y = []
-    z = []
-    for point in array_cloud:
-        x.append(point.x)
-        y.append(point.y)
-        z.append(point.z)
-    plt.tricontourf(x, y, z, cmap="ocean")
-    plt.xlabel('x coordinates')
-    plt.ylabel('y coordinates')
-    plt.show()
 
 def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):
     """Display 2D animation with pyplot hexbin
