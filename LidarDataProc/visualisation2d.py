@@ -95,12 +95,7 @@ def wave_line_anim(array_line, elipsed_time):
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         # create frame
-        frame = []
-        for line in lines:
-            frame.append(plt.Line2D(
-                [l[0] for l in line],
-                [l[1] for l in line]
-            ))
+        frame = [plt.plot([l[0] for l in line], [l[1] for l in line])[0] for line in lines]
         ims.append(frame)
     
     # lunch animation
