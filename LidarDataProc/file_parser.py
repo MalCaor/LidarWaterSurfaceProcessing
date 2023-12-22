@@ -2,6 +2,7 @@
 import csv
 import datetime
 from genericpath import exists
+from tokenize import Double
 from typing import List
 import velodyne_decoder as vd
 from ouster import client, pcap
@@ -103,13 +104,23 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
 
         list_points = []
         list_timestamps = []
+        length: float = sum(1 for _ in enumerate(iter(client.Scans(pcap.Pcap(lidar_file_path, metadata)))))
 
         i: float = 0.0
         for idx, scan in enumerate(scans):
+            # % compl
+            print(" "*20, end='\r')
+            percent: float = i / length * 100.0
+            print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
             if int(number_to_analyse)>0 and i>int(number_to_analyse):
                 break
             i += 1
-            list_timestamps.append(1702561137.729)
+            # search the first point that has a timestamp
+            for timestmp in scan.packet_timestamp:
+                if timestmp!=0:
+                    tmp = int(str(timestmp)[:-6]) * 0.001 # convert to good timestamp
+                    list_timestamps.append(tmp)
+                    break
             xyz = xyzlut(scan.field(client.ChanField.RANGE))
             cloud_xyz = np.reshape(xyz, (-1, 3))
             #xyz_destaggered = client.destagger(metadata, xyz)
