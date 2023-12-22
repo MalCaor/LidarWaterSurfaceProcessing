@@ -131,7 +131,7 @@ def simple_line_contour(pc):
         p2 = array[1]
         list_l.append(p1)
         array.remove(p1)
-        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05 / max(min(len(list_l), 3), 1)
+        dist_to_divide = calculate_distance(np.array(p1), np.array([0,0,0])) * 0.05
         if calculate_distance(np.array(p1), np.array(p2))>dist_to_divide:
             if len(list_l) > 3:
                 link_p.append(list_l)
@@ -150,7 +150,7 @@ def knn_div(pc):
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
-        ind = tree.query_radius(point_cloud[:1], r=3)
+        ind = tree.query_radius(point_cloud[:1], r=8)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         if len(cluster)>2:
             list_retour.append(cluster)
