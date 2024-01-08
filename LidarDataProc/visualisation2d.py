@@ -109,6 +109,31 @@ def wave_line_anim(array_points, array_line, elipsed_time):
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
+def baril_centre_anim(baril_points, elipsed_time):
+    print("Start Animation Generation")
+    fig = plt.figure()
+    ims = []
+    length = len(baril_points)
+    i: int = 0
+    for points in baril_points:
+        # % compl
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        # create frame
+        frame = []
+        for point in points:
+            frame.append(plt.scatter(point[0], point[1])[0])
+        ims.append(frame)
+        i += 1
+    
+    # lunch animation
+    print("Lunch Animation")
+    dt_interval = elipsed_time
+    interval = dt_interval.total_seconds() * 1000
+    ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
+    plt.show()
+
 def _save_anim(ani: anim.ArtistAnimation):
     # save animation
     print("save Animation")

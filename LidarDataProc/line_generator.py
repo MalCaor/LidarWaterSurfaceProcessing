@@ -1,5 +1,6 @@
 from math import dist
 from operator import invert
+from statistics import median
 from typing import List
 import open3d as o3d
 from sklearn.neighbors import KDTree
@@ -77,6 +78,20 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
 
     return line_retour, points_retour
 
+def baril_centre_cluster(array_lidar: List[LidarPointArray]):
+    length: float = len(array_lidar)
+    print("Interpreting array of length {}".format(str(length)))
+    
+    points_retour = []
+
+    for arr in array_lidar:
+        # create point cloud
+        pc = o3d.geometry.PointCloud()
+        pc.points = o3d.utility.Vector3dVector(arr.points_array)
+        points_retour.append(_bar_cen_cluster_calc(pc))
+
+    return points_retour
+
 def ransac_divid(pc):
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
@@ -93,6 +108,15 @@ def ransac_divid(pc):
         point_cloud = np.array(outlier_cloud.points)
     
     return line_retour
+
+def _bar_cen_cluster_calc(pc):
+    clusters = knn_div(pc)
+    points = []
+    for cluster in clusters:
+        x = median(p[0] for p in cluster)
+        y = median(p[1] for p in cluster)
+        points.append([x,y])
+    return points
 
 def line_interpolation(pc):
     lines_retour = []
