@@ -72,7 +72,7 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         l, p = line_interpolation(pc)
         line_retour.append(l)
-        pc = pc.voxel_down_sample(0.1)
+        pc = pc.voxel_down_sample(0.5)
         points_retour.append(p)
 
     return line_retour, points_retour

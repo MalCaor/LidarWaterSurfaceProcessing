@@ -98,7 +98,7 @@ def wave_line_anim(array_points, array_line, elipsed_time):
         for line in lines:
             frame.append(plt.plot([l[0] for l in line], [l[1] for l in line])[0])
         for cluster in array_points[i]:
-            frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster]))
+            frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.3))
         ims.append(frame)
         i += 1
     
