@@ -3,6 +3,7 @@ from operator import invert
 from typing import List
 import open3d as o3d
 from sklearn.neighbors import KDTree
+from scipy import stats
 
 from utils import *
 from LidarPointArray import LidarPointArray
@@ -68,9 +69,7 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
-        pc.estimate_normals()
-        pc.orient_normals_towards_camera_location()
-        line_retour.append(knn_div(pc))
+        line_retour.append(line_interpolation(pc))
 
     return line_retour
 
@@ -90,6 +89,27 @@ def ransac_divid(pc):
         point_cloud = np.array(outlier_cloud.points)
     
     return line_retour
+
+def line_interpolation(pc):
+    lines_retour = []
+    clusters = knn_div(pc)
+
+    for cluster in clusters:
+        lines_retour.append(interpolate(cluster))
+
+    return lines_retour
+
+def interpolate(cluster):
+    lx = [p[0] for p in cluster]
+    ly = [p[1] for p in cluster]
+    res = stats.linregress(lx, ly)
+    newpoints = []
+    lx = sorted(lx)
+    for x in lx:
+        newpoints.append([x, res.intercept + res.slope*x])
+    return newpoints
+
+
 
 def combined(pc):
     lines_retour = []
