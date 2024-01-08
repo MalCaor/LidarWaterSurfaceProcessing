@@ -96,9 +96,9 @@ def ransac_divid(pc):
 
 def line_interpolation(pc):
     lines_retour = []
-    clusters = knn_div(pc)
+    lines, clusters = combined(pc)
 
-    for cluster in clusters:
+    for cluster in lines:
         lines_retour.append(interpolate(cluster))
 
     return lines_retour, clusters
@@ -128,7 +128,7 @@ def combined(pc):
         for l in lines:
             lines_retour.append(l)
     
-    return lines_retour
+    return lines_retour, clusters
 
 def simple_line_contour(pc):
     pc = pc.voxel_down_sample(0.1)
