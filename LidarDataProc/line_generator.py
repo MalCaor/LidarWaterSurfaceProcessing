@@ -174,7 +174,7 @@ def knn_div(pc):
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
-        ind = tree.query_radius(point_cloud[:1], r=7)
+        ind = tree.query_radius(point_cloud[:1], r=2)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         p1 = cluster[0]
         cluster = sorted(cluster, key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
