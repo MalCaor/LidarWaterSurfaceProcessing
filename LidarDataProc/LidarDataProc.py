@@ -127,9 +127,9 @@ if args.display:
         lines, point_cloid = line_generation(array_lidar)
         display_anim_mesh(lines, point_cloid)
     elif args.display[0]=="wave2d":
-        lines = line_2d_generate(array_lidar)
+        lines, points = line_2d_generate(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        wave_line_anim(lines, dt_interval)
+        wave_line_anim(points, lines, dt_interval)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

@@ -64,14 +64,17 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
     print("Interpreting array of length {}".format(str(length)))
 
     line_retour = []
+    points_retour = []
 
     for arr in array_lidar:
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
         line_retour.append(line_interpolation(pc))
+        pc = pc.voxel_down_sample(0.1)
+        points_retour.append(np.array(pc.points).tolist())
 
-    return line_retour
+    return line_retour, points_retour
 
 def ransac_divid(pc):
     pc = pc.voxel_down_sample(0.1)

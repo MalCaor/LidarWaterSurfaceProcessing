@@ -82,27 +82,30 @@ def contour2dAnimates(array_cloud: List[LidarPointArray], save=False):
     
     plt.show()
 
-def wave_line_anim(array_line, elipsed_time):
+def wave_line_anim(array_points, array_line, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
     length = len(array_line)
     i: int = 0
     for lines in array_line:
-        i += 1
         # % compl
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         # create frame
-        frame = [plt.plot([l[0] for l in line], [l[1] for l in line])[0] for line in lines]
+        frame = []
+        for line in lines:
+            frame.append(plt.plot([l[0] for l in line], [l[1] for l in line])[0])
+        frame.append(plt.scatter([p[0] for p in array_points[i]], [p[1] for p in array_points[i]]))
         ims.append(frame)
+        i += 1
     
     # lunch animation
     print("Lunch Animation")
     dt_interval = elipsed_time
     interval = dt_interval.total_seconds() * 1000
-    ani = anim.ArtistAnimation(fig, ims, interval=interval, blit=False,repeat_delay=0)
+    ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
 def _save_anim(ani: anim.ArtistAnimation):
