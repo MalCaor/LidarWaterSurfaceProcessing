@@ -123,7 +123,7 @@ def baril_centre_anim(baril_points, elipsed_time):
         # create frame
         frame = []
         for point in points:
-            frame.append(plt.scatter(point[0], point[1])[0])
+            frame.append(plt.scatter(point[0], point[1]))
         ims.append(frame)
         i += 1
     
