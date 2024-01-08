@@ -109,8 +109,10 @@ def interpolate(cluster):
     res = stats.linregress(lx, ly)
     newpoints = []
     lx = sorted(lx)
-    for x in lx:
-        newpoints.append([x, res.intercept + res.slope*x])
+    newpoints.append([lx[0], res.intercept + res.slope*lx[0]])
+    newpoints.append([lx[len(lx)-1], res.intercept + res.slope*lx[len(lx)-1]])
+    #for x in lx:
+    #    newpoints.append([x, res.intercept + res.slope*x])
     return newpoints
 
 
