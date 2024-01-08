@@ -131,9 +131,9 @@ if args.display:
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         wave_line_anim(points, lines, dt_interval)
     elif args.display[0]=="barilcentre":
-        points = baril_centre_cluster(array_lidar)
+        points, clusters = baril_centre_cluster(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim(points, dt_interval)
+        baril_centre_anim(clusters, points, dt_interval)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

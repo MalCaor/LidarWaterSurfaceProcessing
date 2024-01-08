@@ -109,7 +109,7 @@ def wave_line_anim(array_points, array_line, elipsed_time):
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
-def baril_centre_anim(baril_points, elipsed_time):
+def baril_centre_anim(array_points, baril_points, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -124,6 +124,8 @@ def baril_centre_anim(baril_points, elipsed_time):
         frame = []
         for point in points:
             frame.append(plt.scatter(point[0], point[1]))
+        for cluster in array_points[i]:
+            frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.1))
         ims.append(frame)
         i += 1
     

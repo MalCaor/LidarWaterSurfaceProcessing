@@ -83,14 +83,17 @@ def baril_centre_cluster(array_lidar: List[LidarPointArray]):
     print("Interpreting array of length {}".format(str(length)))
     
     points_retour = []
+    clusters_retour = []
 
     for arr in array_lidar:
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
-        points_retour.append(_bar_cen_cluster_calc(pc))
+        p, c = _bar_cen_cluster_calc(pc)
+        points_retour.append(p)
+        clusters_retour.append(c)
 
-    return points_retour
+    return points_retour, clusters_retour
 
 def ransac_divid(pc):
     pc = pc.voxel_down_sample(0.1)
@@ -116,7 +119,7 @@ def _bar_cen_cluster_calc(pc):
         x = median(p[0] for p in cluster)
         y = median(p[1] for p in cluster)
         points.append([x,y])
-    return points
+    return points, clusters
 
 def line_interpolation(pc):
     lines_retour = []
