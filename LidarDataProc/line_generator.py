@@ -70,9 +70,10 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
-        line_retour.append(line_interpolation(pc))
+        l, p = line_interpolation(pc)
+        line_retour.append(l)
         pc = pc.voxel_down_sample(0.1)
-        points_retour.append(np.array(pc.points).tolist())
+        points_retour.append(p)
 
     return line_retour, points_retour
 
@@ -100,7 +101,7 @@ def line_interpolation(pc):
     for cluster in clusters:
         lines_retour.append(interpolate(cluster))
 
-    return lines_retour
+    return lines_retour, clusters
 
 def interpolate(cluster):
     lx = [p[0] for p in cluster]
