@@ -6,6 +6,7 @@ import pandas as pd
 import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
+from utils import get_color
 
 
 def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):
@@ -135,6 +136,7 @@ def baril_centre_anim(array_points, baril_points, elipsed_time):
     interval = dt_interval.total_seconds() * 1000
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
+
 
 def _save_anim(ani: anim.ArtistAnimation):
     # save animation
