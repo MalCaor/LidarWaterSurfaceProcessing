@@ -156,7 +156,7 @@ def baril_centre_anim_plus_line_wave(array_points, baril_points, line_wave, elip
         for cluster in array_points[i]:
             frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.1))
         for line in line_wave[i]:
-            frame.append(plt.plot([l[0] for l in line], [l[1] for l in line])[0])
+            frame.append(plt.plot([l[0] for l in line], [l[1] for l in line], color='black')[0])
         ims.append(frame)
         i += 1
     
