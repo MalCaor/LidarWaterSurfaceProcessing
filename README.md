@@ -20,6 +20,11 @@ options:
 -  --display DISPLAY_TYPE :
                         display data : pc (point cloud), mesh (mesh generation)
 ---
+## Baril Point Wave Cluster
+
+Clusturize wave in 2d and find center point to see their movement
+
+![contour map](./img/barilP.gif "Title")
 ## Contour lidar
 
 Generate MathPlot contour animation from lidar data

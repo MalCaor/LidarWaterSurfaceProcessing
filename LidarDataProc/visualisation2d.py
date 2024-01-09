@@ -6,42 +6,8 @@ import pandas as pd
 import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
+from utils import get_color
 
-def hex2dcloudPoint(array_cloud: List[LidarPoint]):
-    """Display a Lidar snapshot with pyplot hexbin
-
-    Args:
-        array_cloud (List[LidarPoint]): Lidar Snapshot to display
-    """
-    x = []
-    y = []
-    z = []
-    for point in array_cloud:
-        x.append(point.x)
-        y.append(point.y)
-        z.append(point.z)
-    plt.hexbin(x, y, C=z)
-    plt.xlabel('x coordinates')
-    plt.ylabel('y coordinates')
-    plt.show()
-
-def contour2dcloudPoint(array_cloud: List[LidarPoint]):
-    """Display a Lidar snapshot with pyplot tricontourf
-
-    Args:
-        array_cloud (List[LidarPoint]): Lidar Snapshot to display
-    """
-    x = []
-    y = []
-    z = []
-    for point in array_cloud:
-        x.append(point.x)
-        y.append(point.y)
-        z.append(point.z)
-    plt.tricontourf(x, y, z, cmap="ocean")
-    plt.xlabel('x coordinates')
-    plt.ylabel('y coordinates')
-    plt.show()
 
 def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):
     """Display 2D animation with pyplot hexbin
@@ -116,6 +82,61 @@ def contour2dAnimates(array_cloud: List[LidarPointArray], save=False):
         _save_anim(ani)
     
     plt.show()
+
+def wave_line_anim(array_points, array_line, elipsed_time):
+    print("Start Animation Generation")
+    fig = plt.figure()
+    ims = []
+    length = len(array_line)
+    i: int = 0
+    for lines in array_line:
+        # % compl
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        # create frame
+        frame = []
+        for line in lines:
+            frame.append(plt.plot([l[0] for l in line], [l[1] for l in line])[0])
+        for cluster in array_points[i]:
+            frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.3))
+        ims.append(frame)
+        i += 1
+    
+    # lunch animation
+    print("Lunch Animation")
+    dt_interval = elipsed_time
+    interval = dt_interval.total_seconds() * 1000
+    ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
+    plt.show()
+
+def baril_centre_anim(array_points, baril_points, elipsed_time):
+    print("Start Animation Generation")
+    fig = plt.figure()
+    ims = []
+    length = len(baril_points)
+    i: int = 0
+    for points in baril_points:
+        # % compl
+        print(" "*20, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        # create frame
+        frame = []
+        for point in points:
+            frame.append(plt.scatter(point[0], point[1]))
+        for cluster in array_points[i]:
+            frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.1))
+        ims.append(frame)
+        i += 1
+    
+    # lunch animation
+    print("Lunch Animation")
+    dt_interval = elipsed_time
+    interval = dt_interval.total_seconds() * 1000
+    ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
+    plt.show()
+
 
 def _save_anim(ani: anim.ArtistAnimation):
     # save animation
