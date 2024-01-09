@@ -71,7 +71,7 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
-        l, p = line_interpolation(pc)
+        l, p = _line_interpolation(pc)
         line_retour.append(l)
         pc = pc.voxel_down_sample(0.5)
         points_retour.append(p)
@@ -113,7 +113,7 @@ def ransac_divid(pc):
     return line_retour
 
 def _bar_cen_cluster_calc(pc):
-    clusters = knn_div(pc)
+    clusters = _knn_div(pc)
     points = []
     for cluster in clusters:
         x = median(p[0] for p in cluster)
@@ -121,16 +121,16 @@ def _bar_cen_cluster_calc(pc):
         points.append([x,y])
     return points, clusters
 
-def line_interpolation(pc):
+def _line_interpolation(pc):
     lines_retour = []
-    lines, clusters = combined(pc)
+    lines, clusters = _combined(pc)
 
     for cluster in lines:
-        lines_retour.append(interpolate(cluster))
+        lines_retour.append(_interpolate(cluster))
 
     return lines_retour, clusters
 
-def interpolate(cluster):
+def _interpolate(cluster):
     lx = [p[0] for p in cluster]
     ly = [p[1] for p in cluster]
     res = stats.linregress(lx, ly)
@@ -144,20 +144,20 @@ def interpolate(cluster):
 
 
 
-def combined(pc):
+def _combined(pc):
     lines_retour = []
-    clusters = knn_div(pc)
+    clusters = _knn_div(pc)
 
     for cluster in clusters:
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(np.array(cluster))
-        lines = simple_line_contour(pc)
+        lines = _simple_line_contour(pc)
         for l in lines:
             lines_retour.append(l)
     
     return lines_retour, clusters
 
-def simple_line_contour(pc):
+def _simple_line_contour(pc):
     pc = pc.voxel_down_sample(0.1)
     array: List = np.array(pc.points).tolist()
     link_p: List[List] = []
@@ -191,7 +191,7 @@ def simple_line_contour(pc):
             list_l = []
     return link_p
 
-def knn_div(pc):
+def _knn_div(pc):
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
@@ -214,7 +214,7 @@ def knn_div(pc):
 
 def _generate_line(pc):
     list_lines: List[o3d.geometry.LineSet] = []
-    subdiv = knn_div(pc)
+    subdiv = _knn_div(pc)
     i = 0
     length = len(subdiv)
     for div in subdiv:
