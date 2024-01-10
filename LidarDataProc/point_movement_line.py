@@ -1,3 +1,4 @@
+from typing import List, Tuple
 from utils import calculate_distance
 import numpy as np
 from scipy import stats
@@ -28,24 +29,29 @@ def point_movement_line(baril_centre_arrays):
     return list_line_frame
 
 def find_direction_waves(list_lines):
-    list_coef = []
+    # slope, intercept, rvalue, pvalue
+    list_coef: List[Tuple[float, float, float, float]] = []
 
     for lines in list_lines:
-        frame_coef = []
+        frame_coef: List[Tuple[float, float, float, float]] = []
         for line in lines:
-            if len(line)>1:
+            if len(line)>2:
                 lx = [p[0] for p in line]
                 ly = [p[1] for p in line]
                 res = stats.linregress(lx, ly)
-                wheight = calculate_distance(np.array(line[0]), np.array(line[len(line)-1]))
-                wheight = int(wheight)
-                for _ in range(wheight):
-                    frame_coef.append((res.slope, res.intercept)) # long line are better
+                for _ in range(len(line)):
+                    frame_coef.append((res.slope, res.intercept, res.rvalue, res.pvalue)) # long line are better
         if frame_coef:
-            tot_1 = sum(coef[0] for coef in frame_coef)
-            tot_2 = sum(coef[1] for coef in frame_coef)
-            list_coef.append((tot_1/len(frame_coef), tot_2/len(frame_coef)))
+            tot_slope = sum(coef[0] for coef in frame_coef)
+            moy_slope = tot_slope / len(frame_coef)
+            tot_intercept = sum(coef[1] for coef in frame_coef)
+            moy_intercept = tot_intercept / len(frame_coef)
+            tot_rvalue = sum(coef[2] for coef in frame_coef)
+            moy_rvalue = tot_rvalue / len(frame_coef)
+            tot_pvalue = sum(coef[3] for coef in frame_coef)
+            moy_pvalue = tot_pvalue / len(frame_coef)
+            list_coef.append((moy_slope, moy_intercept, moy_rvalue, moy_pvalue))
         else:
-            list_coef.append((0.0, 0.0)) # default value
+            list_coef.append((0.0, 0.0, 0.0, 0.0)) # default value
     
     return list_coef

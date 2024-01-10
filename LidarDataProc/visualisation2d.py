@@ -184,15 +184,14 @@ def baril_centre_anim_line_wave_compass(array_points, baril_points, line_wave, c
         frame = []
         for point in points:
             frame.append(plt.scatter(point[0], point[1]))
-        for cluster in array_points[i]:
-            frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.1))
+        #for cluster in array_points[i]:
+        #    frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.1))
         for line in line_wave[i]:
             color = color_line_wave[min(len(line), len(color_line_wave))-1]
             frame.append(plt.plot([l[0] for l in line], [l[1] for l in line], color=color)[0])
-        frame.append(plt.plot(
-            [-1, coefs[i][1] + coefs[i][0]*-1],
-            [1, coefs[i][1] + coefs[i][0]*1],
-            color='black')[0]) # compass
+        x = [0, 2]
+        y = [0, coefs[i][1] + coefs[i][0]*2]
+        frame.append(plt.plot(x, y, color='black')[0]) # compass
         ims.append(frame)
         i += 1
     
