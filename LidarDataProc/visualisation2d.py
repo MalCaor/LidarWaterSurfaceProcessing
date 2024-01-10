@@ -137,6 +137,7 @@ def baril_centre_anim(array_points, baril_points, elipsed_time):
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
+color_line_wave = ['#000066', '#0000cc', '#3366ff', '#99ccff', '#ffcccc', '#ff9966', '#ff6600', '#ff3300', '#ff0000']
 
 def baril_centre_anim_plus_line_wave(array_points, baril_points, line_wave, elipsed_time):
     print("Start Animation Generation")
@@ -156,7 +157,8 @@ def baril_centre_anim_plus_line_wave(array_points, baril_points, line_wave, elip
         for cluster in array_points[i]:
             frame.append(plt.scatter([p[0] for p in cluster], [p[1] for p in cluster], alpha=0.1))
         for line in line_wave[i]:
-            frame.append(plt.plot([l[0] for l in line], [l[1] for l in line], color='black')[0])
+            color = color_line_wave[min(len(line), len(color_line_wave))-1]
+            frame.append(plt.plot([l[0] for l in line], [l[1] for l in line], color=color)[0])
         ims.append(frame)
         i += 1
     
