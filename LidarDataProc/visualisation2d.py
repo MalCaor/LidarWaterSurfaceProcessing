@@ -191,7 +191,8 @@ def baril_centre_anim_line_wave_compass(array_points, baril_points, line_wave, c
             frame.append(plt.plot([l[0] for l in line], [l[1] for l in line], color=color)[0])
         frame.append(plt.plot(
             [-1, coefs[i][1] + coefs[i][0]*-1],
-            [1, coefs[i][1] + coefs[i][0]*1])[0]) # compass
+            [1, coefs[i][1] + coefs[i][0]*1],
+            color='black')[0]) # compass
         ims.append(frame)
         i += 1
     
