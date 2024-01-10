@@ -1,5 +1,6 @@
 from utils import calculate_distance
 import numpy as np
+from scipy import stats
 
 def point_movement_line(baril_centre_arrays):
     list_line_frame = []
@@ -25,3 +26,21 @@ def point_movement_line(baril_centre_arrays):
         list_line_frame.append(currline)
 
     return list_line_frame
+
+def find_direction_waves(list_lines):
+    list_coef = []
+
+    for lines in list_lines:
+        frame_coef = []
+        for line in lines:
+            if len(line)>1:
+                lx = [p[0] for p in line]
+                ly = [p[1] for p in line]
+                res = stats.linregress(lx, ly)
+                frame_coef.append(res.slope)
+        if frame_coef:
+            list_coef.append(sum(frame_coef)/len(frame_coef))
+        else:
+            list_coef.append(0.0) # default value
+    
+    return list_coef
