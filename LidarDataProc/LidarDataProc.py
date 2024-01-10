@@ -15,6 +15,7 @@ from data_stabilisation import stabilise_lidar_array
 from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import line_generation, line_2d_generate, baril_centre_cluster
+from point_movement_line import point_movement_line
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -134,6 +135,11 @@ if args.display:
         points, clusters = baril_centre_cluster(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         baril_centre_anim(clusters, points, dt_interval)
+    elif args.display[0]=="linebarile":
+        points, clusters = baril_centre_cluster(array_lidar)
+        line_wave = point_movement_line(points)
+        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
+        baril_centre_anim_plus_line_wave(clusters, points, line_wave, dt_interval)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

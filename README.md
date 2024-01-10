@@ -25,6 +25,12 @@ options:
 Clusturize wave in 2d and find center point to see their movement
 
 ![contour map](./img/barilP.gif "Title")
+
+## Line Wave Baril Center
+
+Folow the trajectory of barile center
+
+![contour map](./img/lineWaveColor2.gif "Title")
 ## Contour lidar
 
 Generate MathPlot contour animation from lidar data
