@@ -145,8 +145,7 @@ if args.display:
         line_wave = point_movement_line(points)
         coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        # baril_centre_anim_plus_line_wave(clusters, points, line_wave, dt_interval)
-        print(coefs)
+        baril_centre_anim_line_wave_compass(clusters, points, line_wave, coefs, dt_interval)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

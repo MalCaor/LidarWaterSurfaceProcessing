@@ -38,10 +38,12 @@ def find_direction_waves(list_lines):
                 ly = [p[1] for p in line]
                 res = stats.linregress(lx, ly)
                 for _ in range(len(line)):
-                    frame_coef.append(res.slope) # long line are better
+                    frame_coef.append((res.slope, res.intercept)) # long line are better
         if frame_coef:
-            list_coef.append(sum(frame_coef)/len(frame_coef))
+            tot_1 = sum(coef[0] for coef in frame_coef)
+            tot_2 = sum(coef[1] for coef in frame_coef)
+            list_coef.append((tot_1/len(frame_coef), tot_2/len(frame_coef)))
         else:
-            list_coef.append(0.0) # default value
+            list_coef.append((0.0, 0.0)) # default value
     
     return list_coef
