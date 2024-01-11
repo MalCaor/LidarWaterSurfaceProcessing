@@ -18,11 +18,7 @@ def repartition_anim(repartition_array, elipsed_time):
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         # create frame
         frame = []
-        data = []
-        for rep in repartition:
-            print(rep)
-            exit()
-        frame.append(plt.hist([rep[0] for rep in repartition], density=True)) # compass
+        frame.append(plt.hist([rep[0] for rep in repartition], density=True, bins=30)) # compass
         ims.append(frame)
         i += 1
     
