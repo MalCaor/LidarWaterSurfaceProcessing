@@ -39,7 +39,7 @@ def find_direction_waves(list_lines):
                 lx = [p[0] for p in line]
                 ly = [p[1] for p in line]
                 res = stats.linregress(lx, ly)
-                weight = len(line) + res.rvalue
+                weight = len(line) + res.rvalue + calculate_distance(np.array(line[0]), np.array(line[len(line)-1]))
                 weight = int(weight)
                 for _ in range(weight):
                     frame_coef.append((res.slope, res.intercept, res.rvalue, res.pvalue)) # long line are better
