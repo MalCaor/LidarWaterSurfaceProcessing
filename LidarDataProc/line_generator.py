@@ -85,7 +85,13 @@ def baril_centre_cluster(array_lidar: List[LidarPointArray]):
     points_retour = []
     clusters_retour = []
 
+    i = 0
     for arr in array_lidar:
+        # display
+        print(" "*10, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i+=1
         # create point cloud
         pc = o3d.geometry.PointCloud()
         pc.points = o3d.utility.Vector3dVector(arr.points_array)
@@ -93,6 +99,7 @@ def baril_centre_cluster(array_lidar: List[LidarPointArray]):
         points_retour.append(p)
         clusters_retour.append(c)
 
+    print("baril_centre_cluster finished")
     return points_retour, clusters_retour
 
 def ransac_divid(pc):
@@ -175,11 +182,6 @@ def _simple_line_contour(pc):
         div_to_sort = max(len_list, 1)
         to_sort = int(len(array)/div_to_sort)
         array[0:to_sort] = sorted(array[0:to_sort], key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
-        # display
-        i = length-len(array)
-        print(" "*20, end='\r')
-        percent: float = i / length * 100.0
-        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         # add point
         p2 = array[1]
         list_l.append(p1)
@@ -195,13 +197,7 @@ def _knn_div(pc):
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
-    length = point_cloud.size
-    i = 0
     while point_cloud.size != 0:
-        i = length-point_cloud.size
-        print(" "*20, end='\r')
-        percent: float = i / length * 100.0
-        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         tree = KDTree(point_cloud) 
         ind = tree.query_radius(point_cloud[:1], r=3)
         cluster = list(list(point_cloud[i]) for i in ind[0])

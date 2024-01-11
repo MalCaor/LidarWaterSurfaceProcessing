@@ -4,6 +4,7 @@ import numpy as np
 from scipy import stats
 
 def point_movement_line(baril_centre_arrays):
+    print("Interpreting array of length {}".format(str(len(baril_centre_arrays))))
     list_line_frame = []
 
     for bc_point_cloud in baril_centre_arrays:
@@ -29,6 +30,7 @@ def point_movement_line(baril_centre_arrays):
     return list_line_frame
 
 def find_direction_waves(list_lines):
+    print("Interpreting array of length {}".format(str(len(list_lines))))
     # slope, intercept, rvalue, pvalue
     list_coef: List[Tuple[float, float, float, float]] = []
 
