@@ -200,13 +200,14 @@ def baril_centre_anim_line_wave_compass(array_points, baril_points, line_wave, c
     dt_interval = elipsed_time
     interval = dt_interval.total_seconds() * 1000
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
-    plt.show()
+    _save_anim(ani)
+    #plt.show()
 
 def _save_anim(ani: anim.ArtistAnimation):
     # save animation
     print("save Animation")
     ffmpeg_dir = "C:/Users/xavier.lemen/Downloads/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
     plt.rcParams['animation.ffmpeg_path'] = ffmpeg_dir
-    f = r"H://Videos/test.mp4"
+    f = r"H://Videos/waveCompass.mp4"
     FFwriter = anim.FFMpegWriter()
     ani.save(f, writer=FFwriter)

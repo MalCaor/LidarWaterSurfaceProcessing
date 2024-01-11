@@ -37,7 +37,7 @@ Folow the trajectory of barile center
 Determine waves direction with weighted average of waves line regression
 (the black line)
 
-![contour map](./img/wavedirdeter.gif "Title")
+![contour map](./img/waveCompass.gif "Title")
 
 ## Contour lidar
 
