@@ -31,6 +31,14 @@ Clusturize wave in 2d and find center point to see their movement
 Folow the trajectory of barile center
 
 ![contour map](./img/lineWaveColor2.gif "Title")
+
+## Line Wave Baril Center
+
+Determine waves direction with weighted average of waves line regression
+(the black line)
+
+![contour map](./img/wavedirdeter.gif "Title")
+
 ## Contour lidar
 
 Generate MathPlot contour animation from lidar data
