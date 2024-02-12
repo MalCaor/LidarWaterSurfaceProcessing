@@ -4,6 +4,7 @@ import numpy as np
 from scipy import stats
 
 def point_movement_line(baril_centre_arrays):
+    print("Interpreting array of length {}".format(str(len(baril_centre_arrays))))
     list_line_frame = []
 
     for bc_point_cloud in baril_centre_arrays:
@@ -29,8 +30,10 @@ def point_movement_line(baril_centre_arrays):
     return list_line_frame
 
 def find_direction_waves(list_lines):
+    print("Interpreting array of length {}".format(str(len(list_lines))))
     # slope, intercept, rvalue, pvalue
-    list_coef: List[Tuple[float, float, float, float]] = []
+    list_coef_moy: List[Tuple[float, float, float, float]] = []
+    list_coefs = []
 
     for lines in list_lines:
         frame_coef: List[Tuple[float, float, float, float]] = []
@@ -44,6 +47,7 @@ def find_direction_waves(list_lines):
                 for _ in range(weight):
                     frame_coef.append((res.slope, res.intercept, res.rvalue, res.pvalue))
         if frame_coef:
+            list_coefs.append(frame_coef)
             tot_slope = sum(coef[0] for coef in frame_coef)
             moy_slope = tot_slope / len(frame_coef)
             tot_intercept = sum(coef[1] for coef in frame_coef)
@@ -52,8 +56,9 @@ def find_direction_waves(list_lines):
             moy_rvalue = tot_rvalue / len(frame_coef)
             tot_pvalue = sum(coef[3] for coef in frame_coef)
             moy_pvalue = tot_pvalue / len(frame_coef)
-            list_coef.append((moy_slope, moy_intercept, moy_rvalue, moy_pvalue))
+            list_coef_moy.append((moy_slope, moy_intercept, moy_rvalue, moy_pvalue))
         else:
-            list_coef.append((0.0, 0.0, 0.0, 0.0)) # default value
+            list_coefs.append([(0.0, 0.0, 0.0, 0.0)])
+            list_coef_moy.append((0.0, 0.0, 0.0, 0.0)) # default value
     
-    return list_coef
+    return list_coef_moy, list_coefs

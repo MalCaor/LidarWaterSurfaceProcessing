@@ -16,6 +16,7 @@ from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import line_generation, line_2d_generate, baril_centre_cluster
 from point_movement_line import point_movement_line, find_direction_waves
+from visualisationStat import evolution_moy_value, repartition_anim
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -143,9 +144,21 @@ if args.display:
     elif args.display[0]=="wavedir":
         points, clusters = baril_centre_cluster(array_lidar)
         line_wave = point_movement_line(points)
-        coefs = find_direction_waves(line_wave)
+        coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim_line_wave_compass(clusters, points, line_wave, coefs, dt_interval)
+        baril_centre_anim_line_wave_compass(clusters, points, line_wave, coef_moy, dt_interval)
+    elif args.display[0]=="wavedir_stat":
+        points, clusters = baril_centre_cluster(array_lidar)
+        line_wave = point_movement_line(points)
+        coef_moy, coefs = find_direction_waves(line_wave)
+        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
+        evolution_moy_value(coef_moy)
+    elif args.display[0]=="wavedirrep_stat":
+        points, clusters = baril_centre_cluster(array_lidar)
+        line_wave = point_movement_line(points)
+        coef_moy, coefs = find_direction_waves(line_wave)
+        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
+        repartition_anim(coefs, dt_interval)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)
