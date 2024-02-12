@@ -200,8 +200,7 @@ def baril_centre_anim_line_wave_compass(array_points, baril_points, line_wave, c
     dt_interval = elipsed_time
     interval = dt_interval.total_seconds() * 1000
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
-    _save_anim(ani)
-    #plt.show()
+    plt.show()
 
 def _save_anim(ani: anim.ArtistAnimation):
     # save animation
