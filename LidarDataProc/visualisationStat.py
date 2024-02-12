@@ -1,5 +1,6 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
+import numpy as np
 
 def evolution_moy_value(coefs):
     plt.plot([i for i in range(len(coefs))], [c[1] for c in coefs], color='black')
@@ -18,8 +19,9 @@ def repartition_anim(repartition_array, elipsed_time):
         print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
         # create frame
         frame = []
-        frame.append(plt.hist([rep[0] for rep in repartition], density=True, bins=30)) # compass
-        ims.append(frame)
+        n, bins, patches = plt.hist([rep[0] for rep in repartition], density=True, bins=30)
+        #frame.append() # compass
+        ims.append(patches)
         i += 1
     
     # lunch animation
