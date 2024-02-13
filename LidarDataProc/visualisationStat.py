@@ -1,4 +1,4 @@
-from statistics import mean
+from statistics import mean, median
 from tkinter import W
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
@@ -22,6 +22,7 @@ def stat_angle(timestamps, timeslapses):
     
     # moy angles
     moy = []
+    med = []
     for timestamp in timestamps:
         concerned_timeslapses = []
 
@@ -33,7 +34,9 @@ def stat_angle(timestamps, timeslapses):
                     concerned_timeslapses.append(timeslapse)
         if concerned_timeslapses:
             moy.append(mean([timeslapse.angle for timeslapse in concerned_timeslapses]))
+            med.append(median([timeslapse.angle for timeslapse in concerned_timeslapses]))
     plt.plot(timestamps, moy)
+    plt.plot(timestamps, med)
     plt.show()
 
 
