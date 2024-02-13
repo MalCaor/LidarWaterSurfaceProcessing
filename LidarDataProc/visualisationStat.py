@@ -1,6 +1,34 @@
+from tkinter import W
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 import numpy as np
+
+from WaveClusterTimelapse import WaveClusterTimelapse
+from WaveCluster import WaveCluster
+
+def stats_rep(timestamps, timeslapses):
+    fig = plt.figure()
+    ims = []
+
+    for timestamp in timestamps:
+        concerned_timeslapses = []
+
+        timeslapse: WaveClusterTimelapse
+        for timeslapse in timeslapses:
+            wave_snap: WaveCluster
+            for wave_snap in timeslapse.wave_snapshots:
+                if wave_snap.timestamp == timestamp:
+                    concerned_timeslapses.append(timeslapse)
+        
+        n, bins, patches = plt.hist([timeslapse.slope for timeslapse in concerned_timeslapses], density=True, bins=30)
+        ims.append(patches)
+        
+    # lunch animation
+    print("Lunch Animation")
+    dt_interval = timestamps[1] - timestamps[0]
+    interval = dt_interval.total_seconds() * 1000
+    ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
+    plt.show()
 
 def evolution_moy_value(coefs):
     plt.plot([i for i in range(len(coefs))], [c[1] for c in coefs], color='black')
