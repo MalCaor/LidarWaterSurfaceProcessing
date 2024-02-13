@@ -1,3 +1,4 @@
+from cProfile import label
 from statistics import mean, median
 from tkinter import W
 from matplotlib import pyplot as plt
@@ -35,8 +36,9 @@ def stat_angle(timestamps, timeslapses):
         if concerned_timeslapses:
             moy.append(mean([timeslapse.angle for timeslapse in concerned_timeslapses]))
             med.append(median([timeslapse.angle for timeslapse in concerned_timeslapses]))
-    plt.plot(timestamps, moy)
-    plt.plot(timestamps, med)
+    plt.plot(timestamps, moy, label="mean")
+    plt.plot(timestamps, med, label="median")
+    plt.legend(loc='best')
     plt.show()
 
 
