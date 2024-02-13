@@ -7,10 +7,11 @@ from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
 
 def stats_rep(timestamps, timeslapses):
-    fig = plt.figure()
+    fig_stat = plt.figure()
     ims = []
 
     for timestamp in timestamps:
+        frame = []
         concerned_timeslapses = []
 
         timeslapse: WaveClusterTimelapse
@@ -20,14 +21,18 @@ def stats_rep(timestamps, timeslapses):
                 if wave_snap.timestamp == timestamp:
                     concerned_timeslapses.append(timeslapse)
         
-        n, bins, patches = plt.hist([timeslapse.angle for timeslapse in concerned_timeslapses], density=True, bins=30)
-        ims.append(patches)
+        #n, bins, patches = plt.hist([timeslapse.angle for timeslapse in concerned_timeslapses], density=True, bins=30)
+        for timeslapse in concerned_timeslapses:
+            x = [-2, 2]
+            y = [timeslapse.slope*-1, timeslapse.slope*1]
+            frame.append(plt.plot(x, y, color='black')[0]) # compass
+        ims.append(frame)
         
     # lunch animation
     print("Lunch Animation")
     dt_interval = timestamps[1] - timestamps[0]
     interval = dt_interval.total_seconds() * 1000
-    ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
+    ani = anim.ArtistAnimation(fig_stat, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
 def evolution_moy_value(coefs):
