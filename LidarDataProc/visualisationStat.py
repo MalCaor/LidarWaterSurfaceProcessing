@@ -1,3 +1,4 @@
+from statistics import mean
 from tkinter import W
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
@@ -7,6 +8,7 @@ from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
 
 def stat_angle(timestamps, timeslapses):
+    # lines angles
     angleslines = []
     for timeslapse in timeslapses:
         line_time = []
@@ -17,6 +19,21 @@ def stat_angle(timestamps, timeslapses):
         angleslines.append([line_time, line_angle])
     for line in angleslines:
         plt.plot(line[0], line[1], color='black')
+    
+    # moy angles
+    moy = []
+    for timestamp in timestamps:
+        concerned_timeslapses = []
+
+        timeslapse: WaveClusterTimelapse
+        for timeslapse in timeslapses:
+            wave_snap: WaveCluster
+            for wave_snap in timeslapse.wave_snapshots:
+                if wave_snap.timestamp == timestamp:
+                    concerned_timeslapses.append(timeslapse)
+        if concerned_timeslapses:
+            moy.append(mean([timeslapse.angle for timeslapse in concerned_timeslapses]))
+    plt.plot(timestamps, moy)
     plt.show()
 
 
