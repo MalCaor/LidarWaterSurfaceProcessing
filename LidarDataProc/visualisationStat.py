@@ -26,6 +26,7 @@ def stats_rep(timestamps, timeslapses):
             x = [-2, 2]
             y = [timeslapse.slope*-1, timeslapse.slope*1]
             frame.append(plt.plot(x, y, color='black')[0]) # compass
+        frame.append(plt.text(0,-2, str(timestamp)))
         ims.append(frame)
         
     # lunch animation
