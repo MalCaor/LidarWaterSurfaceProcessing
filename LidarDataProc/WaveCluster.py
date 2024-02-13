@@ -1,8 +1,10 @@
+import datetime
 from statistics import median
 
 class WaveCluster:
-    def __init__(self, clusters_wave_points) -> None:
+    def __init__(self, clusters_wave_points, timestamp) -> None:
         self.cluster = clusters_wave_points
+        self.timestamp: datetime = timestamp
         self.barycentre = self._bar_cen_cluster_calc(self.cluster)
 
     def _bar_cen_cluster_calc(self, cluster):
