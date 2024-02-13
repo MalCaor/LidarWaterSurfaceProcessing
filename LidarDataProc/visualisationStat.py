@@ -20,7 +20,7 @@ def stats_rep(timestamps, timeslapses):
                 if wave_snap.timestamp == timestamp:
                     concerned_timeslapses.append(timeslapse)
         
-        n, bins, patches = plt.hist([timeslapse.slope for timeslapse in concerned_timeslapses], density=True, bins=30)
+        n, bins, patches = plt.hist([timeslapse.angle for timeslapse in concerned_timeslapses], density=True, bins=30)
         ims.append(patches)
         
     # lunch animation
