@@ -6,6 +6,20 @@ import numpy as np
 from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
 
+def stat_angle(timestamps, timeslapses):
+    angleslines = []
+    for timeslapse in timeslapses:
+        line_time = []
+        line_angle = []
+        for wave in timeslapse.wave_snapshots:
+            line_time.append(wave.timestamp)
+            line_angle.append(timeslapse.angle)
+        angleslines.append([line_time, line_angle])
+    for line in angleslines:
+        plt.plot(line[0], line[1], color='black')
+    plt.show()
+
+
 def stats_rep(timestamps, timeslapses):
     fig_stat = plt.figure()
     ims = []

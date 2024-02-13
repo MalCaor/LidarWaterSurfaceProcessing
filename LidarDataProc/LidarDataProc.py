@@ -16,7 +16,7 @@ from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import wave_clustering, line_generation, line_2d_generate, baril_centre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timesapse_generator
-from visualisationStat import evolution_moy_value, repartition_anim, stats_rep
+from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -163,7 +163,7 @@ if args.display:
         waves_clusters = wave_clustering(array_lidar)
         timeslapses = wave_cluster_timesapse_generator(waves_clusters)
         timestamps = [array.timestamp for array in array_lidar]
-        stats_rep(timestamps, timeslapses)
+        stat_angle(timestamps, timeslapses)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)
