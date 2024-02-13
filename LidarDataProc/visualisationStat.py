@@ -23,8 +23,9 @@ def stats_rep(timestamps, timeslapses):
         
         #n, bins, patches = plt.hist([timeslapse.angle for timeslapse in concerned_timeslapses], density=True, bins=30)
         for timeslapse in concerned_timeslapses:
-            x = [-2, 2]
-            y = [timeslapse.slope*-1, timeslapse.slope*1]
+            l = len(timeslapse.wave_snapshots)
+            x = [-1*l, l]
+            y = [timeslapse.slope*-1*l, timeslapse.slope*l]
             frame.append(plt.plot(x, y, color='black')[0]) # compass
         frame.append(plt.text(0,-2, str(timestamp)))
         ims.append(frame)
