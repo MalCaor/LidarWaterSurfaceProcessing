@@ -15,7 +15,7 @@ from data_stabilisation import stabilise_lidar_array
 from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import wave_clustering, line_generation, line_2d_generate, baril_centre_cluster
-from point_movement_line import point_movement_line, find_direction_waves
+from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timesapse_generator
 from visualisationStat import evolution_moy_value, repartition_anim
 
 # util func
@@ -161,6 +161,7 @@ if args.display:
         repartition_anim(coefs, dt_interval)
     elif args.display[0]=="wavecluster":
         waves_clusters = wave_clustering(array_lidar)
+        timeslapses = wave_cluster_timesapse_generator(waves_clusters)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)
