@@ -24,6 +24,8 @@ def stat_angle(timestamps, timeslapses):
     # moy angles
     moy = []
     med = []
+    pondered_moy = []
+    pondered_med = []
     for timestamp in timestamps:
         concerned_timeslapses = []
 
@@ -34,10 +36,22 @@ def stat_angle(timestamps, timeslapses):
                 if wave_snap.timestamp == timestamp:
                     concerned_timeslapses.append(timeslapse)
         if concerned_timeslapses:
+            # moy / med
             moy.append(mean([timeslapse.angle for timeslapse in concerned_timeslapses]))
             med.append(median([timeslapse.angle for timeslapse in concerned_timeslapses]))
+            # pondered weight
+            tot_angle = []
+            for timeslapse in concerned_timeslapses:
+                weight = abs(timeslapse.rvalue)*5 + len(timeslapse.wave_snapshots)
+                weight = int(weight)
+                for _ in range(weight):
+                    tot_angle.append(timeslapse.angle)
+            pondered_moy.append(mean(tot_angle))
+            pondered_med.append(median(tot_angle))
     plt.plot(timestamps, moy, label="mean")
     plt.plot(timestamps, med, label="median")
+    plt.plot(timestamps, pondered_moy, label="pondered mean")
+    plt.plot(timestamps, pondered_med, label="pondered median")
     plt.legend(loc='best')
     plt.show()
 
