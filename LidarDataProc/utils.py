@@ -19,3 +19,8 @@ def get_color(x, y):
     g = lerp(y, lerp(x, a[1], b[1]), lerp(x, c[1], d[1]))
     b = lerp(y, lerp(x, a[2], b[2]), lerp(x, c[2], d[2]))
     return np.array([r, g, b])
+
+def moving_average(a, n=3):
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return np.concatenate((a[:n-1], ret[n - 1:] / n))

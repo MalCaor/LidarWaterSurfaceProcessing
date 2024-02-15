@@ -4,6 +4,7 @@ from tkinter import W
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 import numpy as np
+from utils import moving_average, lerp
 
 from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
@@ -17,9 +18,12 @@ def stat_angle(timestamps, timeslapses):
         for wave in timeslapse.wave_snapshots:
             line_time.append(wave.timestamp)
             line_angle.append(timeslapse.angle)
-        angleslines.append([line_time, line_angle])
+        angleslines.append([line_time, line_angle, timeslapse.rvalue])
     for line in angleslines:
-        plt.plot(line[0], line[1], color='black')
+        blue = [0, 0, 255]
+        red = [255, 0, 0]
+
+        plt.plot(line[0], line[1], color="black", alpha=abs(line[2]))
     
     # moy angles
     moy = []
@@ -50,16 +54,12 @@ def stat_angle(timestamps, timeslapses):
             pondered_med.append(median(tot_angle))
     #plt.plot(timestamps, moy, label="mean")
     #plt.plot(timestamps, med, label="median")
-    plt.plot(timestamps, pondered_moy, label="pondered mean")
+    #plt.plot(timestamps, pondered_moy, label="pondered mean")
     plt.plot(timestamps, pondered_med, label="pondered median")
     plt.plot(timestamps, moving_average(pondered_med, 20), label="average pondered median")
     plt.legend(loc='best')
     plt.show()
 
-def moving_average(a, n=3):
-    ret = np.cumsum(a, dtype=float)
-    ret[n:] = ret[n:] - ret[:-n]
-    return np.concatenate((a[:n-1], ret[n - 1:] / n))
 
 def stats_rep(timestamps, timeslapses):
     fig_stat = plt.figure()
