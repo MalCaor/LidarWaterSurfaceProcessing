@@ -52,7 +52,7 @@ def stat_angle(timestamps, timeslapses):
     #plt.plot(timestamps, med, label="median")
     plt.plot(timestamps, pondered_moy, label="pondered mean")
     plt.plot(timestamps, pondered_med, label="pondered median")
-    plt.plot(timestamps, moving_average(pondered_med, 10), label="average pondered median")
+    plt.plot(timestamps, moving_average(pondered_med, 20), label="average pondered median")
     plt.legend(loc='best')
     plt.show()
 
