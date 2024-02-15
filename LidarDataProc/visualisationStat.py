@@ -48,13 +48,18 @@ def stat_angle(timestamps, timeslapses):
                     tot_angle.append(timeslapse.angle)
             pondered_moy.append(mean(tot_angle))
             pondered_med.append(median(tot_angle))
-    plt.plot(timestamps, moy, label="mean")
-    plt.plot(timestamps, med, label="median")
+    #plt.plot(timestamps, moy, label="mean")
+    #plt.plot(timestamps, med, label="median")
     plt.plot(timestamps, pondered_moy, label="pondered mean")
     plt.plot(timestamps, pondered_med, label="pondered median")
+    plt.plot(timestamps, moving_average(pondered_med), label="average pondered median")
     plt.legend(loc='best')
     plt.show()
 
+def moving_average(a, n=3):
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return np.concatenate((a[:n-1], ret[n - 1:] / n))
 
 def stats_rep(timestamps, timeslapses):
     fig_stat = plt.figure()
