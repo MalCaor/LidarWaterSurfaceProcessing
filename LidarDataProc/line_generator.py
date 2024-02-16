@@ -5,6 +5,7 @@ from typing import List
 import open3d as o3d
 from sklearn.neighbors import KDTree
 from scipy import stats
+from WaveCluster import WaveCluster
 
 from utils import *
 from LidarPointArray import LidarPointArray
@@ -77,6 +78,35 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
         points_retour.append(p)
 
     return line_retour, points_retour
+
+def wave_clustering(array_lidar: List[LidarPointArray]):
+    length: float = len(array_lidar)
+    print("Interpreting array of length {}".format(str(length)))
+
+    # wave cluster are orginized in frame list
+    list_wavecluster_frame_retour = []
+
+    i = 0
+    for arr in array_lidar:
+        # display
+        print(" "*10, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i+=1
+        # frame list
+        frame = []
+        # create point cloud
+        pc = o3d.geometry.PointCloud()
+        pc.points = o3d.utility.Vector3dVector(arr.points_array)
+        p, c = _bar_cen_cluster_calc(pc)
+        for cluster in c:
+            wave: WaveCluster = WaveCluster(cluster, arr.timestamp)
+            frame.append(wave)
+        list_wavecluster_frame_retour.append(frame)
+
+    print("wave_clustering finished")
+    return list_wavecluster_frame_retour
+
 
 def baril_centre_cluster(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)

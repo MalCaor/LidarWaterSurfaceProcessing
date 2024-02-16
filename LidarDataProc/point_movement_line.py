@@ -1,7 +1,60 @@
 from typing import List, Tuple
+from WaveCluster import WaveCluster
+from WaveClusterTimelapse import WaveClusterTimelapse
 from utils import calculate_distance
 import numpy as np
 from scipy import stats
+
+def wave_cluster_timesapse_generator(wave_clusters_frames):
+    length: float = len(wave_clusters_frames)
+    list_wave_cluster_timelase_retour: List[WaveClusterTimelapse] = []
+    
+    i = 0
+    print("linking clusters waves")
+    for frame in wave_clusters_frames:
+        # display
+        print(" "*10, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i+=1
+
+        currtimelapses: List[WaveClusterTimelapse] = [timelapse for timelapse in list_wave_cluster_timelase_retour if timelapse.finished == False]
+        if currtimelapses:
+            # compare and continue if match
+            timelapse: WaveClusterTimelapse
+            for timelapse in currtimelapses:
+                last_point: WaveCluster = timelapse.wave_snapshots[len(timelapse.wave_snapshots)-1]
+                frame = sorted(frame, key=lambda elem: calculate_distance(np.array(last_point.barycentre), np.array(elem.barycentre)))
+                if calculate_distance(np.array(last_point.barycentre), frame[0].barycentre) < 1.5:
+                    # continue line
+                    timelapse.wave_snapshots.append(frame[0])
+                    frame.remove(frame[0])
+                else:
+                    # line break, mark timelapse as finished
+                    timelapse.finished = True
+        # append frame
+        for lone_point in frame:
+            list_wave_cluster_timelase_retour.append(WaveClusterTimelapse([lone_point]))
+    print("linking clusters waves Finished!")
+
+    # remove useless timelapse
+    list_wave_cluster_timelase_retour = [timelapse for timelapse in list_wave_cluster_timelase_retour if len(timelapse.wave_snapshots)>2]
+
+    i = 0
+    length = len(list_wave_cluster_timelase_retour)
+    print("calculating line regression")
+    timelapse: WaveClusterTimelapse
+    for timelapse in list_wave_cluster_timelase_retour:
+        # display
+        print(" "*10, end='\r')
+        percent: float = i / length * 100.0
+        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
+        i+=1
+        timelapse.lin_regr()
+    print("line regression Finished!")
+
+    print("wave_cluster_timesapse_generator finished")
+    return list_wave_cluster_timelase_retour
 
 def point_movement_line(baril_centre_arrays):
     print("Interpreting array of length {}".format(str(len(baril_centre_arrays))))
