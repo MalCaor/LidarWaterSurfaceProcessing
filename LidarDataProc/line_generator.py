@@ -4,6 +4,7 @@ from statistics import median
 from typing import List
 import open3d as o3d
 from sklearn.neighbors import KDTree
+from sklearn.neighbors import NearestNeighbors
 from scipy import stats
 from WaveCluster import WaveCluster
 
@@ -223,13 +224,32 @@ def _simple_line_contour(pc):
             list_l = []
     return link_p
 
-def _knn_div(pc):
+def _old_knn_div(pc):
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
     while point_cloud.size != 0:
         tree = KDTree(point_cloud) 
         ind = tree.query_radius(point_cloud[:1], r=3)
+        cluster = list(list(point_cloud[i]) for i in ind[0])
+        p1 = cluster[0]
+        cluster = sorted(cluster, key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
+        if len(cluster)>2:
+            list_retour.append(cluster)
+        point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
+    return list_retour
+
+def _knn_div(pc):
+    pc = pc.voxel_down_sample(0.1)
+    point_cloud: np.array = np.array(pc.points)
+    list_retour: List = []
+    while point_cloud.size != 0:
+        neigh = NearestNeighbors(n_neighbors=1)
+        neigh.fit(point_cloud)
+        ind = neigh.kneighbors(
+            [point_cloud[0]], 
+            n_neighbors=max(int(point_cloud.size/10),1), 
+            return_distance=False)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         p1 = cluster[0]
         cluster = sorted(cluster, key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)

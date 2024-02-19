@@ -33,7 +33,7 @@ class SimulatedSea:
             randx = (random()-0.5)*2
             randy = (random()-0.5)*2
             randz = (random()-0.5)*2
-            self._move_points(pc, 1, [randx*5,randy*5,randz])
+            self._move_points(pc, 1, [randx*1,randy*1,randz])
             array_waves.append(pc)
         return array_waves
 
