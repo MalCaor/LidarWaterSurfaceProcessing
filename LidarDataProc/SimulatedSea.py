@@ -1,4 +1,5 @@
 
+import copy
 import datetime
 from random import random
 from typing import List
@@ -16,7 +17,7 @@ class SimulatedSea:
         array_retour: List[LidarPointArray] = []
         waves = self._generate_waves_base(5)
         for i in range(self.nbr_frames):
-            waves_frame = waves.copy() # copy frame from origine
+            waves_frame = copy.deepcopy(waves) # copy frame from origine
             for wave in waves_frame:
                 self._move_points(wave, i, [0,1,0])
             pc = np.concatenate(waves_frame)
