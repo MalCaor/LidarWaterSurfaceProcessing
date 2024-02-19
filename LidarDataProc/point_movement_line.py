@@ -25,7 +25,7 @@ def wave_cluster_timesapse_generator(wave_clusters_frames):
             for timelapse in currtimelapses:
                 last_point: WaveCluster = timelapse.wave_snapshots[len(timelapse.wave_snapshots)-1]
                 frame = sorted(frame, key=lambda elem: calculate_distance(np.array(last_point.barycentre), np.array(elem.barycentre)))
-                if calculate_distance(np.array(last_point.barycentre), frame[0].barycentre) < 1.5:
+                if frame and calculate_distance(np.array(last_point.barycentre), frame[0].barycentre) < 1.5:
                     # continue line
                     timelapse.wave_snapshots.append(frame[0])
                     frame.remove(frame[0])
