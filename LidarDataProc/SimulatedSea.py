@@ -14,7 +14,7 @@ class SimulatedSea:
     def get_array_lidar(self):
         array_retour: List[LidarPointArray] = []
         for i in range(self.nbr_frames):
-            pc = np.random.rand(50,3)
+            pc = np.random.rand(500,3)
             stamp: datetime = self.start + datetime.timedelta(0,self.intervals*i)
             frame: LidarPointArray = LidarPointArray(stamp.timestamp(), pc)
             array_retour.append(frame)
