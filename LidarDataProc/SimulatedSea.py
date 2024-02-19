@@ -14,11 +14,12 @@ class SimulatedSea:
 
     def get_array_lidar(self):
         array_retour: List[LidarPointArray] = []
+        waves = self._generate_waves_base(5)
         for i in range(self.nbr_frames):
-            waves = self._generate_waves_base(5)
-            for wave in waves:
+            waves_frame = waves.copy() # copy frame from origine
+            for wave in waves_frame:
                 self._move_points(wave, i, [0,1,0])
-            pc = np.concatenate(waves)
+            pc = np.concatenate(waves_frame)
             stamp: datetime = self.start + datetime.timedelta(0,self.intervals*i)
             frame: LidarPointArray = LidarPointArray(stamp.timestamp(), pc)
             array_retour.append(frame)
@@ -29,7 +30,7 @@ class SimulatedSea:
         for i in range(nbr_waves):
             pc = np.random.rand(200,3)
             rand = (random()-0.5)*2
-            self._move_points(pc, i, [rand*5,rand*1,0])
+            self._move_points(pc, i, [rand*5,rand*5,0])
             array_waves.append(pc)
         return array_waves
 
