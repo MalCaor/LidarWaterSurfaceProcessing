@@ -16,12 +16,10 @@ def stat_angle(timestamps, timeslapses):
         for wave in timeslapse.wave_snapshots:
             line_time.append(wave.timestamp)
             line_angle.append(timeslapse.angle)
-        angleslines.append([line_time, line_angle, timeslapse.rvalue])
+        angleslines.append([line_time, line_angle, timeslapse.rvalue, timeslapse.length_bary])
     for line in angleslines:
-        blue = [0, 0, 255]
-        red = [255, 0, 0]
-
-        plt.plot(line[0], line[1], color="black", alpha=abs(line[2]))
+        alpha = abs(line[2])/2 + (min(line[3],5)/5)/2
+        plt.plot(line[0], line[1], color="black", alpha=alpha)
     
     # moy angles
     moy = []
