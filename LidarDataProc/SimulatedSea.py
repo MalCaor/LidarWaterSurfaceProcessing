@@ -15,7 +15,7 @@ class SimulatedSea:
 
     def get_array_lidar(self):
         array_retour: List[LidarPointArray] = []
-        waves = self._generate_waves_base(5)
+        waves = self._generate_waves_base(10)
         for i in range(self.nbr_frames):
             waves_frame = copy.deepcopy(waves) # copy frame from origine
             for wave in waves_frame:
@@ -29,7 +29,7 @@ class SimulatedSea:
     def _generate_waves_base(self, nbr_waves):
         array_waves = []
         for _ in range(nbr_waves):
-            pc = np.random.rand(200,3)
+            pc = np.random.rand(100,3)
             randx = (random()-0.5)*2
             randy = (random()-0.5)*2
             randz = (random()-0.5)*2
