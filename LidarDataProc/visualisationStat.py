@@ -1,10 +1,8 @@
-from cProfile import label
 from statistics import mean, median
-from tkinter import W
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 import numpy as np
-from utils import moving_average, lerp
+from utils import moving_average
 
 from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster

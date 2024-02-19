@@ -1,4 +1,3 @@
-from select import select
 from typing import List
 from WaveCluster import WaveCluster
 from scipy import stats
