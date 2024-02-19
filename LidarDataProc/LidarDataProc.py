@@ -17,6 +17,7 @@ from data_filter import filter_lidar_data
 from line_generator import wave_clustering, line_generation, line_2d_generate, baril_centre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timesapse_generator
 from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle
+from SimulatedSea import SimulatedSea
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -46,6 +47,12 @@ parser.add_argument(
     nargs=3,
     help="read Ouster lidar .pcap",
     metavar=("LIDAR_FILE_PATH", "JSON_META_FILE_PATH", "NUM_FRAME_TO_EXTRACT")
+)
+parser.add_argument(
+    "--simu",
+    nargs=2,
+    help="Generate a simulated sea",
+    metavar=("SEA_TYPE", "NBR_FRAMES")
 )
 # Process GYRO .csv Data File
 parser.add_argument(
@@ -96,6 +103,8 @@ if args.lidar_vel:
     array_lidar = parse_lidar_vel_file_into_array(args.lidar_vel[0], args.lidar_vel[1])
 if args.lidar_ous:
     array_lidar = parse_lidar_ous_file_into_array(args.lidar_ous[0], args.lidar_ous[1], args.lidar_ous[2])
+if args.simu:
+    simu = SimulatedSea(args.simu[0], args.simu[1])
 
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
