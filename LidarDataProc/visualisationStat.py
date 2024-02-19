@@ -42,7 +42,7 @@ def stat_angle(timestamps, timeslapses):
             # pondered weight
             tot_angle = []
             for timeslapse in concerned_timeslapses:
-                weight = abs(timeslapse.rvalue)*5 + len(timeslapse.wave_snapshots)
+                weight = abs(timeslapse.rvalue)*5 + min(timeslapse.length_bary,5)
                 weight = int(weight)
                 for _ in range(weight):
                     tot_angle.append(timeslapse.angle)
