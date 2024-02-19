@@ -69,7 +69,7 @@ def point_movement_line(baril_centre_arrays):
             for line in last_frame:
                 last_point = line[len(line)-1]
                 bc_point_cloud = sorted(bc_point_cloud, key=lambda elem: calculate_distance(np.array(last_point), np.array(elem)))
-                if calculate_distance(np.array(last_point), bc_point_cloud[0]) < 1.5:
+                if bc_point_cloud and calculate_distance(np.array(last_point), bc_point_cloud[0]) < 1.5:
                     # continue line
                     l = list(line) # duplicate to not alter previous line
                     l.append(bc_point_cloud[0])
