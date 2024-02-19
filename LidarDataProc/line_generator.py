@@ -224,7 +224,7 @@ def _simple_line_contour(pc):
             list_l = []
     return link_p
 
-def _old_knn_div(pc):
+def _knn_div(pc):
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
@@ -239,7 +239,7 @@ def _old_knn_div(pc):
         point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
     return list_retour
 
-def _knn_div(pc):
+def _new_knn_div(pc):
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []
