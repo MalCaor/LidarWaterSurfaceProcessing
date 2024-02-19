@@ -105,6 +105,7 @@ if args.lidar_ous:
     array_lidar = parse_lidar_ous_file_into_array(args.lidar_ous[0], args.lidar_ous[1], args.lidar_ous[2])
 if args.simu:
     simu = SimulatedSea(args.simu[0], args.simu[1])
+    array_lidar = simu.get_array_lidar()
 
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
