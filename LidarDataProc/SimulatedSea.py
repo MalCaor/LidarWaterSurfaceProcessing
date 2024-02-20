@@ -18,10 +18,10 @@ class SimulatedSea:
         array_retour: List[LidarPointArray] = []
         waves = self._generate_waves_base(10)
         for i in range(self.nbr_frames):
-            waves_frame = copy.deepcopy(waves) # copy frame from origine
-            for wave in waves_frame:
-                self._move_points(wave, i, self._get_movement_by_type(self.type, i))
-            pc = np.concatenate(waves_frame)
+            waves = copy.deepcopy(waves) # copy frame from origine
+            for wave in waves:
+                self._move_points(wave, 1, self._get_movement_by_type(self.type, i))
+            pc = np.concatenate(waves)
             stamp: datetime = self.start + datetime.timedelta(0,self.intervals*i)
             frame: LidarPointArray = LidarPointArray(stamp.timestamp(), pc)
             array_retour.append(frame)
@@ -46,7 +46,7 @@ class SimulatedSea:
                 y = (270-angle)/90
             elif  angle >= 270 and angle <= 360:
                 x = (360-angle)/90
-                y = (angle-270)/90
+                y = (angle-270)/90*-1
             return [x,y,z]
 
         # Simple
@@ -71,11 +71,11 @@ class SimulatedSea:
             array_waves.append(pc)
         return array_waves
 
-    def _move_points(self, pc, i_frame, xyz):
+    def _move_points(self, pc, speed, xyz):
         for i in range(len(pc)):
             rand = (random()-0.5)*2
             point = pc[i]
-            point[0] = point[0]+(rand+i_frame*xyz[0])
-            point[1] = point[1]+(rand+i_frame*xyz[1])
-            point[2] = point[2]+(rand+i_frame*xyz[2])
+            point[0] = point[0]+(rand+speed*xyz[0])
+            point[1] = point[1]+(rand+speed*xyz[1])
+            point[2] = point[2]+(rand+speed*xyz[2])
             pc[i] = point
