@@ -19,7 +19,7 @@ class SimulatedSea:
         for i in range(self.nbr_frames):
             waves_frame = copy.deepcopy(waves) # copy frame from origine
             for wave in waves_frame:
-                self._move_points(wave, i, [0,1,0])
+                self._move_points(wave, i, [-1,0,0])
             pc = np.concatenate(waves_frame)
             stamp: datetime = self.start + datetime.timedelta(0,self.intervals*i)
             frame: LidarPointArray = LidarPointArray(stamp.timestamp(), pc)
@@ -29,7 +29,7 @@ class SimulatedSea:
     def _generate_waves_base(self, nbr_waves):
         array_waves = []
         for _ in range(nbr_waves):
-            pc = np.random.rand(100,3)
+            pc = np.random.rand(50,3)
             randx = (random()-0.5)*2
             randy = (random()-0.5)*2
             randz = (random()-0.5)*2
