@@ -10,7 +10,8 @@ from WaveCluster import WaveCluster
 
 def polar_angle(timestamps, timeslapses):
     ax = plt.axes(polar=True)
-    ax.set_theta_zero_location("S")
+    ax.set_theta_zero_location("N")
+    ax.set_theta_direction(-1)
     # lines angles
     angleslines = []
     for timeslapse in timeslapses:
