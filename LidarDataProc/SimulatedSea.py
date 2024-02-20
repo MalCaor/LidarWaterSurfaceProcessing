@@ -33,6 +33,7 @@ class SimulatedSea:
         z = 0
         # complex
         if type == "rotation":
+            # do a 360 rotation for the entire seq
             angle = i/self.nbr_frames*360
             if  angle >= 0 and angle < 90:
                 x = angle/90*-1
@@ -47,8 +48,8 @@ class SimulatedSea:
                 x = (360-angle)/90
                 y = (angle-270)/90*-1
             return [x,y,z]
-
         if type == "speen":
+            # do speens
             angle = (i*2)%360
             if  angle >= 0 and angle < 90:
                 x = angle/90*-1
