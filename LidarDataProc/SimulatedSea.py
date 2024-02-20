@@ -37,7 +37,6 @@ class SimulatedSea:
             if  angle >= 0 and angle < 90:
                 x = angle/90*-1
                 y = (90-angle)/90*-1
-                return [x, z, 0]
             elif  angle >= 90 and angle < 180:
                 x = (180-angle)/90*-1
                 y = (angle-90)/90
