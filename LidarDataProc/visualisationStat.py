@@ -54,7 +54,7 @@ def polar_angle(timestamps, timeslapses):
     #plt.plot(timestamps, moy, label="mean")
     #plt.plot(timestamps, med, label="median")
     #plt.plot(timestamps, pondered_moy, label="pondered mean")
-    #plt.plot(pondered_med, timestamps, label="pondered median")
+    plt.plot([math.radians(angle) for angle in pondered_med], timestamps, label="pondered median")
     plt.plot([math.radians(angle) for angle in moving_average(pondered_med, 20)], timestamps, label="average pondered median")
     plt.legend(loc='best')
     plt.show()
