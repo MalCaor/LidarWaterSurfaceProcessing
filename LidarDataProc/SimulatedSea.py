@@ -63,7 +63,7 @@ class SimulatedSea:
     def _generate_waves_base(self, nbr_waves):
         array_waves = []
         for _ in range(nbr_waves):
-            pc = np.random.rand(50,3)
+            pc = np.random.rand(int(random()*40+10),3)
             randx = (random()-0.5)*2
             randy = (random()-0.5)*2
             randz = (random()-0.5)*2
