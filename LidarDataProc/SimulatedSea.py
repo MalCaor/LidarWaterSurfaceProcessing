@@ -1,4 +1,5 @@
 
+from asyncio.windows_events import NULL
 import copy
 import datetime
 from random import random
@@ -15,16 +16,49 @@ class SimulatedSea:
 
     def get_array_lidar(self):
         array_retour: List[LidarPointArray] = []
-        waves = self._generate_waves_base(50)
+        waves = self._generate_waves_base(10)
         for i in range(self.nbr_frames):
             waves_frame = copy.deepcopy(waves) # copy frame from origine
             for wave in waves_frame:
-                self._move_points(wave, i, [-1,0,0])
+                self._move_points(wave, i, self._get_movement_by_type(self.type, i))
             pc = np.concatenate(waves_frame)
             stamp: datetime = self.start + datetime.timedelta(0,self.intervals*i)
             frame: LidarPointArray = LidarPointArray(stamp.timestamp(), pc)
             array_retour.append(frame)
         return array_retour
+
+    def _get_movement_by_type(self, type, i):
+        x = 0
+        y = 0
+        z = 0
+        # complex
+        if type == "rotation":
+            angle = i/self.nbr_frames*360
+            if  angle >= 0 and angle < 90:
+                x = angle/90*-1
+                y = (90-angle)/90*-1
+                return [x, z, 0]
+            elif  angle >= 90 and angle < 180:
+                x = (180-angle)/90*-1
+                y = (angle-90)/90
+            elif  angle >= 180 and angle < 270:
+                x = (angle-180)/180
+                y = (270-angle)/90
+            elif  angle >= 270 and angle <= 360:
+                x = (360-angle)/90
+                y = (angle-270)/90
+            return [x,y,z]
+
+        # Simple
+        if "n" in type:
+            y=-1
+        elif "s" in type:
+            y=1
+        if "e" in type:
+            x=-1
+        elif "w" in type:
+            x=1
+        return [x,y,z]
 
     def _generate_waves_base(self, nbr_waves):
         array_waves = []
