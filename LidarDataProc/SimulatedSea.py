@@ -48,6 +48,22 @@ class SimulatedSea:
                 y = (angle-270)/90*-1
             return [x,y,z]
 
+        if type == "speen":
+            angle = (i*2)%360
+            if  angle >= 0 and angle < 90:
+                x = angle/90*-1
+                y = (90-angle)/90*-1
+            elif  angle >= 90 and angle < 180:
+                x = (180-angle)/90*-1
+                y = (angle-90)/90
+            elif  angle >= 180 and angle < 270:
+                x = (angle-180)/180
+                y = (270-angle)/90
+            elif  angle >= 270 and angle <= 360:
+                x = (360-angle)/90
+                y = (angle-270)/90*-1
+            return [x,y,z]
+
         # Simple
         if "n" in type:
             y=-1
