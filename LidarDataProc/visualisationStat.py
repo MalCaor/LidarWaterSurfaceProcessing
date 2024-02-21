@@ -1,5 +1,8 @@
+from datetime import datetime
 import math
 from statistics import mean, median
+from tokenize import Double
+from typing import List, Tuple
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 import numpy as np
@@ -26,10 +29,10 @@ def polar_angle(timestamps, timeslapses):
         plt.plot([math.radians(angle) for angle in line[1]], line[0], color="black", alpha=alpha)
     
     # moy angles
-    moy = []
-    med = []
-    pondered_moy = []
-    pondered_med = []
+    moy: List[Tuple[Double, datetime]] = []
+    med: List[Tuple[Double, datetime]] = []
+    pondered_moy: List[Tuple[Double, datetime]] = []
+    pondered_med: List[Tuple[Double, datetime]] = []
     for timestamp in timestamps:
         concerned_timeslapses = []
 
@@ -50,13 +53,15 @@ def polar_angle(timestamps, timeslapses):
                 weight = int(weight)
                 for _ in range(weight):
                     tot_angle.append(timeslapse.angle)
-            pondered_moy.append(mean(tot_angle))
-            pondered_med.append(median(tot_angle))
+            pondered_moy.append((mean(tot_angle), timestamp))
+            pondered_med.append((median(tot_angle), timestamp))
     #plt.plot(timestamps, moy, label="mean")
     #plt.plot(timestamps, med, label="median")
     #plt.plot(timestamps, pondered_moy, label="pondered mean")
-    plt.plot([math.radians(angle) for angle in pondered_med], timestamps, label="pondered median")
-    plt.plot([math.radians(angle) for angle in moving_average(pondered_med, 20)], timestamps, label="average pondered median")
+    pondered_med_timestamps = [value[1] for value in pondered_med]
+    moving_average_med = moving_average([value[0] for value in pondered_med], 20)
+    plt.plot([math.radians(angle[0]) for angle in pondered_med], pondered_med_timestamps, label="pondered median")
+    plt.plot([math.radians(angle) for angle in moving_average_med], pondered_med_timestamps, label="average pondered median")
     plt.legend(loc='best')
     plt.show()
 
