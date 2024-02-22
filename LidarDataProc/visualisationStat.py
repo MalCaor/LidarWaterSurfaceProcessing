@@ -11,6 +11,16 @@ from scipy.stats import circmean
 from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
 
+def wave_height(timestamps, timeslapses):
+    data = []
+    timeslapse: WaveClusterTimelapse
+    for timeslapse in timeslapses:
+        line = []
+        for wave in timeslapse.wave_snapshots:
+            line.append((wave.timestamp, wave.barycentre[2]))
+        plt.plot([p[0] for p in line], [p[1] for p in line])
+    plt.show()
+
 def polar_angle(timestamps, timeslapses):
     ax = plt.axes(polar=True)
     ax.set_theta_zero_location("N")

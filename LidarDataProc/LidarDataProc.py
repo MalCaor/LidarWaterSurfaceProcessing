@@ -16,7 +16,7 @@ from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import wave_clustering, line_generation, line_2d_generate, baril_centre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timesapse_generator
-from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle, polar_angle
+from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle, polar_angle, wave_height
 from SimulatedSea import SimulatedSea
 
 # util func
@@ -179,6 +179,11 @@ if args.display:
         timeslapses = wave_cluster_timesapse_generator(waves_clusters)
         timestamps = [array.timestamp for array in array_lidar]
         polar_angle(timestamps, timeslapses)
+    elif args.display[0]=="waveheight":
+        waves_clusters = wave_clustering(array_lidar)
+        timeslapses = wave_cluster_timesapse_generator(waves_clusters)
+        timestamps = [array.timestamp for array in array_lidar]
+        wave_height(timestamps, timeslapses)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)
