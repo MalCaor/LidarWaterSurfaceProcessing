@@ -6,8 +6,8 @@ from typing import List, Tuple
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 import numpy as np
-from utils import moving_average
-
+from utils import moving_average, mediane_angles
+from scipy.stats import circmean
 from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
 
@@ -53,8 +53,8 @@ def polar_angle(timestamps, timeslapses):
                 weight = int(weight)
                 for _ in range(weight):
                     tot_angle.append(timeslapse.angle)
-            pondered_moy.append((mean(tot_angle), timestamp))
-            pondered_med.append((median(tot_angle), timestamp))
+            pondered_moy.append((circmean(tot_angle, high=360), timestamp))
+            pondered_med.append((mediane_angles(tot_angle), timestamp))
     #plt.plot(timestamps, moy, label="mean")
     #plt.plot(timestamps, med, label="median")
     #plt.plot(timestamps, pondered_moy, label="pondered mean")

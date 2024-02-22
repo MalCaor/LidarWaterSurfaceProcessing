@@ -24,3 +24,20 @@ def moving_average(a, n=3):
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return np.concatenate((a[:n-1], ret[n - 1:] / n))
+
+def mediane_angles(angles):
+    # Convertir tous les angles en radians pour faciliter les calculs trigonométriques
+    angles_radians = [angle * (3.14159 / 180) for angle in angles]
+
+    # Trier les angles
+    sorted_angles = sorted(angles_radians)
+
+    # Trouver l'angle médian en convertissant en degrés
+    median_radian = sorted_angles[len(sorted_angles) // 2]
+    median_degrees = median_radian * (180 / 3.14159)
+
+    # Correction pour les angles négatifs
+    if median_degrees < 0:
+        median_degrees += 360
+
+    return median_degrees
