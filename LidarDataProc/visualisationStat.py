@@ -18,7 +18,8 @@ def wave_height(timestamps, timeslapses):
         line = []
         for wave in timeslapse.wave_snapshots:
             line.append((wave.timestamp, wave.barycentre[2]))
-        plt.plot([p[0] for p in line], [p[1] for p in line])
+        alpha = abs(timeslapse.rvalue)/2 + (min(timeslapse.length_bary,5)/5)/2
+        plt.plot([p[0] for p in line], [p[1] for p in line], color="black", alpha=alpha)
     plt.show()
 
 def polar_angle(timestamps, timeslapses):
