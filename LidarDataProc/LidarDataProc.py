@@ -14,7 +14,7 @@ from visualisation3d import *
 from data_stabilisation import stabilise_lidar_array
 from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
-from line_generator import wave_clustering, line_generation, line_2d_generate, baril_centre_cluster
+from line_generator import wave_clustering, line_generation, line_2d_generate, barycentre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timesapse_generator
 from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle, polar_angle, wave_height
 from SimulatedSea import SimulatedSea
@@ -143,28 +143,28 @@ if args.display:
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         wave_line_anim(points, lines, dt_interval)
     elif args.display[0]=="barilcentre":
-        points, clusters = baril_centre_cluster(array_lidar)
+        points, clusters = barycentre_cluster(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim(clusters, points, dt_interval)
+        barycentre_anim(clusters, points, dt_interval)
     elif args.display[0]=="linebarile":
-        points, clusters = baril_centre_cluster(array_lidar)
+        points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim_plus_line_wave(clusters, points, line_wave, dt_interval)
+        barycentre_anim_plus_line_wave(clusters, points, line_wave, dt_interval)
     elif args.display[0]=="wavedir":
-        points, clusters = baril_centre_cluster(array_lidar)
+        points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim_line_wave_compass(clusters, points, line_wave, coef_moy, dt_interval)
+        barycentre_anim_line_wave_compass(clusters, points, line_wave, coef_moy, dt_interval)
     elif args.display[0]=="wavedir_stat":
-        points, clusters = baril_centre_cluster(array_lidar)
+        points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         evolution_moy_value(coef_moy)
     elif args.display[0]=="wavedirrep_stat":
-        points, clusters = baril_centre_cluster(array_lidar)
+        points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp

@@ -110,7 +110,7 @@ def wave_line_anim(array_points, array_line, elipsed_time):
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
-def baril_centre_anim(array_points, baril_points, elipsed_time):
+def barycentre_anim(array_points, baril_points, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -139,7 +139,7 @@ def baril_centre_anim(array_points, baril_points, elipsed_time):
 
 color_line_wave = ['#000066', '#0000cc', '#3366ff', '#99ccff', '#ffcccc', '#ff9966', '#ff6600', '#ff3300', '#ff0000']
 
-def baril_centre_anim_plus_line_wave(array_points, baril_points, line_wave, elipsed_time):
+def barycentre_anim_plus_line_wave(array_points, baril_points, line_wave, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -169,7 +169,7 @@ def baril_centre_anim_plus_line_wave(array_points, baril_points, line_wave, elip
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
-def baril_centre_anim_line_wave_compass(array_points, baril_points, line_wave, coefs, elipsed_time):
+def barycentre_anim_line_wave_compass(array_points, baril_points, line_wave, coefs, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []

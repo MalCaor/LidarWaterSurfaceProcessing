@@ -16,33 +16,15 @@ from LidarPointArray import LidarPointArray
 dist_to_divide = 50
 
 
-def _divide_pc_to_axis(pc):
-    """return a dub division of a point cloud by proximity
+def line_generation(array_lidar: List[LidarPointArray]):
+    """begining of line generation from lidar point cloud array
 
     Args:
-        pc (List[List]): point cloud to divide
+        array_lidar (List[LidarPointArray]): inputed array
 
     Returns:
-        List[List[List]]: list of sub point cloud
+        Tuple[List[List[o3d.geometry.LineSet]], List[o3d.geometry.PointCloud]]: (lines, points cloud)
     """
-    copy_pc = np.array(pc.points).tolist()
-    sub_pcs = []
-    while(len(copy_pc)!=0):
-        sub_pc = []
-        point = copy_pc[0]
-        n_point = np.array(point)
-        # select only those close enough
-        sub_pc = [p for p in copy_pc if calculate_distance(n_point, np.array(p))<dist_to_divide]
-        # remove from copy points and append sub point cloud
-        if sub_pc:
-            for p in sub_pc:
-                copy_pc.remove(p)
-            sub_pcs.append(sub_pc)
-
-    return sub_pcs
-
-
-def line_generation(array_lidar: List[LidarPointArray]):
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
     
@@ -63,6 +45,14 @@ def line_generation(array_lidar: List[LidarPointArray]):
     return (list_line_retour, list_pc_retour)
 
 def line_2d_generate(array_lidar: List[LidarPointArray]):
+    """generate 2d line representing the linear reduction of the clusterisation of the point cloud
+
+    Args:
+        array_lidar (List[LidarPointArray]): inputed array
+
+    Returns:
+        _type_: (lignes retour, points retour)
+    """
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
 
@@ -81,6 +71,14 @@ def line_2d_generate(array_lidar: List[LidarPointArray]):
     return line_retour, points_retour
 
 def wave_clustering(array_lidar: List[LidarPointArray]):
+    """KNN Clusterise the lidar points array
+
+    Args:
+        array_lidar (List[LidarPointArray]): inputed array
+
+    Returns:
+        _type_: list of clusters retour
+    """
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
 
@@ -109,7 +107,15 @@ def wave_clustering(array_lidar: List[LidarPointArray]):
     return list_wavecluster_frame_retour
 
 
-def baril_centre_cluster(array_lidar: List[LidarPointArray]):
+def barycentre_cluster(array_lidar: List[LidarPointArray]):
+    """KNN clusterisation and calculate barycentre of each pc cluster
+
+    Args:
+        array_lidar (List[LidarPointArray]): inputed array
+
+    Returns:
+        _type_: _description_
+    """
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
     
@@ -130,7 +136,7 @@ def baril_centre_cluster(array_lidar: List[LidarPointArray]):
         points_retour.append(p)
         clusters_retour.append(c)
 
-    print("baril_centre_cluster finished")
+    print("barycentre_cluster finished")
     return points_retour, clusters_retour
 
 def ransac_divid(pc):

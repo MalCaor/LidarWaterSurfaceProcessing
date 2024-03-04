@@ -56,11 +56,11 @@ def wave_cluster_timesapse_generator(wave_clusters_frames):
     print("wave_cluster_timesapse_generator finished")
     return list_wave_cluster_timelase_retour
 
-def point_movement_line(baril_centre_arrays):
-    print("Interpreting array of length {}".format(str(len(baril_centre_arrays))))
+def point_movement_line(barycentre_arrays):
+    print("Interpreting array of length {}".format(str(len(barycentre_arrays))))
     list_line_frame = []
 
-    for bc_point_cloud in baril_centre_arrays:
+    for bc_point_cloud in barycentre_arrays:
         currline = []
         if list_line_frame:
             # load prev frame
