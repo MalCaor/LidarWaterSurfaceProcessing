@@ -142,11 +142,11 @@ if args.display:
         lines, points = line_2d_generate(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         wave_line_anim(points, lines, dt_interval)
-    elif args.display[0]=="barilcentre":
+    elif args.display[0]=="barycentre":
         points, clusters = barycentre_cluster(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         barycentre_anim(clusters, points, dt_interval)
-    elif args.display[0]=="linebarile":
+    elif args.display[0]=="linebary":
         points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp

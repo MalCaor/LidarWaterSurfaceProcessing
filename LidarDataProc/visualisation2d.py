@@ -83,6 +83,13 @@ def contour2dAnimates(array_cloud: List[LidarPointArray], save=False):
     plt.show()
 
 def wave_line_anim(array_points, array_line, elipsed_time):
+    """display 2d animation of the waves lines regression
+
+    Args:
+        array_points (_type_): waves clusters
+        array_line (_type_): clusters regression
+        elipsed_time (_type_): time between two frame
+    """
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -109,13 +116,20 @@ def wave_line_anim(array_points, array_line, elipsed_time):
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
-def barycentre_anim(array_points, baril_points, elipsed_time):
+def barycentre_anim(array_points, bary_points, elipsed_time):
+    """Display 2d Animation of the moving barycentre
+
+    Args:
+        array_points (_type_): waves clusters
+        bary_points (_type_): _description_
+        elipsed_time (_type_): _description_
+    """
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
-    length = len(baril_points)
+    length = len(bary_points)
     i: int = 0
-    for points in baril_points:
+    for points in bary_points:
         # % compl
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
@@ -138,13 +152,13 @@ def barycentre_anim(array_points, baril_points, elipsed_time):
 
 color_line_wave = ['#000066', '#0000cc', '#3366ff', '#99ccff', '#ffcccc', '#ff9966', '#ff6600', '#ff3300', '#ff0000']
 
-def barycentre_anim_plus_line_wave(array_points, baril_points, line_wave, elipsed_time):
+def barycentre_anim_plus_line_wave(array_points, bary_points, line_wave, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
-    length = len(baril_points)
+    length = len(bary_points)
     i: int = 0
-    for points in baril_points:
+    for points in bary_points:
         # % compl
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
@@ -168,13 +182,13 @@ def barycentre_anim_plus_line_wave(array_points, baril_points, line_wave, elipse
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
-def barycentre_anim_line_wave_compass(array_points, baril_points, line_wave, coefs, elipsed_time):
+def barycentre_anim_line_wave_compass(array_points, bary_points, line_wave, coefs, elipsed_time):
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
-    length = len(baril_points)
+    length = len(bary_points)
     i: int = 0
-    for points in baril_points:
+    for points in bary_points:
         # % compl
         print(" "*20, end='\r')
         percent: float = i / length * 100.0
