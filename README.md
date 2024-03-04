@@ -34,4 +34,9 @@ Generate a mesh from the point cloud
 
 ![mesh_ifremer](./img/mesh3.PNG "Title")
 
-## 
+## Hex2d
+
+Display the point cloud as a 2d animation view from the top
+
+![mesh_ifremer](./img//hex_comp_comp.gif "Title")
+
