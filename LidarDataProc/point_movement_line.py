@@ -5,7 +5,7 @@ from utils import calculate_distance
 import numpy as np
 from scipy import stats
 
-def wave_cluster_timesapse_generator(wave_clusters_frames):
+def wave_cluster_timelapse_generator(wave_clusters_frames):
     length: float = len(wave_clusters_frames)
     list_wave_cluster_timelase_retour: List[WaveClusterTimelapse] = []
     
@@ -53,7 +53,7 @@ def wave_cluster_timesapse_generator(wave_clusters_frames):
         timelapse.lin_regr()
     print("line regression Finished!")
 
-    print("wave_cluster_timesapse_generator finished")
+    print("wave_cluster_timelapse_generator finished")
     return list_wave_cluster_timelase_retour
 
 def point_movement_line(barycentre_arrays):
