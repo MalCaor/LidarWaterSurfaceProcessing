@@ -6,6 +6,14 @@ import numpy as np
 from scipy import stats
 
 def wave_cluster_timelapse_generator(wave_clusters_frames):
+    """Generate Wave Cluster Timelapse from Wave Cluster Frames
+
+    Args:
+        wave_clusters_frames (_type_): clusters
+
+    Returns:
+        List[WaveClusterTimelapse]: list of Wave Cluster Timelapse
+    """
     length: float = len(wave_clusters_frames)
     list_wave_cluster_timelase_retour: List[WaveClusterTimelapse] = []
     
@@ -57,6 +65,14 @@ def wave_cluster_timelapse_generator(wave_clusters_frames):
     return list_wave_cluster_timelase_retour
 
 def point_movement_line(barycentre_arrays):
+    """generate lines from the movement of barycentres clusters
+
+    Args:
+        barycentre_arrays (_type_): array of barrycentres of clusters
+
+    Returns:
+        _type_: list of line
+    """
     print("Interpreting array of length {}".format(str(len(barycentre_arrays))))
     list_line_frame = []
 
@@ -83,6 +99,14 @@ def point_movement_line(barycentre_arrays):
     return list_line_frame
 
 def find_direction_waves(list_lines):
+    """Return a list coef of potential wave direction
+
+    Args:
+        list_lines (_type_): _description_
+
+    Returns:
+        _type_: list_coef_moy, list_coefs
+    """
     print("Interpreting array of length {}".format(str(len(list_lines))))
     # slope, intercept, rvalue, pvalue
     list_coef_moy: List[Tuple[float, float, float, float]] = []
