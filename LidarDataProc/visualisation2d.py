@@ -121,8 +121,8 @@ def barycentre_anim(array_points, bary_points, elipsed_time):
 
     Args:
         array_points (_type_): waves clusters
-        bary_points (_type_): _description_
-        elipsed_time (_type_): _description_
+        bary_points (_type_): bary points
+        elipsed_time (_type_): time between two frame
     """
     print("Start Animation Generation")
     fig = plt.figure()
@@ -150,9 +150,18 @@ def barycentre_anim(array_points, bary_points, elipsed_time):
     ani = anim.ArtistAnimation(fig, ims, interval=interval*1.5, blit=False,repeat_delay=5)
     plt.show()
 
+# color change the longer a line is
 color_line_wave = ['#000066', '#0000cc', '#3366ff', '#99ccff', '#ffcccc', '#ff9966', '#ff6600', '#ff3300', '#ff0000']
 
 def barycentre_anim_plus_line_wave(array_points, bary_points, line_wave, elipsed_time):
+    """same as barycentre_anim but with line following the barycentre of cluster, those line become more red the longer they are 
+
+    Args:
+        array_points (_type_): waves clusters
+        bary_points (_type_): bary points
+        line_wave (_type_): line bary points
+        elipsed_time (_type_): time between two frame
+    """
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
@@ -183,6 +192,16 @@ def barycentre_anim_plus_line_wave(array_points, bary_points, line_wave, elipsed
     plt.show()
 
 def barycentre_anim_line_wave_compass(array_points, bary_points, line_wave, coefs, elipsed_time):
+    # TODO : REPLACE MANUAL CALCUL BY WAVECLUSTER TIMELAPSE
+    """barycentre_anim_plus_line_wave but with a line indicating the wave direction
+
+    Args:
+        array_points (_type_): _description_
+        bary_points (_type_): _description_
+        line_wave (_type_): _description_
+        coefs (_type_): _description_
+        elipsed_time (_type_): _description_
+    """
     print("Start Animation Generation")
     fig = plt.figure()
     ims = []
