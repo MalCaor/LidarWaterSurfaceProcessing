@@ -171,19 +171,19 @@ if args.display:
         repartition_anim(coefs, dt_interval)
     elif args.display[0]=="wavecluster":
         waves_clusters = wave_clustering(array_lidar)
-        timeslapses = wave_cluster_timelapse_generator(waves_clusters)
+        timelapses = wave_cluster_timelapse_generator(waves_clusters)
         timestamps = [array.timestamp for array in array_lidar]
-        stat_angle(timestamps, timeslapses)
+        stat_angle(timestamps, timelapses)
     elif args.display[0]=="wavepolar":
         waves_clusters = wave_clustering(array_lidar)
-        timeslapses = wave_cluster_timelapse_generator(waves_clusters)
+        timelapses = wave_cluster_timelapse_generator(waves_clusters)
         timestamps = [array.timestamp for array in array_lidar]
-        polar_angle(timestamps, timeslapses)
+        polar_angle(timestamps, timelapses)
     elif args.display[0]=="waveheight":
         waves_clusters = wave_clustering(array_lidar)
-        timeslapses = wave_cluster_timelapse_generator(waves_clusters)
+        timelapses = wave_cluster_timelapse_generator(waves_clusters)
         timestamps = [array.timestamp for array in array_lidar]
-        wave_height(timestamps, timeslapses)
+        wave_height(timestamps, timelapses)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

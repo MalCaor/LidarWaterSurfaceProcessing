@@ -11,10 +11,10 @@ from scipy.stats import circmean
 from WaveClusterTimelapse import WaveClusterTimelapse
 from WaveCluster import WaveCluster
 
-def wave_height(timestamps, timeslapses):
+def wave_height(timestamps, timelapses):
     data = []
     timeslapse: WaveClusterTimelapse
-    for timeslapse in timeslapses:
+    for timeslapse in timelapses:
         line = []
         for wave in timeslapse.wave_snapshots:
             line.append((wave.timestamp, wave.barycentre[2]))
@@ -22,13 +22,13 @@ def wave_height(timestamps, timeslapses):
         plt.plot([p[0] for p in line], [p[1] for p in line], color="black", alpha=alpha)
     plt.show()
 
-def polar_angle(timestamps, timeslapses):
+def polar_angle(timestamps, timelapses):
     ax = plt.axes(polar=True)
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
     # lines angles
     angleslines = []
-    for timeslapse in timeslapses:
+    for timeslapse in timelapses:
         line_time = []
         line_angle = []
         for wave in timeslapse.wave_snapshots:
@@ -45,21 +45,21 @@ def polar_angle(timestamps, timeslapses):
     pondered_moy: List[Tuple[Double, datetime]] = []
     pondered_med: List[Tuple[Double, datetime]] = []
     for timestamp in timestamps:
-        concerned_timeslapses = []
+        concerned_timelapses = []
 
         timeslapse: WaveClusterTimelapse
-        for timeslapse in timeslapses:
+        for timeslapse in timelapses:
             wave_snap: WaveCluster
             for wave_snap in timeslapse.wave_snapshots:
                 if wave_snap.timestamp == timestamp:
-                    concerned_timeslapses.append(timeslapse)
-        if concerned_timeslapses:
+                    concerned_timelapses.append(timeslapse)
+        if concerned_timelapses:
             # moy / med
-            moy.append(mean([timeslapse.angle for timeslapse in concerned_timeslapses]))
-            med.append(median([timeslapse.angle for timeslapse in concerned_timeslapses]))
+            moy.append(mean([timeslapse.angle for timeslapse in concerned_timelapses]))
+            med.append(median([timeslapse.angle for timeslapse in concerned_timelapses]))
             # pondered weight
             tot_angle = []
-            for timeslapse in concerned_timeslapses:
+            for timeslapse in concerned_timelapses:
                 weight = abs(timeslapse.rvalue)*5 + min(timeslapse.length_bary,5)
                 weight = int(weight)
                 for _ in range(weight):
@@ -76,10 +76,10 @@ def polar_angle(timestamps, timeslapses):
     plt.legend(loc='best')
     plt.show()
 
-def stat_angle(timestamps, timeslapses):
+def stat_angle(timestamps, timelapses):
     # lines angles
     angleslines = []
-    for timeslapse in timeslapses:
+    for timeslapse in timelapses:
         line_time = []
         line_angle = []
         for wave in timeslapse.wave_snapshots:
@@ -96,21 +96,21 @@ def stat_angle(timestamps, timeslapses):
     pondered_moy = []
     pondered_med = []
     for timestamp in timestamps:
-        concerned_timeslapses = []
+        concerned_timelapses = []
 
         timeslapse: WaveClusterTimelapse
-        for timeslapse in timeslapses:
+        for timeslapse in timelapses:
             wave_snap: WaveCluster
             for wave_snap in timeslapse.wave_snapshots:
                 if wave_snap.timestamp == timestamp:
-                    concerned_timeslapses.append(timeslapse)
-        if concerned_timeslapses:
+                    concerned_timelapses.append(timeslapse)
+        if concerned_timelapses:
             # moy / med
-            moy.append(mean([timeslapse.angle for timeslapse in concerned_timeslapses]))
-            med.append(median([timeslapse.angle for timeslapse in concerned_timeslapses]))
+            moy.append(mean([timeslapse.angle for timeslapse in concerned_timelapses]))
+            med.append(median([timeslapse.angle for timeslapse in concerned_timelapses]))
             # pondered weight
             tot_angle = []
-            for timeslapse in concerned_timeslapses:
+            for timeslapse in concerned_timelapses:
                 weight = abs(timeslapse.rvalue)*5 + min(timeslapse.length_bary,5)
                 weight = int(weight)
                 for _ in range(weight):
@@ -126,23 +126,23 @@ def stat_angle(timestamps, timeslapses):
     plt.show()
 
 
-def stats_rep(timestamps, timeslapses):
+def stats_rep(timestamps, timelapses):
     fig_stat = plt.figure()
     ims = []
 
     for timestamp in timestamps:
         frame = []
-        concerned_timeslapses = []
+        concerned_timelapses = []
 
         timeslapse: WaveClusterTimelapse
-        for timeslapse in timeslapses:
+        for timeslapse in timelapses:
             wave_snap: WaveCluster
             for wave_snap in timeslapse.wave_snapshots:
                 if wave_snap.timestamp == timestamp:
-                    concerned_timeslapses.append(timeslapse)
+                    concerned_timelapses.append(timeslapse)
         
-        #n, bins, patches = plt.hist([timeslapse.angle for timeslapse in concerned_timeslapses], density=True, bins=30)
-        for timeslapse in concerned_timeslapses:
+        #n, bins, patches = plt.hist([timeslapse.angle for timeslapse in concerned_timelapses], density=True, bins=30)
+        for timeslapse in concerned_timelapses:
             l = len(timeslapse.wave_snapshots)
             x = [-1*l, l]
             y = [timeslapse.slope*-1*l, timeslapse.slope*l]
