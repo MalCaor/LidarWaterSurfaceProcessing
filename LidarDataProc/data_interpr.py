@@ -114,6 +114,14 @@ def _mesh_from_pc(point_coud):
 ###### LINE DRAWING #####
 
 def line_interpr(array_lidar: List[LidarPointArray]):
+    """Draw line from a pc list
+
+    Args:
+        array_lidar (List[LidarPointArray]): lidar pc list
+
+    Returns:
+        Tuple[List[List[o3d.geometry.LineSet]], List[o3d.geometry.PointCloud]]: List of line, list of points cloud
+    """
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
     
@@ -134,6 +142,15 @@ def line_interpr(array_lidar: List[LidarPointArray]):
     return (list_line_retour, list_pc_retour)
 
 def _generate_line(pc):
+    """return a list of lineset from the inputed point cloud
+
+    Args:
+        pc (_type_): point cloud
+
+    Returns:
+        List[o3d.geometry.LineSet]: lineset
+    """
+
     list_lines: List[o3d.geometry.LineSet] = []
     subdiv = _divide_pc_to_axis(pc)
     print("subdive by {} part".format(str(len(subdiv))))
