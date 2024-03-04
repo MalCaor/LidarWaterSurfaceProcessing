@@ -8,6 +8,8 @@ from LidarPointArray import LidarPointArray
 import numpy as np
 
 class SimulatedSea:
+    """Class to simulate a Fake Sea for testing purpose
+    """
     def __init__(self, type, nbr_frames, intervals=0.1, start=datetime.datetime.today()) -> None:
         self.type = type
         self.nbr_frames = int(nbr_frames)
