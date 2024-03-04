@@ -20,43 +20,18 @@ options:
 -  --display DISPLAY_TYPE :
                         display data : pc (point cloud), mesh (mesh generation)
 ---
-## Baril Point Wave Cluster
 
-Clusturize wave in 2d and find center point to see their movement
+# Display Type :
+## PC
 
-![contour map](./img/barilP.gif "Title")
+Just visualise the lidar data in open3d as a moving point cloud
 
-## Line Wave Baril Center
+![zodiac_pc](./img/pc_vid_compr.gif "Title")
 
-Folow the trajectory of barile center
+## Mesh
 
-![contour map](./img/lineWaveColor2.gif "Title")
+Generate a mesh from the point cloud
 
-## Line Wave Baril Center
+![mesh_ifremer](./img/mesh3.PNG "Title")
 
-Determine waves direction with weighted average of waves line regression
-(the black line)
-
-![contour map](./img/waveCompass.gif "Title")
-
-## Contour lidar
-
-Generate MathPlot contour animation from lidar data
-
-![contour map](./img/contourMap.PNG "Title")
-
-## Point Cloud Lidar
-
-Visualise Point cloud in a Open3d Space
-
-![point cloud](./img/LidarImg.PNG "Title")
-
-## Point Cloud Stabilisation
-
-Stabilise the point cloud with IMU data
-
-## Mesh Generation
-
-Generate Mesh From Lidar Point cloud and Visualise it
-
-![mesh generation](./img/mesh3.PNG "Title")
+## 

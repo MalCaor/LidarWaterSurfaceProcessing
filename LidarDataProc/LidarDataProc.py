@@ -14,7 +14,7 @@ from visualisation3d import *
 from data_stabilisation import stabilise_lidar_array
 from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
-from line_generator import wave_clustering, line_generation, line_2d_generate, barycentre_cluster
+from line_generator import wave_clustering, line_2d_generate, barycentre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timelapse_generator
 from visualisationStat import evolution_moy_value, stat_angle, polar_angle, wave_height
 from SimulatedSea import SimulatedSea
@@ -135,9 +135,6 @@ if args.display:
         hex2dAnimates(array_lidar)
     elif args.display[0]=="contour2d":
         contour2dAnimates(array_lidar)
-    elif args.display[0]=="line":
-        lines, point_cloid = line_generation(array_lidar)
-        display_anim_mesh(lines, point_cloid)
     elif args.display[0]=="wave2d":
         lines, points = line_2d_generate(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp

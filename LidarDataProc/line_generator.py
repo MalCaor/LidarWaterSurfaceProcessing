@@ -16,34 +16,6 @@ from LidarPointArray import LidarPointArray
 dist_to_divide = 50
 
 
-def line_generation(array_lidar: List[LidarPointArray]):
-    """begining of line generation from lidar point cloud array
-
-    Args:
-        array_lidar (List[LidarPointArray]): inputed array
-
-    Returns:
-        Tuple[List[List[o3d.geometry.LineSet]], List[o3d.geometry.PointCloud]]: (lines, points cloud)
-    """
-    length: float = len(array_lidar)
-    print("Interpreting array of length {}".format(str(length)))
-    
-    list_line_retour: List[List[o3d.geometry.LineSet]] = []
-    list_pc_retour: List[o3d.geometry.PointCloud] = []
-
-    
-    for arr in array_lidar:
-        # create point cloud
-        pc = o3d.geometry.PointCloud()
-        pc.points = o3d.utility.Vector3dVector(arr.points_array)
-        pc.estimate_normals()
-        pc.orient_normals_towards_camera_location()
-        list_pc_retour.append(pc)
-        # create lines
-        list_line_retour.append(_generate_line(pc))
-
-    return (list_line_retour, list_pc_retour)
-
 def line_2d_generate(array_lidar: List[LidarPointArray]):
     """generate 2d line representing the linear reduction of the clusterisation of the point cloud
 
@@ -225,29 +197,3 @@ def _knn_div(pc):
             list_retour.append(cluster)
         point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
     return list_retour
-
-def _generate_line(pc):
-    list_lines: List[o3d.geometry.LineSet] = []
-    subdiv = _knn_div(pc)
-    i = 0
-    length = len(subdiv)
-    for div in subdiv:
-        # display
-        print(" "*10, end='\r')
-        percent: float = i / length * 100.0
-        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
-        i+=1
-        # get line
-        order = [[i,i+1] for i in range(len(div))]
-        order = order[:-1]
-        # order points
-        p = div[0]
-        #list.sort(div, key=lambda elem: calculate_distance(np.array(p), np.array(elem)), reverse=True)
-        # append
-        l = o3d.geometry.LineSet(
-            points=o3d.utility.Vector3dVector(div),
-            lines=o3d.utility.Vector2iVector(order),
-        )
-        list_lines.append(l)
-    return list_lines
-
