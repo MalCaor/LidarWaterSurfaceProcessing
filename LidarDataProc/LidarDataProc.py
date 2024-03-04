@@ -16,7 +16,7 @@ from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import wave_clustering, line_generation, line_2d_generate, barycentre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timelapse_generator
-from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle, polar_angle, wave_height
+from visualisationStat import evolution_moy_value, stat_angle, polar_angle, wave_height
 from SimulatedSea import SimulatedSea
 
 # util func
@@ -163,12 +163,6 @@ if args.display:
         coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         evolution_moy_value(coef_moy)
-    elif args.display[0]=="wavedirrep_stat":
-        points, clusters = barycentre_cluster(array_lidar)
-        line_wave = point_movement_line(points)
-        coef_moy, coefs = find_direction_waves(line_wave)
-        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        repartition_anim(coefs, dt_interval)
     elif args.display[0]=="wavecluster":
         waves_clusters = wave_clustering(array_lidar)
         timelapses = wave_cluster_timelapse_generator(waves_clusters)
