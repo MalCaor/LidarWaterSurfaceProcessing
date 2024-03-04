@@ -6,7 +6,6 @@ import pandas as pd
 import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
-from utils import get_color
 
 
 def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):
