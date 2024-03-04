@@ -114,7 +114,7 @@ def barycentre_cluster(array_lidar: List[LidarPointArray]):
         array_lidar (List[LidarPointArray]): inputed array
 
     Returns:
-        _type_: _description_
+        _type_: points_retour, clusters_retour
     """
     length: float = len(array_lidar)
     print("Interpreting array of length {}".format(str(length)))
@@ -138,23 +138,6 @@ def barycentre_cluster(array_lidar: List[LidarPointArray]):
 
     print("barycentre_cluster finished")
     return points_retour, clusters_retour
-
-def ransac_divid(pc):
-    pc = pc.voxel_down_sample(0.1)
-    point_cloud: np.array = np.array(pc.points)
-    line_retour = []
-    ransac_n=3
-
-    while point_cloud.size > ransac_n*2:
-        pc = o3d.geometry.PointCloud()
-        pc.points = o3d.utility.Vector3dVector(point_cloud)
-        plane_model, inliers = pc.segment_plane(distance_threshold=0.1, ransac_n=ransac_n, num_iterations=10000)
-        inlier_cloud = pc.select_by_index(inliers)
-        outlier_cloud = pc.select_by_index(inliers, invert=True)
-        line_retour.append(np.array(inlier_cloud.points).tolist())
-        point_cloud = np.array(outlier_cloud.points)
-    
-    return line_retour
 
 def _bar_cen_cluster_calc(pc):
     clusters = _knn_div(pc)
@@ -185,8 +168,6 @@ def _interpolate(cluster):
     #for x in lx:
     #    newpoints.append([x, res.intercept + res.slope*x])
     return newpoints
-
-
 
 def _combined(pc):
     lines_retour = []
@@ -237,25 +218,6 @@ def _knn_div(pc):
     while point_cloud.size != 0:
         tree = KDTree(point_cloud) 
         ind = tree.query_radius(point_cloud[:1], r=3)
-        cluster = list(list(point_cloud[i]) for i in ind[0])
-        p1 = cluster[0]
-        cluster = sorted(cluster, key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
-        if len(cluster)>2:
-            list_retour.append(cluster)
-        point_cloud = np.array([point_cloud[i] for i in range(point_cloud.shape[0]) if i not in ind[0]])
-    return list_retour
-
-def _new_knn_div(pc):
-    pc = pc.voxel_down_sample(0.1)
-    point_cloud: np.array = np.array(pc.points)
-    list_retour: List = []
-    while point_cloud.size != 0:
-        neigh = NearestNeighbors(n_neighbors=1)
-        neigh.fit(point_cloud)
-        ind = neigh.kneighbors(
-            [point_cloud[0]], 
-            n_neighbors=max(int(point_cloud.size/10),1), 
-            return_distance=False)
         cluster = list(list(point_cloud[i]) for i in ind[0])
         p1 = cluster[0]
         cluster = sorted(cluster, key=lambda elem: calculate_distance(np.array(p1), np.array(elem)), reverse=False)
