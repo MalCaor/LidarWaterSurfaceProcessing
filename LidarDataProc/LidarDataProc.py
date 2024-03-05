@@ -154,17 +154,6 @@ if args.display:
         coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         barycentre_anim_line_wave_compass(clusters, points, line_wave, coef_moy, dt_interval)
-    elif args.display[0]=="wavedir_stat":
-        points, clusters = barycentre_cluster(array_lidar)
-        line_wave = point_movement_line(points)
-        coef_moy, coefs = find_direction_waves(line_wave)
-        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        evolution_moy_value(coef_moy)
-    elif args.display[0]=="wavecluster":
-        waves_clusters = wave_clustering(array_lidar)
-        timelapses = wave_cluster_timelapse_generator(waves_clusters)
-        timestamps = [array.timestamp for array in array_lidar]
-        stat_angle(timestamps, timelapses)
     elif args.display[0]=="wavepolar":
         waves_clusters = wave_clustering(array_lidar)
         timelapses = wave_cluster_timelapse_generator(waves_clusters)

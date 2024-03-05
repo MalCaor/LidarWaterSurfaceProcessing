@@ -59,3 +59,14 @@ Same as linebary but with the estimated direction of the wave (weighted average 
 
 ![mesh_ifremer](./img/wavedir.gif "Title")
 
+# WavePolar
+
+Polar graph of the estimated direction of the wave
+
+![mesh_ifremer](./img/polar.png "Title")
+
+# WaveHeight
+
+average wave height of each line cluster, alpha varying according to the ponderation weight
+
+![mesh_ifremer](./img/waveHeight.png "Title")
