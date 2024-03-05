@@ -46,4 +46,16 @@ Display the animated barycentre of a KNN clustering
 
 ![mesh_ifremer](./img/barycentre.gif "Title")
 
-# 
+# Linebary
+
+Display the barycentre movement as lines
+Lines go from blue to red according to their lenght
+
+![mesh_ifremer](./img/lineWave.gif "Title")
+
+# Wavedir
+
+Same as linebary but with the estimated direction of the wave (weighted average of the linear reduction of the lines)
+
+![mesh_ifremer](./img/wavedir.gif "Title")
+
