@@ -1,24 +1,28 @@
 # LIDAR WATER SURFACE PROCESSING :
 
-usage: LIDAR Data Processing [-h] [--lidar_vel LIDAR_FILE_PATH NUM_FRAME_TO_EXTRACT] [--lidar_ous LIDAR_FILE_PATH JSON_META_FILE_PATH NUM_FRAME_TO_EXTRACT] [--gyro CSV_FILE_PATH] [--corr YPR_OPTION] [--prefilter JSON_FILE_PATH]
-                             [--postfilter JSON_FILE_PATH] [--display DISPLAY_TYPE]
+Experimental Python Module
 
-Process LIDAR wave surface data
+Analyse a Lidar Scan "film" of a water surface (mainly the ocean) to determine informations about it, mainly the direction of the waves
 
-options:
--  -h, --help            show this help message and exit
--  --lidar_vel LIDAR_FILE_PATH NUM_FRAME_TO_EXTRACT :
+```
+options :
+  -h, --help            show this help message and exit
+  --lidar_vel LIDAR_FILE_PATH NUM_FRAME_TO_EXTRACT
                         read Velodyne lidar .pcap
--  --lidar_ous LIDAR_FILE_PATH JSON_META_FILE_PATH NUM_FRAME_TO_EXTRACT :
+  --lidar_ous LIDAR_FILE_PATH JSON_META_FILE_PATH NUM_FRAME_TO_EXTRACT
                         read Ouster lidar .pcap
--  --gyro CSV_FILE_PATH : read IMU csv file
--  --corr YPR_OPTION  :   correct the point cloud with IMU data (Yaw, Pitch, Roll)
--  --prefilter JSON_FILE_PATH :
+  --simu SEA_TYPE NBR_FRAMES
+                        Generate a simulated sea
+  --gyro CSV_FILE_PATH  read IMU csv file
+  --corr YPR_OPTION     correct the point cloud with IMU data (Yaw, Pitch, Roll)
+  --prefilter JSON_FILE_PATH
                         filter cloud point before correcting the data
--  --postfilter JSON_FILE_PATH :
+  --postfilter JSON_FILE_PATH
                         filter cloud point after correcting the data
--  --display DISPLAY_TYPE :
-                        display data : pc (point cloud), mesh (mesh generation)
+  --display DISPLAY_TYPE
+                        display data : pc (point cloud), mesh (mesh generation), hex2d (hex top view), barycentre (barycentre of knn clusterisation of the pc), linebary (line of barycentre movement), wavedir
+                        (estimated direction of the wave), wavepolar (polar of the estimated direction of the wave), waveheight (average height of each cluster)
+```
 ---
 
 # Display Type :
