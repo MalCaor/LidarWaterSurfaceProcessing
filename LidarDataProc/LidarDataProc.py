@@ -133,8 +133,6 @@ if args.display:
         display_anim_mesh(meshs, point_cloid)
     elif args.display[0]=="hex2d":
         hex2dAnimates(array_lidar)
-    elif args.display[0]=="contour2d":
-        contour2dAnimates(array_lidar)
     elif args.display[0]=="wave2d":
         lines, points = line_2d_generate(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
