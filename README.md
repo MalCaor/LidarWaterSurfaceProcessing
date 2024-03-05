@@ -38,5 +38,12 @@ Generate a mesh from the point cloud
 
 Display the point cloud as a 2d animation view from the top
 
-![mesh_ifremer](./img//hex_comp_comp.gif "Title")
+![mesh_ifremer](./img/hex_comp_comp.gif "Title")
 
+# Barycentre
+
+Display the animated barycentre of a KNN clustering
+
+![mesh_ifremer](./img/barycentre.gif "Title")
+
+# 
