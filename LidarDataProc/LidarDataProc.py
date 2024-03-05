@@ -16,7 +16,7 @@ from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
 from line_generator import wave_clustering, line_2d_generate, barycentre_cluster
 from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timelapse_generator
-from visualisationStat import evolution_moy_value, stat_angle, polar_angle, wave_height
+from visualisationStat import polar_angle, wave_height
 from SimulatedSea import SimulatedSea
 
 # util func

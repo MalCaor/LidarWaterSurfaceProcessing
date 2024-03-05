@@ -88,65 +88,6 @@ def polar_angle(timestamps, timelapses):
     plt.legend(loc='best')
     plt.show()
 
-def stat_angle(timestamps, timelapses):
-    """same as polar_angle but on a line plot instead of a polar (not realy usefull but legacy)
-
-    Args:
-        timestamps (_type_): _description_
-        timelapses (_type_): _description_
-    """
-    # lines angles
-    angleslines = []
-    for timeslapse in timelapses:
-        line_time = []
-        line_angle = []
-        for wave in timeslapse.wave_snapshots:
-            line_time.append(wave.timestamp)
-            line_angle.append(timeslapse.angle)
-        angleslines.append([line_time, line_angle, timeslapse.rvalue, timeslapse.length_bary])
-    for line in angleslines:
-        alpha = abs(line[2])/2 + (min(line[3],5)/5)/2
-        plt.plot(line[0], line[1], color="black", alpha=alpha)
-    
-    # moy angles
-    moy = []
-    med = []
-    pondered_moy = []
-    pondered_med = []
-    for timestamp in timestamps:
-        concerned_timelapses = []
-
-        timeslapse: WaveClusterTimelapse
-        for timeslapse in timelapses:
-            wave_snap: WaveCluster
-            for wave_snap in timeslapse.wave_snapshots:
-                if wave_snap.timestamp == timestamp:
-                    concerned_timelapses.append(timeslapse)
-        if concerned_timelapses:
-            # moy / med
-            moy.append(mean([timeslapse.angle for timeslapse in concerned_timelapses]))
-            med.append(median([timeslapse.angle for timeslapse in concerned_timelapses]))
-            # pondered weight
-            tot_angle = []
-            for timeslapse in concerned_timelapses:
-                weight = abs(timeslapse.rvalue)*5 + min(timeslapse.length_bary,5)
-                weight = int(weight)
-                for _ in range(weight):
-                    tot_angle.append(timeslapse.angle)
-            pondered_moy.append(mean(tot_angle))
-            pondered_med.append(median(tot_angle))
-    #plt.plot(timestamps, moy, label="mean")
-    #plt.plot(timestamps, med, label="median")
-    #plt.plot(timestamps, pondered_moy, label="pondered mean")
-    plt.plot(timestamps, pondered_med, label="pondered median")
-    plt.plot(timestamps, moving_average(pondered_med, 20), label="average pondered median")
-    plt.legend(loc='best')
-    plt.show()
-
-def evolution_moy_value(coefs):
-    plt.plot([i for i in range(len(coefs))], [c[1] for c in coefs], color='black')
-    plt.show()
-
 def _save_anim(ani: anim.ArtistAnimation):
     # save animation
     print("save Animation")
