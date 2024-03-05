@@ -88,7 +88,7 @@ parser.add_argument(
 parser.add_argument(
     "--display",
     nargs=1,
-    help="display data : pc (point cloud), mesh (mesh generation)",
+    help="display data : pc (point cloud), mesh (mesh generation), hex2d (hex top view), barycentre (barycentre of knn clusterisation of the pc), linebary (line of barycentre movement), wavedir (estimated direction of the wave), wavepolar (polar of the estimated direction of the wave), waveheight (average height of each cluster)",
     metavar=("DISPLAY_TYPE",)
 )
 
