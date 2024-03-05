@@ -14,9 +14,10 @@ from visualisation3d import *
 from data_stabilisation import stabilise_lidar_array
 from data_interpr import shape_interpr
 from data_filter import filter_lidar_data
-from line_generator import wave_clustering, line_generation, line_2d_generate, baril_centre_cluster
-from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timesapse_generator
-from visualisationStat import evolution_moy_value, repartition_anim, stats_rep, stat_angle
+from line_generator import wave_clustering, line_2d_generate, barycentre_cluster
+from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timelapse_generator
+from visualisationStat import polar_angle, wave_height
+from SimulatedSea import SimulatedSea
 
 # util func
 def print_plage_time_array(array: List[LidarPointArray]):
@@ -46,6 +47,12 @@ parser.add_argument(
     nargs=3,
     help="read Ouster lidar .pcap",
     metavar=("LIDAR_FILE_PATH", "JSON_META_FILE_PATH", "NUM_FRAME_TO_EXTRACT")
+)
+parser.add_argument(
+    "--simu",
+    nargs=2,
+    help="Generate a simulated sea",
+    metavar=("SEA_TYPE", "NBR_FRAMES")
 )
 # Process GYRO .csv Data File
 parser.add_argument(
@@ -96,6 +103,9 @@ if args.lidar_vel:
     array_lidar = parse_lidar_vel_file_into_array(args.lidar_vel[0], args.lidar_vel[1])
 if args.lidar_ous:
     array_lidar = parse_lidar_ous_file_into_array(args.lidar_ous[0], args.lidar_ous[1], args.lidar_ous[2])
+if args.simu:
+    simu = SimulatedSea(args.simu[0], args.simu[1])
+    array_lidar = simu.get_array_lidar()
 
 if args.gyro:
     array_gyro = parse_gyro_file_data(args.gyro[0])
@@ -125,45 +135,35 @@ if args.display:
         hex2dAnimates(array_lidar)
     elif args.display[0]=="contour2d":
         contour2dAnimates(array_lidar)
-    elif args.display[0]=="line":
-        lines, point_cloid = line_generation(array_lidar)
-        display_anim_mesh(lines, point_cloid)
     elif args.display[0]=="wave2d":
         lines, points = line_2d_generate(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
         wave_line_anim(points, lines, dt_interval)
-    elif args.display[0]=="barilcentre":
-        points, clusters = baril_centre_cluster(array_lidar)
+    elif args.display[0]=="barycentre":
+        points, clusters = barycentre_cluster(array_lidar)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim(clusters, points, dt_interval)
-    elif args.display[0]=="linebarile":
-        points, clusters = baril_centre_cluster(array_lidar)
+        barycentre_anim(clusters, points, dt_interval)
+    elif args.display[0]=="linebary":
+        points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim_plus_line_wave(clusters, points, line_wave, dt_interval)
+        barycentre_anim_plus_line_wave(clusters, points, line_wave, dt_interval)
     elif args.display[0]=="wavedir":
-        points, clusters = baril_centre_cluster(array_lidar)
+        points, clusters = barycentre_cluster(array_lidar)
         line_wave = point_movement_line(points)
         coef_moy, coefs = find_direction_waves(line_wave)
         dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        baril_centre_anim_line_wave_compass(clusters, points, line_wave, coef_moy, dt_interval)
-    elif args.display[0]=="wavedir_stat":
-        points, clusters = baril_centre_cluster(array_lidar)
-        line_wave = point_movement_line(points)
-        coef_moy, coefs = find_direction_waves(line_wave)
-        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        evolution_moy_value(coef_moy)
-    elif args.display[0]=="wavedirrep_stat":
-        points, clusters = baril_centre_cluster(array_lidar)
-        line_wave = point_movement_line(points)
-        coef_moy, coefs = find_direction_waves(line_wave)
-        dt_interval = array_lidar[1].timestamp - array_lidar[0].timestamp
-        repartition_anim(coefs, dt_interval)
-    elif args.display[0]=="wavecluster":
+        barycentre_anim_line_wave_compass(clusters, points, line_wave, coef_moy, dt_interval)
+    elif args.display[0]=="wavepolar":
         waves_clusters = wave_clustering(array_lidar)
-        timeslapses = wave_cluster_timesapse_generator(waves_clusters)
+        timelapses = wave_cluster_timelapse_generator(waves_clusters)
         timestamps = [array.timestamp for array in array_lidar]
-        stat_angle(timestamps, timeslapses)
+        polar_angle(timestamps, timelapses)
+    elif args.display[0]=="waveheight":
+        waves_clusters = wave_clustering(array_lidar)
+        timelapses = wave_cluster_timelapse_generator(waves_clusters)
+        timestamps = [array.timestamp for array in array_lidar]
+        wave_height(timestamps, timelapses)
     else:
         print("ERROR: Wrong parameter for display")
         exit(1)

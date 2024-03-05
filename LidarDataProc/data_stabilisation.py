@@ -21,6 +21,18 @@ def _rotate_around_point(origin, point, angle):
     return qx, qy
 
 def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll, stabil_param):
+    """correct an array lidar according to inputed param
+
+    Args:
+        array_lidar (List[LidarPointArray]): _description_
+        tot_yaw (float): yaw to correct
+        tot_pitch (float): pitch to correct
+        tot_roll (float): roll to correct
+        stabil_param (string): correction param (ypr)
+
+    Returns:
+        List[LidarPointArray]: corrected array lidar
+    """
     # store new value
     lid = array_lidar
 
@@ -43,6 +55,16 @@ def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll, stabil_param
     return lid
 
 def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[GyroData], stabil_param: str):
+    """stabilise an array lidar point cloud with the gyro data and the yaw/pitch/roll (ypr) to correct
+
+    Args:
+        array_lidar (List[LidarPointArray]): lidar array point cloud
+        array_gyro (List[GyroData]): gyro data array
+        stabil_param (str): stabilidation param
+
+    Returns:
+        List[LidarPointArray]: corrected lidar array point cloud
+    """
     print("Stabilising data of lenght : {}".format(len(array_lidar)))
     # array of corrected points
     new_array: List[LidarPointArray] = []

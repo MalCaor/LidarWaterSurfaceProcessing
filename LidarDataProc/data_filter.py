@@ -5,6 +5,13 @@ from filter import *
 import numpy as np
 
 def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: str):
+    """filter the lidar data, acording to a filter file
+
+    Args:
+        lidar_data (List[LidarPointArray]): list of LidarPointArray to perform the filter on
+        filter_setting_path (str): path to the filter file
+    """
+
     print("Filtering the data with rules in {}".format(filter_setting_path))
     # Vars
     filter_obj: filter

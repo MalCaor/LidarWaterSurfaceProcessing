@@ -13,45 +13,20 @@ from LidarPoint import LidarPoint
 from LidarPointArray import LidarPointArray
 from GyroData import GyroData
 
-# Function
-def parse_lidar_file_data_velodyne(path_file_input: str, number_to_analyse: int=0) -> List[List[LidarPoint]]:
-    print("PARSING FILE : {}".format(path_file_input))
-
-    # test if input
-    if not exists(path_file_input):
-        raise FileNotFoundError("Input file doesn't exist")
-
-    # config
-    config = vd.Config(model='VLP-16', rpm=300)
-    pcap_file = path_file_input
-    cloud_arrays_return: List[List[LidarPoint]] = []
-
-    # get data length
-    dataLidar = vd.read_pcap(pcap_file, config)
-    length: float = sum(1 for _ in dataLidar)
-
-    # read file
-    i: float = 0.0
-    for stamp, points in vd.read_pcap(pcap_file, config):
-        cloud_arrays = []
-        if float(number_to_analyse)>0 and i>float(number_to_analyse):
-            break
-        # % compl
-        print(" "*20, end='\r')
-        percent: float = i / length * 100.0
-        print("{:.0f}/{} - {:.2f}%".format(i, length, percent), end='\r')
-        i += 1
-        # get points
-        for point in points:
-            lidarpoint: LidarPoint = LidarPoint(stamp, point)
-            cloud_arrays.append(lidarpoint)
-        cloud_arrays_return.append(cloud_arrays)
-    
-    print(" "*20, end='\r')
-    print("Parse file {} Finished".format(path_file_input))
-    return cloud_arrays_return
 
 def parse_lidar_vel_file_into_array(path_file_input: str, number_to_analyse: int=0) -> List[LidarPointArray]:
+    """parse Velodine lidar file into a List of LidarPointArray
+
+    Args:
+        path_file_input (str): path of the .pcap file
+        number_to_analyse (int, optional): number of frame to parse (0=all). Defaults to 0.
+
+    Raises:
+        FileNotFoundError: file was not found
+
+    Returns:
+        List[LidarPointArray]: List of LidarPointArray
+    """
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input
@@ -87,6 +62,19 @@ def parse_lidar_vel_file_into_array(path_file_input: str, number_to_analyse: int
     return cloud_arrays_return
 
 def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, number_to_analyse: int=0) -> List[LidarPointArray]:
+    """parse Ouster lidar file into a List of LidarPointArray
+
+    Args:
+        lidar_file_path (str): path of the .pcap file
+        json_file_path (str): path of the .json file
+        number_to_analyse (int, optional): number of frame to parse (0=all). Defaults to 0.
+
+    Raises:
+        FileNotFoundError: file was not found
+
+    Returns:
+        List[LidarPointArray]: List of LidarPointArray
+    """
     print("PARSING FILE : {}".format(lidar_file_path))
 
     # test if input
@@ -135,6 +123,17 @@ def parse_lidar_ous_file_into_array(lidar_file_path: str, json_file_path: str, n
     return cloud_arrays_return
 
 def parse_gyro_file_data(path_file_input: str) -> List[GyroData]:
+    """parse gyro .csv file
+
+    Args:
+        path_file_input (str): file path
+
+    Raises:
+        FileNotFoundError: file not found
+
+    Returns:
+        List[GyroData]: list of gyrodata
+    """
     print("PARSING FILE : {}".format(path_file_input))
 
     # test if input

@@ -7,6 +7,8 @@ import numpy as np
 
 # Abstract API
 class filter(ABC):
+    """Abstract Filter Class
+    """
     # check if validate condition
     @abstractmethod
     def validate(self, origine: np.ndarray, point: np.ndarray) -> bool:
@@ -16,6 +18,8 @@ class filter(ABC):
 ### OPERATOR ###
 # AND filter operator
 class filter_and(filter):
+    """AND Filter Class
+    """
     list_filter: List[filter]
 
     def validate(self, origine: np.ndarray, point: np.ndarray) -> bool:
@@ -26,6 +30,8 @@ class filter_and(filter):
 
 # OR filter operator
 class filter_or(filter):
+    """OR Filter Class
+    """
     list_filter: List[filter]
 
     def validate(self, origine: np.ndarray, point: np.ndarray) -> bool:
@@ -37,6 +43,9 @@ class filter_or(filter):
 
 ### FILTER CLASS ###
 class range_filter(filter):
+    """Range Filter Class : 
+    include or exclude all points in a certain range from an origine point
+    """
     def validate(self, origine: np.ndarray, point: np.ndarray) -> bool:
         # calculate dist
         dist = calculate_distance(origine, point)
