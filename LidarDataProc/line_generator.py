@@ -1,5 +1,3 @@
-from math import dist
-from operator import invert
 from statistics import median
 from typing import List
 import open3d as o3d
