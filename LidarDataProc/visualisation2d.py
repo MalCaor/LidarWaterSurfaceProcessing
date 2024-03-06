@@ -1,7 +1,4 @@
-from datetime import datetime
 from typing import List
-import pandas as pd
-import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 
