@@ -5,7 +5,6 @@ from tokenize import Double
 from typing import List, Tuple
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
-import numpy as np
 from scipy.stats import circmean
 
 from WaveClusterTimelapse import WaveClusterTimelapse
