@@ -4,8 +4,8 @@ import open3d as o3d
 import numpy as np
 
 # IMPORT CLASS
-from LidarDataProc.LidarPointArray import LidarPointArray
-from LidarDataProc.utils import *
+from LidarPointArray import LidarPointArray
+from utils import *
 
 # param mesh
 voxel_size = 0.1

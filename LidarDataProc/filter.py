@@ -3,7 +3,7 @@ import json
 from typing import Dict, List
 import numpy as np
 
-from LidarDataProc.utils import *
+from utils import *
 
 
 # Abstract API

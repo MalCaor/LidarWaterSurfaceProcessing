@@ -71,9 +71,9 @@
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="c1"># IMPORT LOCAL</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">LidarDataProc.LidarPoint</span> <span class="kn">import</span> <span class="n">LidarPoint</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span> <span class="nn">LidarDataProc.LidarPointArray</span> <span class="kn">import</span> <span class="n">LidarPointArray</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">from</span> <span class="nn">LidarDataProc.GyroData</span> <span class="kn">import</span> <span class="n">GyroData</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">LidarPoint</span> <span class="kn">import</span> <span class="n">LidarPoint</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span> <span class="nn">LidarPointArray</span> <span class="kn">import</span> <span class="n">LidarPointArray</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">from</span> <span class="nn">GyroData</span> <span class="kn">import</span> <span class="n">GyroData</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="k">def</span> <span class="nf">parse_lidar_vel_file_into_array</span><span class="p">(</span><span class="n">path_file_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">number_to_analyse</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">LidarPointArray</span><span class="p">]:</span>
@@ -225,7 +225,7 @@
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">parse_lidar_vel_file_into_array</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">path_file_input</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">number_to_analyse</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="LidarPointArray.html#LidarPointArray">LidarDataProc.LidarPointArray.LidarPointArray</a></span><span class="p">]</span>:</span></span>
+        <span class="name">parse_lidar_vel_file_into_array</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">path_file_input</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">number_to_analyse</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n">LidarPointArray</span><span class="o">.</span><span class="n">LidarPointArray</span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="parse_lidar_vel_file_into_array-view-source"><span>View Source</span></label>
 
@@ -300,7 +300,7 @@
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">parse_lidar_ous_file_into_array</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">lidar_file_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">json_file_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">number_to_analyse</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="LidarPointArray.html#LidarPointArray">LidarDataProc.LidarPointArray.LidarPointArray</a></span><span class="p">]</span>:</span></span>
+        <span class="name">parse_lidar_ous_file_into_array</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">lidar_file_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">json_file_path</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">number_to_analyse</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n">LidarPointArray</span><span class="o">.</span><span class="n">LidarPointArray</span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="parse_lidar_ous_file_into_array-view-source"><span>View Source</span></label>
 
@@ -390,7 +390,7 @@
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">parse_gyro_file_data</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">path_file_input</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n"><a href="GyroData.html#GyroData">LidarDataProc.GyroData.GyroData</a></span><span class="p">]</span>:</span></span>
+        <span class="name">parse_gyro_file_data</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">path_file_input</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">List</span><span class="p">[</span><span class="n">GyroData</span><span class="o">.</span><span class="n">GyroData</span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="parse_gyro_file_data-view-source"><span>View Source</span></label>
 

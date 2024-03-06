@@ -5,8 +5,8 @@ import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 
-from LidarDataProc.LidarPoint import LidarPoint
-from LidarDataProc.LidarPointArray import LidarPointArray
+from LidarPoint import LidarPoint
+from LidarPointArray import LidarPointArray
 
 
 def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):

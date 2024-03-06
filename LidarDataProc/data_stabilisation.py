@@ -3,8 +3,8 @@ import math
 from typing import List
 
 # IMPORT CLASS
-from LidarDataProc.LidarPointArray import LidarPointArray
-from LidarDataProc.GyroData import GyroData
+from LidarPointArray import LidarPointArray
+from GyroData import GyroData
 
 
 def _rotate_around_point(origin, point, angle):

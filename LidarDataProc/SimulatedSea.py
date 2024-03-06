@@ -6,7 +6,7 @@ from random import random
 from typing import List
 import numpy as np
 
-from LidarDataProc.LidarPointArray import LidarPointArray
+from LidarPointArray import LidarPointArray
 
 class SimulatedSea:
     """Class to simulate a Fake Sea for testing purpose

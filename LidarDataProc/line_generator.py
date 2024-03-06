@@ -6,9 +6,9 @@ import open3d as o3d
 from sklearn.neighbors import KDTree
 from scipy import stats
 
-from LidarDataProc.utils import *
-from LidarDataProc.LidarPointArray import LidarPointArray
-from LidarDataProc.WaveCluster import WaveCluster
+from utils import *
+from LidarPointArray import LidarPointArray
+from WaveCluster import WaveCluster
 
 
 ### CONFIG

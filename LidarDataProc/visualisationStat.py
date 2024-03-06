@@ -8,9 +8,9 @@ from matplotlib import animation as anim
 import numpy as np
 from scipy.stats import circmean
 
-from LidarDataProc.WaveClusterTimelapse import WaveClusterTimelapse
-from LidarDataProc.WaveCluster import WaveCluster
-from LidarDataProc.utils import moving_average, mediane_angles
+from WaveClusterTimelapse import WaveClusterTimelapse
+from WaveCluster import WaveCluster
+from utils import moving_average, mediane_angles
 
 def wave_height(timestamps, timelapses):
     """graph of cluster height through time

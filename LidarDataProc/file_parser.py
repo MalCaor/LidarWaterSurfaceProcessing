@@ -9,9 +9,9 @@ from ouster import client, pcap
 import numpy as np
 
 # IMPORT LOCAL
-from LidarDataProc.LidarPoint import LidarPoint
-from LidarDataProc.LidarPointArray import LidarPointArray
-from LidarDataProc.GyroData import GyroData
+from LidarPoint import LidarPoint
+from LidarPointArray import LidarPointArray
+from GyroData import GyroData
 
 
 def parse_lidar_vel_file_into_array(path_file_input: str, number_to_analyse: int=0) -> List[LidarPointArray]:

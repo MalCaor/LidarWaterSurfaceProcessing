@@ -1,22 +1,27 @@
+import os
+import sys
+path = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(path)
+
 # IMPORT EXTERN
 import argparse
 from typing import List
 
 # IMPORT CLASS
-from LidarDataProc.LidarPointArray import LidarPointArray
-from LidarDataProc.GyroData import GyroData
+from LidarPointArray import LidarPointArray
+from GyroData import GyroData
 # IMPORT UTIL METH
-from LidarDataProc.write_data import *
-from LidarDataProc.file_parser import *
-from LidarDataProc.visualisation2d import *
-from LidarDataProc.visualisation3d import *
-from LidarDataProc.data_stabilisation import stabilise_lidar_array
-from LidarDataProc.data_interpr import shape_interpr
-from LidarDataProc.data_filter import filter_lidar_data
-from LidarDataProc.line_generator import wave_clustering, line_2d_generate, barycentre_cluster
-from LidarDataProc.point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timelapse_generator
-from LidarDataProc.visualisationStat import polar_angle, wave_height
-from LidarDataProc.SimulatedSea import SimulatedSea
+from write_data import *
+from file_parser import *
+from visualisation2d import *
+from visualisation3d import *
+from data_stabilisation import stabilise_lidar_array
+from data_interpr import shape_interpr
+from data_filter import filter_lidar_data
+from line_generator import wave_clustering, line_2d_generate, barycentre_cluster
+from point_movement_line import point_movement_line, find_direction_waves, wave_cluster_timelapse_generator
+from visualisationStat import polar_angle, wave_height
+from SimulatedSea import SimulatedSea
 
 """ MAIN PYTHON SCRIPT
 """
