@@ -6,7 +6,8 @@ from LidarPointArray import LidarPointArray
 from filter import *
 
 def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: str):
-    """filter the lidar data, acording to a filter file
+    """Filter the lidar data, according to a JSON filter file.
+    Each point in the Points Cloud will be tested so it's not very optimised
 
     Args:
         lidar_data (List[LidarPointArray]): list of LidarPointArray to perform the filter on
