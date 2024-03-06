@@ -1,11 +1,12 @@
 from datetime import datetime
 from typing import List
-from LidarPoint import LidarPoint
-from LidarPointArray import LidarPointArray
 import pandas as pd
 import types
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
+
+from LidarDataProc.LidarPoint import LidarPoint
+from LidarDataProc.LidarPointArray import LidarPointArray
 
 
 def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):

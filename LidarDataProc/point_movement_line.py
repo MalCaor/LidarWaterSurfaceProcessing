@@ -1,9 +1,10 @@
 from typing import List, Tuple
-from WaveCluster import WaveCluster
-from WaveClusterTimelapse import WaveClusterTimelapse
-from utils import calculate_distance
 import numpy as np
 from scipy import stats
+
+from LidarDataProc.WaveCluster import WaveCluster
+from LidarDataProc.WaveClusterTimelapse import WaveClusterTimelapse
+from LidarDataProc.utils import calculate_distance
 
 def wave_cluster_timelapse_generator(wave_clusters_frames):
     """Generate Wave Cluster Timelapse from Wave Cluster Frames

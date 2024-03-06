@@ -4,8 +4,9 @@ import copy
 import datetime
 from random import random
 from typing import List
-from LidarPointArray import LidarPointArray
 import numpy as np
+
+from LidarDataProc.LidarPointArray import LidarPointArray
 
 class SimulatedSea:
     """Class to simulate a Fake Sea for testing purpose

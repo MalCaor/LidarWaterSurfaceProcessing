@@ -1,7 +1,7 @@
-from GyroData import GyroData
-from LidarPoint import LidarPoint
 from typing import List
 
+from LidarDataProc.GyroData import GyroData
+from LidarDataProc.LidarPoint import LidarPoint
 
 def write_gyro_data(array_data: List[GyroData], path_file_output: str):
     # write output

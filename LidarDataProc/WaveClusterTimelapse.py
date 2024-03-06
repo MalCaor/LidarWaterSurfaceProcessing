@@ -1,8 +1,9 @@
 from typing import List
-from WaveCluster import WaveCluster
 from scipy import stats
 import numpy as np
-from utils import calculate_distance
+
+from LidarDataProc.WaveCluster import WaveCluster
+from LidarDataProc.utils import calculate_distance
 
 class WaveClusterTimelapse:
     def __init__(self, wave_snapshots) -> None:

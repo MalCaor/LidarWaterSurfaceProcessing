@@ -2,9 +2,10 @@ from multiprocessing.connection import wait
 from time import sleep
 from typing import List
 import open3d as o3d
-from LidarPointArray import LidarPointArray
-from LidarPoint import LidarPoint
-from LidarPointArray import LidarPointArray
+
+from LidarDataProc.LidarPointArray import LidarPointArray
+from LidarDataProc.LidarPoint import LidarPoint
+from LidarDataProc.LidarPointArray import LidarPointArray
 
 ### ANIMATION VARS ###
 i_frame_anim: int

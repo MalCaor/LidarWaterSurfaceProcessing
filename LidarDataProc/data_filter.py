@@ -1,8 +1,9 @@
 import json
 from typing import Dict, List
-from LidarPointArray import LidarPointArray
-from filter import *
 import numpy as np
+
+from LidarDataProc.LidarPointArray import LidarPointArray
+from LidarDataProc.filter import *
 
 def filter_lidar_data(lidar_data: List[LidarPointArray], filter_setting_path: str):
     """filter the lidar data, acording to a filter file

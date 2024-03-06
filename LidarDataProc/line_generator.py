@@ -4,12 +4,11 @@ from statistics import median
 from typing import List
 import open3d as o3d
 from sklearn.neighbors import KDTree
-from sklearn.neighbors import NearestNeighbors
 from scipy import stats
-from WaveCluster import WaveCluster
 
-from utils import *
-from LidarPointArray import LidarPointArray
+from LidarDataProc.utils import *
+from LidarDataProc.LidarPointArray import LidarPointArray
+from LidarDataProc.WaveCluster import WaveCluster
 
 
 ### CONFIG

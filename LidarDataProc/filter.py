@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 import json
 from typing import Dict, List
-from utils import *
 import numpy as np
+
+from LidarDataProc.utils import *
 
 
 # Abstract API
