@@ -23,6 +23,8 @@ jobs:
         with:
           python-version: '3.12'
 
+      # change target
+      - run: cd ./LidarDataProc
       # ADJUST THIS: install all dependencies (including pdoc)
       - run: pip install -e .
       # ADJUST THIS: build your documentation into docs/.
