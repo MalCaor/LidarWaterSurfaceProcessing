@@ -23,13 +23,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      # change target
-      - run: cd ./LidarDataProc
       # ADJUST THIS: install all dependencies (including pdoc)
       - run: pip install -e .
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: python docs/make.py
+      - run: python -m pdoc .\LidarDataProc -o docs
 
       - uses: actions/upload-pages-artifact@v3
         with:
