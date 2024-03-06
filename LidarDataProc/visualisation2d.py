@@ -2,7 +2,6 @@ from typing import List
 from matplotlib import pyplot as plt
 from matplotlib import animation as anim
 
-from LidarPoint import LidarPoint
 from LidarPointArray import LidarPointArray
 
 
@@ -10,7 +9,7 @@ def hex2dAnimates(array_cloud: List[LidarPointArray], save: bool=False):
     """Display 2D animation with pyplot hexbin
 
     Args:
-        array_cloud (List[LidarPoint]): Lidar Snapshot List
+        array_cloud (List[LidarPointArray]): Lidar Snapshot List
         save (bool): save the video or not
     """
     print("Start Animation Generation")
