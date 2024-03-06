@@ -17,7 +17,8 @@ dist_to_divide_line = 5
 
 
 def shape_interpr(array_lidar: List[LidarPointArray]):
-    """Return the shape tuple of list of mesh and point cloud from a list of lidar point array
+    """Return the shape tuple of list of mesh and point cloud from a list of lidar point array.
+    This function is a Legacy feature that isn't really usefull anymore.
 
     Args:
         array_lidar (List[LidarPointArray]): inputed list of lidar data
