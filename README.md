@@ -24,6 +24,32 @@ options :
                         (estimated direction of the wave), wavepolar (polar of the estimated direction of the wave), waveheight (average height of each cluster)
 ```
 ---
+# INSTALATION GUIDE
+Make sure you have Python 3.10.4 or higher
+
+Clone the repo
+```
+git clone https://github.com/MalCaor/LidarWaterSurfaceProcessing
+```
+Enter the Folder
+```
+cd LidarWaterSurfaceProcessing
+```
+Install required dependency from the 'setup.py' file
+```
+pip install .
+```
+**OR** use the Conda environement
+```
+conda env create --file=Conda/env.yaml
+```
+Test if it's working with
+```
+python ./LidarDataProc/LidarDataProc.py --help
+```
+If the help message is displayed (can take a few seconds for the modules to import), Congratulation!
+
+You can then take your .pcap file and try to display things as bellow!
 
 # Display Type :
 ## PC
