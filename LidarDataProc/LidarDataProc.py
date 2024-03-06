@@ -19,14 +19,6 @@ from point_movement_line import point_movement_line, find_direction_waves, wave_
 from visualisationStat import polar_angle, wave_height
 from SimulatedSea import SimulatedSea
 
-# util func
-def print_plage_time_array(array: List[LidarPointArray]):
-    print(str(array[0].timestamp))
-    print(str(array[len(array)-1].timestamp))
-    print("diff : ")
-    print(str(array[len(array)-1].timestamp-array[0].timestamp))
-
-
 
 # argument parsing
 parser = argparse.ArgumentParser(
