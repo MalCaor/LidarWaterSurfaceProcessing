@@ -9,5 +9,5 @@ setup(
    author_email='xav.lemen@orange.fr',
    packages=['LidarDataProc'],  #same as name
    install_requires=[
-      'numpy', 'matplotlib', 'open3d', 'ouster-sdk', 'velidyne_decoder', 'pandas'], #external packages as dependencies
+      'numpy', 'matplotlib', 'open3d', 'ouster-sdk', 'velodyne_decoder', 'pandas'], #external packages as dependencies
 )
