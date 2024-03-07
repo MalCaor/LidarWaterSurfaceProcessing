@@ -2,9 +2,14 @@ import datetime
 
 
 class GyroData:
-    '''
-    Gyro Data
-    '''
+    """GyroData Class
+
+    This is just a "frame" from the .csv IMU file, just data nothing more
+
+    Don't know if it's a standard, might not work with different IMU.
+
+    A lot of the data is not used so remove them if you have compatibility problem.
+    """
 
     def __init__(self, line) -> None:
         self.timestamp: datetime.datetime= datetime.datetime.strptime(line["timestamp"], '%Y-%m-%d %H:%M:%S.%f')

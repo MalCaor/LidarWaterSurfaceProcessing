@@ -14,7 +14,11 @@ dist_to_divide = 50
 
 
 def line_2d_generate(array_lidar: List[LidarPointArray]):
-    """generate 2d line representing the linear reduction of the clusterisation of the point cloud
+    """Generate 2d line representing the linear reduction of the clusterisation of the point cloud.
+
+    In theory it should represent the 'tracé' of the wave but in practice the cluster are too small and imperfect to be of value...
+
+    But still keep it just in case
 
     Args:
         array_lidar (List[LidarPointArray]): inputed array
@@ -109,6 +113,14 @@ def barycentre_cluster(array_lidar: List[LidarPointArray]):
     return points_retour, clusters_retour
 
 def _bar_cen_cluster_calc(pc):
+    """return a knn clusterisation and the barycentre of each cluster
+
+    Args:
+        pc (o3d.geometry.PointCloud): point cloud
+
+    Returns:
+        Tuple[List, List]: points, clusters
+    """
     clusters = _knn_div(pc)
     points = []
     for cluster in clusters:
@@ -118,6 +130,14 @@ def _bar_cen_cluster_calc(pc):
     return points, clusters
 
 def _line_interpolation(pc):
+    """Line interpolation of each cluster from the _combined clusterisation of pc
+
+    Args:
+        pc (o3d.geometry.PointCloud): point clooud
+
+    Returns:
+        Tuple[List, List]: lines_retour, clusters
+    """
     lines_retour = []
     lines, clusters = _combined(pc)
 
@@ -127,6 +147,14 @@ def _line_interpolation(pc):
     return lines_retour, clusters
 
 def _interpolate(cluster):
+    """Linear Regression of the point cloud cluster
+
+    Args:
+        cluster (List[List]): point cloud to regress
+
+    Returns:
+        List: Line regression
+    """
     lx = [p[0] for p in cluster]
     ly = [p[1] for p in cluster]
     res = stats.linregress(lx, ly)
@@ -139,6 +167,14 @@ def _interpolate(cluster):
     return newpoints
 
 def _combined(pc):
+    """Combine _knn_div with _simple_line_contour
+
+    Args:
+        pc (o3d.geometry.PointCloud): point cloud
+
+    Returns:
+        Tuple[List, List]: lines_retour, clusters
+    """
     lines_retour = []
     clusters = _knn_div(pc)
 
@@ -152,6 +188,20 @@ def _combined(pc):
     return lines_retour, clusters
 
 def _simple_line_contour(pc):
+    """Homebrew clustering meant to get clear line from wave cluster or entire Lidar point cloud (tho much slower)
+
+    Basically, due to how lidar work, each cluster wave is composed of 'line' from the lidar ring.
+
+    The function do through each cluster point sorted by distance from the first and break if the distance is to big.
+
+    You thus get 'strip' of waves, supposedly... in reality the function strugle to seperate each lidar ring and thus corrupt the linear regr
+
+    Args:
+        pc (o3d.geometry.PointCloud): point cloud
+
+    Returns:
+        List[List]: sub cluster of 'wave strip'
+    """
     pc = pc.voxel_down_sample(0.1)
     array: List = np.array(pc.points).tolist()
     link_p: List[List] = []
@@ -181,6 +231,14 @@ def _simple_line_contour(pc):
     return link_p
 
 def _knn_div(pc):
+    """KNN Clustering function
+
+    Args:
+        pc (o3d.geometry.PointCloud): point cloud
+
+    Returns:
+        List[List]: clusters
+    """
     pc = pc.voxel_down_sample(0.1)
     point_cloud: np.array = np.array(pc.points)
     list_retour: List = []

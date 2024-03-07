@@ -23,7 +23,9 @@ from point_movement_line import point_movement_line, find_direction_waves, wave_
 from visualisationStat import polar_angle, wave_height
 from SimulatedSea import SimulatedSea
 
-""" MAIN PYTHON SCRIPT
+""" MAIN PYTHON SCRIPT.
+
+Refer to the README for more information
 """
 
 def main():
