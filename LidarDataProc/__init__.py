@@ -3,11 +3,11 @@ LIDAR WATER SURFACE PROCESSING :
 
 This Python Script allow to Process a LIDAR film scan of a water body's surface.
 
-![wavedir](../wavedir.gif)
+![wavedir](https://github.com/MalCaor/LidarWaterSurfaceProcessing/blob/master/img/wavedir.gif)
 
 It can then display various informations about it, mainly the waves directions.
 
-![polar](../polar.png)
+![polar](https://github.com/MalCaor/LidarWaterSurfaceProcessing/blob/master/img/polar.png)
 
 If used as a module you can implement your own algorithm by using the various functions, mainly:
 
