@@ -36,7 +36,7 @@ class WaveClusterTimelapse:
     def lin_regr(self):
         """Linear Regression Method
 
-        fill various info
+        Do the linear regression of the barycentre of each WaveCluster to determine the angle origine of the wave
         """
         wave: WaveCluster
         lx = [wave.barycentre[0] for wave in self.wave_snapshots]
