@@ -20,18 +20,20 @@ def _rotate_around_point(origin, point, angle):
     qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
     return qx, qy
 
-def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll, stabil_param):
-    """correct an array lidar according to inputed param
+def _correct_array_point(array_lidar: LidarPointArray, tot_yaw: float, tot_pitch: float, tot_roll: float, stabil_param: str):
+    """Private function to stabilise a LidarPointArray according to the inputed yaw, pitch and roll.
+
+    For exemple if stabil_param = ypr, it will correct all axes, but if it's just y, it will only apply a yaw stabilisation
 
     Args:
-        array_lidar (List[LidarPointArray]): _description_
+        array_lidar (LidarPointArray): LidarPointArray to stabilise
         tot_yaw (float): yaw to correct
         tot_pitch (float): pitch to correct
         tot_roll (float): roll to correct
-        stabil_param (string): correction param (ypr)
+        stabil_param (string): stabilisation param inputed by the user (string of each axe to correct, ypr)
 
     Returns:
-        List[LidarPointArray]: corrected array lidar
+        LidarPointArray: stabilised LidarPointArray
     """
     # store new value
     lid = array_lidar
@@ -55,7 +57,15 @@ def _correct_array_point(array_lidar, tot_yaw, tot_pitch, tot_roll, stabil_param
     return lid
 
 def stabilise_lidar_array(array_lidar: List[LidarPointArray], array_gyro: List[GyroData], stabil_param: str):
-    """stabilise an array lidar point cloud with the gyro data and the yaw/pitch/roll (ypr) to correct
+    """Stabilise a List of LidarPointArray with a List of GyroData and the param yaw/pitch/roll (ypr) to correct.
+
+    The Stabilisation Algo is simple, it go through all GyroData and LidarPointArray at the same time.
+    
+    If a GyroData timestamp is greater than the current LidarPointArray, correct it with _correct_array_point, then test the next LidarPointArray.
+
+    The Algo stop when there is no more GyroData or LidarPointArray to correct.
+
+    It thus can correct a list of LidarPointArray even if the GyroData doesn't cover the entire lenght or if one is of higher frequency.
 
     Args:
         array_lidar (List[LidarPointArray]): lidar array point cloud
