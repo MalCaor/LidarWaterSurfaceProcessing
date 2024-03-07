@@ -7,7 +7,11 @@ from utils import *
 
 # Abstract API
 class filter(ABC):
-    """Abstract Filter Class
+    """Abstract Filter Class.
+
+    Filter are used as .json file passed in arg to... filter data, this is very ineficient but I don't have time to improve it.
+
+    A point must validate the... validate function to be included
     """
     # check if validate condition
     @abstractmethod
@@ -18,7 +22,9 @@ class filter(ABC):
 ### OPERATOR ###
 # AND filter operator
 class filter_and(filter):
-    """AND Filter Class
+    """AND Filter Class.
+
+    Will validate if all sub filters in the list_filter list are validated.
     """
     list_filter: List[filter]
 
@@ -30,7 +36,9 @@ class filter_and(filter):
 
 # OR filter operator
 class filter_or(filter):
-    """OR Filter Class
+    """OR Filter Class.
+
+    Will validate if one of the sub filters in list_filter is validated.
     """
     list_filter: List[filter]
 
@@ -43,8 +51,9 @@ class filter_or(filter):
 
 ### FILTER CLASS ###
 class range_filter(filter):
-    """Range Filter Class : 
-    include or exclude all points in a certain range from an origine point
+    """Range Filter Class.
+
+    Include or exclude point if in a certain range from an origine point.
     """
     def validate(self, origine: np.ndarray, point: np.ndarray) -> bool:
         # calculate dist
